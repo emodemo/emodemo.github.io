@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Database | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Database" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DB.html" />
+<meta property="og:url" content="/dev/DB.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Database" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/DB.html","headline":"Database","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Database</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="normalization">Normalization</h2>
+
+<ul>
+  <li>Normalization requires queries to be based on the index (in order to be fast).</li>
+  <li>Requiring existence of “the key” ensures that the table is in 1NF;</li>
+  <li>Requiring that non-key attributes be dependent on “the whole key” ensures 2NF;</li>
+  <li>Requiring that non-key attributes be dependent on “nothing but the key” ensures 3NF.</li>
+  <li>While this phrase is a useful mnemonic, the fact that it only mentions a single key means it defines some necessary but not sufficient conditions to satisfy the 2nd and 3rd Normal Forms. Both 2NF and 3NF are concerned equally with all candidate keys of a table and not just any one key.</li>
+  <li>Not good for reportings =&gt; either denormalized or Views</li>
+  <li>Denormalization - the process of improving read performance, at the expence of writing, by adding redundant copies.</li>
+</ul>
+
+<h2 id="bb-tree">B/B+ Tree</h2>
+
+<ul>
+  <li>B tree has key-value nodes</li>
+  <li>B+ tree has key nodes as roots and internals, and values are contained in leaf(external) nodes only. Therefore internal nodes keys, are repeated in leafs too.</li>
+  <li>can use binary search on keys in current node.</li>
+  <li>example implementations at Sedgewick and jxlilin.blogspot.com</li>
+</ul>
+
+<p><img src="pics\DB_B_BPlus_Trees.png" alt="BTree4" /></p>
+
+<ul>
+  <li><strong>[algs4]</strong></li>
+</ul>
+
+<p><img src="pics\Sedgewick_BTree_1.png" alt="BTree1" />
+<img src="pics\Sedgewick_BTree_2.png" alt="BTree2" />
+<img src="pics\Sedgewick_BTree_3.png" alt="BTree3" /></p>
+
+<h2 id="bloom-filter-bloom">Bloom Filter <strong>[bloom]</strong></h2>
+
+<ul>
+  <li>Hashing filter, can have false positive, but not true negatives.</li>
+  <li>Contains a bit array and several hashing functions each of which maps an element to an element in the array, generating random uniform distribution.</li>
+  <li>No removal from the filer, as this can generate false negatives.</li>
+  <li>Example: Bloom filter with 10 buckets and 3 has hash functions, that will hold home pets of John.
+    <ul>
+      <li>put Cat: the 3 hash functions return 3,4,10 =&gt; <code class="language-plaintext highlighter-rouge">[-,-,3,4,-,-,-,-,-,10]</code></li>
+      <li>put Dog: the 3 hash functions return 5,2,1  =&gt; <code class="language-plaintext highlighter-rouge">[1,2,3,4,5,-,-,-,-,10]</code></li>
+      <li>has Cat? hashes are 3,4,10 =&gt; YES</li>
+      <li>has Dog? hashes are 5,2,1  =&gt; YES</li>
+      <li>has Elephant?  hashes are 10,6,7 =&gt; NO as buckets 6 and 7 are empty</li>
+      <li>has Monkey? hashes are 10,2,1 =&gt; YES, but this is <code class="language-plaintext highlighter-rouge">FALSE POSITIVE</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">FALSE POSITIVE</code> rate can be controlled with the number of buckets (e.g. filter size)</li>
+</ul>
+
+<h2 id="lsm---log-structured-merge-tree-internal">LSM - Log Structured Merge Tree <strong>[internal]</strong></h2>
+
+<ul>
+  <li>keeping a cascade of SSTables that are merged in the background</li>
+  <li>Similar to B-tree, but optimized for sequential disk access + full <strong>occupancy</strong></li>
+  <li>(SSTables) Sorted String Tables - persistent ordered immutable map. (TODO: check if mapping with The HBase files is 1:1)
+    <ul>
+      <li>Index Block - a primary key and an offset pointing to the offset in data block, where record can be found. Implement with structure optimized for quick search like B-tree, SkipList etc.</li>
+      <li>Data Block</li>
+    </ul>
+  </li>
+  <li>Since SSTable is immutable, insert, update or delete operations would require rewriting the whole le, since it’s optimized for reads, written sequentially and has no reserved empty space that would allow any in-place modifications. That’s where the LSM Trees come into play.</li>
+  <li>every data item has a timestamp associated with it.</li>
+  <li>In LSM Trees, all the writes are performed against the mutable in-memory data structure - the SSTable in for og B-Tree or SkipList or else.
+    <ul>
+      <li>no competition between reads and writes on files.</li>
+      <li>writes: on threshold condition (time or size) data is written to disk (flushed) in the form of SSTable.</li>
+      <li>reads: data from all SSTables on disk and the one in the memory requires merge to reconcile data.</li>
+      <li><strong>compaction</strong> the process of merging, removing redundant and deleted records and so on.
+        <ul>
+          <li>Takes several SSTable files and merges them together</li>
+          <li><strong>shadowing</strong> key marked for deletion are not returned, of 2 records with same key the one with bigger timestamp is used returned</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Precaution</strong> :  LSM-Trees might result into worse latency, since both CPU and IO bandwidth is spent re-reading and merging tables instead of just serving reads and writes. It’s also possible, under a write-heavy workload, to saturate IO by just writes and flushes, stalling the compaction process. Lagging compaction results into slower reads, increasing CPU and IO pressure, making the matters worse. This is something to watch out for.</li>
+</ul>
+
+<h2 id="r-tree---for-multidimensional-indexes">R-Tree - for multidimensional indexes</h2>
+
+<h2 id="db-data-structures-in-general-internal">DB Data structures in general <strong>[internal]</strong></h2>
+
+<ul>
+  <li>Keeping the data structure immutable favors the sequential writes: data is written on disk in a single pass, append-only.</li>
+  <li>Also data can be read from the disk without any segment locking between operations, which significantly simplifies concurrent access.
+    <ul>
+      <li>In contrast, mutable data structures employ hierarchical locks and latches in order to ensure on disk data structure integrity, allow multiple readers at the same time but give exclusive ownership for parts of tree to writers.</li>
+    </ul>
+  </li>
+  <li>However, since amount of allocated files constantly grows, immutable data structures have to merge and rewrite files in order to make sure that the least amount of files is hit during the query, as the requested record might be spread across multiple files.</li>
+  <li>On the other hand, mutable files may have to be rewritten partially or completely to decrease fragmentation, merge overflow areas and reclaim space occupied by updated or deleted records (as their new contents were written elsewhere).</li>
+</ul>
+
+<h2 id="hbase-hbase">HBase <strong>[hbase]</strong></h2>
+
+<h3 id="basic-units">Basic Units</h3>
+
+<ul>
+  <li>Column, referred as <code class="language-plaintext highlighter-rouge">family:qaulifier</code>
+    <ul>
+      <li>can have many versions</li>
+      <li>each value is contained in a cell + timestamp</li>
+    </ul>
+  </li>
+  <li>Column Families, made of 1+ columns. Keep N of families low, in order of tens, do not change them often.</li>
+  <li>Row, made of 1+ Columns, referred with unique row_key (byte array)
+    <ul>
+      <li>row_key is primary index</li>
+      <li>access to row is atomic</li>
+    </ul>
+  </li>
+  <li>Table, made of 1+ rows sorted by lexicographically by row_key</li>
+  <li>Namespace, made of 1+ tables</li>
+  <li>Example: Java-Like structure</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// (Table, RowKey, Family,  Column,                   TimeStamp) = Value</span>
+<span class="nc">SortedMap</span><span class="o">&lt;</span><span class="nc">RowKey</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">SortedMap</span><span class="o">&lt;</span><span class="nc">Column</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Value</span><span class="o">,</span> <span class="nc">Timestamp</span><span class="o">&gt;&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Example: Table-like structure</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Row_Key</th>
+      <th>TimeStamp</th>
+      <th>Column Data</th>
+      <th>Column Meta Type</th>
+      <th>Column Meta Size</th>
+      <th>Column Counter/Updates</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“ro1”</td>
+      <td>time 3</td>
+      <td>some json</td>
+      <td> </td>
+      <td>2323</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>time 6</td>
+      <td>new json</td>
+      <td> </td>
+      <td> </td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>time 8</td>
+      <td> </td>
+      <td>“app/json”</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>time 9</td>
+      <td>new json2</td>
+      <td> </td>
+      <td> </td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="scalability">Scalability</h3>
+
+<ul>
+  <li>Region, basic unit of scalability and load-balancing
+    <ul>
+      <li>made of rows sorted together</li>
+      <li>equivalent to range partition in DB sharding</li>
+    </ul>
+  </li>
+  <li>Minor/Major Compaction : Merge of HFiles on the disk
+    <ul>
+      <li>rewrites all files within a column family</li>
+      <li>can drop deleted entires</li>
+    </ul>
+  </li>
+  <li>region-server -&gt; 1+ region</li>
+  <li>requires master server</li>
+  <li><code class="language-plaintext highlighter-rouge">conf/hbase.xml</code> overrides <code class="language-plaintext highlighter-rouge">hbase-common/src/main/resource/hbase-default.xml</code>.
+    <ul>
+      <li>A lot of documentation in the latter place!</li>
+    </ul>
+  </li>
+  <li>Strong Consistency</li>
+</ul>
+
+<h3 id="api">API</h3>
+
+<ul>
+  <li>WAL: Write-ahead log</li>
+  <li>pp. 114 examples</li>
+  <li>chapter 3 for CRUD operations</li>
+</ul>
+
+<h3 id="others">Others</h3>
+
+<ul>
+  <li><strong>[hbase_b]</strong> Accordion: Uses <code class="language-plaintext highlighter-rouge">CompactionMemStore</code> that performs in-memory compaction (with <code class="language-plaintext highlighter-rouge">CellArrayMap</code>), instead of the default MemStore (with <code class="language-plaintext highlighter-rouge">ConcurrentSkipListMap</code>).</li>
+  <li><strong>[hbase_b_2]</strong> HBase maintains 2 cache structures: <code class="language-plaintext highlighter-rouge">MemStore</code> and <code class="language-plaintext highlighter-rouge">BlockCache</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">MemStore</code> (SkipList structure) accumulates data edits as they’re received, buffering them in memory. Useful for accessing recent edits.</li>
+      <li><code class="language-plaintext highlighter-rouge">BlockCache</code> keeps data blocks resident in memory after they’re read. Useful for serving random access data.</li>
+    </ul>
+  </li>
+  <li><strong>[hbase_b_2]</strong> * HBase BlockCache.
+    <ul>
+      <li>The smallest I/O component that HBase can read from HFile</li>
+      <li>4 varieties: DATA (user data), META(info about the HFile itself), INDEX(speed up read, with index over cells in DATA blocks), BLOOM(speed up read, with Bloom filter)</li>
+      <li>Single <code class="language-plaintext highlighter-rouge">BlockCache</code> instance per region server.</li>
+      <li>as per 2014 3 implementations: <code class="language-plaintext highlighter-rouge">LruBlockCache</code> (default, in java heap only), <code class="language-plaintext highlighter-rouge">SlabCache</code> (again LRU algorithm, but with off-heap cache - DirectByteBuffers), <code class="language-plaintext highlighter-rouge">BucketCache</code> (3 modes, heap, off-heap, file)</li>
+      <li><code class="language-plaintext highlighter-rouge">SlabCache</code> and <code class="language-plaintext highlighter-rouge">BucketCache</code> are used for multi-level caching. For example with <code class="language-plaintext highlighter-rouge">LruBlockCache</code> on L1 and another on L2, or use L1 for Bloom and Index.. see reference for more info.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="cache">Cache</h2>
+
+<ul>
+  <li><strong>[cache]</strong> Cache replacement policies - see reference</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[hbase]</strong> HBase the definitive Guide</li>
+  <li><strong>[algs4]</strong> Sedgewick - Algorithms 4th edition.</li>
+  <li><strong>[bloom]</strong> <a href="https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff">Jamie Talbot - What are Bloom filters?</a></li>
+  <li><strong>[internal]</strong> Alex Petrov - Database Internals</li>
+  <li><strong>[hbase_b]</strong> <a href="https://blogs.apache.org/hbase/entry/accordion-hbase-breathes-with-in">Braginsky (HBase Committer) &amp; Bortnikov - Accordion: HBAse Breathes with In-Memory Compaction</a></li>
+  <li><strong>[hbase_b_2]</strong> <a href="https://blog.cloudera.com/hbase-blockcache-101">Dimiduk - HBase BlockCache 101</a></li>
+  <li><strong>[cache]</strong> <a href="https//wikipedia.org/wiki/Cache_replacement_policies">Cache Replacement Policies</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

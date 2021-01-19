@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Multithreading and Concurrency | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Multithreading and Concurrency" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/MultiThreading.html" />
+<meta property="og:url" content="/dev/MultiThreading.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Multithreading and Concurrency" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/MultiThreading.html","headline":"Multithreading and Concurrency","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Multithreading and Concurrency</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="tools">Tools</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> http://openjdk.java.net/projects/code-tools/jmh/</li>
+  <li><strong>[conc_j8]</strong> Java Path Finder (JPF) from NASA</li>
+  <li><strong>[well]</strong> jmap; jhat</li>
+  <li><strong>[conc]</strong> Unix (vmstat) Windows (perfmon)</li>
+  <li><strong>[jrebel]</strong> Collections
+    <ul>
+      <li>Fastutil http://fastutil.di.unimi.it/ Great default choice for collections of primitive types, like int or long. Also handles big collections with more than 231 elements well.</li>
+      <li>Guava https://github.com/google/guava</li>
+      <li>Eclipse Collections https://www.eclipse.org/collections/ this library includes almost any collection you might need: primitive type collections, multimaps, bidirectional maps and so on.</li>
+      <li>!! JCTools https://github.com/JCTools/JCTools for better performance on high throughput concurrent applications.
+        <ul>
+          <li>check for Unsafe with Java 9+</li>
+          <li>https://www.baeldung.com/java-concurrency-jc-tools</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>?? vmlens.com</li>
+  <li>LMAX Disruptor
+    <ul>
+      <li>https://martinfowler.com/articles/lmax.html</li>
+      <li>Disruptor pattern with event sourcing: https://github.com/mikeb01/ticketing.git</li>
+      <li>Disruptor pattern and Kafka: https://github.com/mykidong/high-performant-event-collector.git
+        <ul>
+          <li>https://medium.com/@mykidong/howto-high-performant-event-collector-with-disruptor-and-vert-x-2e1a1949a62c</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="general">General</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> Avoid deadlocks by ordering the locks.</li>
+  <li><strong>[conc_j8]</strong> Avoid executing inside the critical section the code you don’t control.</li>
+  <li><strong>[conc_j8]</strong> Avoid the use of blocking operations inside a critical section.</li>
+  <li><strong>[conc_jvm]</strong> Division of labour - Generally speaking there two types of programs that may profit from multi-threading: with intensive computations, and with intensive I/O.
+    <ul>
+      <li>for computations we can use the min N of available cores (+ see pp31-32)</li>
+      <li>for I/O there should be more threads
+        <ul>
+          <li>When a task performs an IO operation, its thread gets blocked. The processor immediately context switches to run other eligible threads. If we had only as many threads as the number of available cores, even though we have tasks to perform, they can’t run because we haven’t scheduled them on threads for the processors to pick up.</li>
+        </ul>
+      </li>
+      <li>the formula: <code class="language-plaintext highlighter-rouge">N of threads = N of CPUs / (1 - Blocking Coefficient)</code>, where Blocking Coefficient is 0 for computations and close to 1 for I/O
+        <ul>
+          <li>It is a bit of educated guess, but java.lang.management API can be helpful.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>[conc]</strong> Division of labour (another formula): <code class="language-plaintext highlighter-rouge">N of threads = N of CPUs * target CPU utilization * (1 + Wait time/Compile time)</code>, where Target CPU utilization must be between 0 and 1.</li>
+  <li><strong>[conc]</strong> Unless a field should be mutable make it final.</li>
+  <li><strong>[conc]</strong> ThreadPool Saturation Policies (TBD see ch 6.4)</li>
+  <li><strong>[conc_j9]</strong> on volatile: When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too. Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
+  <li><strong>me</strong> summary:
+    <ul>
+      <li>1 volatile - read/write from memory directly,  not the CPU cache =&gt; slower. Happens before on the usage. Volatile code cannot be optimized for performance. Code before it is always before it, and code after it is always after it. Occasionally may be good for many reads / few writes.</li>
+      <li>2 atomic - CPU built-in support for compare and swap. Useful for “check then act” situations</li>
+      <li>3 sync - Using the synchronized keyword also establishes a happens-before relationship between statements. Entering a synchronized method/block establishes a happens-before relationship between the statements that appear before it and the ones inside the method/block</li>
+    </ul>
+  </li>
+  <li><strong>me</strong> Threads are heavyweight
+    <ul>
+      <li>(check size, but should be additionally 1-2 mb).</li>
+      <li>too many threads affect data locality (i.e. L1 &amp; L2 need to be flushed during thread switch)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="locks">Locks</h2>
+
+<ul>
+  <li><strong>[wiki]</strong> Read/Write Lock: read-preferring can cause writer starvation, but a higher priority for write requestors can help (me - can use priority queue for the threads). Plus it should be reentrant.</li>
+  <li><strong>[wiki]</strong> Read/Write Lock - read-preferring example (RL - read lock, WL - write lock):
+    <ul>
+      <li>start read: <code class="language-plaintext highlighter-rouge">lock RL;</code> <code class="language-plaintext highlighter-rouge">counter++;</code> <code class="language-plaintext highlighter-rouge">if(counter == 1) lock WL;</code> <code class="language-plaintext highlighter-rouge">unlock RL;</code></li>
+      <li>end read: <code class="language-plaintext highlighter-rouge">lock RL;</code> <code class="language-plaintext highlighter-rouge">counter--;</code> <code class="language-plaintext highlighter-rouge">if(counter == 0) unlock WL;</code> <code class="language-plaintext highlighter-rouge">unlock RL;</code></li>
+      <li>start write: <code class="language-plaintext highlighter-rouge">lock WL</code></li>
+      <li>end write: <code class="language-plaintext highlighter-rouge">unlock WL</code></li>
+    </ul>
+  </li>
+  <li><strong>TODO</strong> The read-copy-update (RCU) algorithm can be wait-free for readers.</li>
+  <li><strong>me</strong> copy on write (see add/get from <code class="language-plaintext highlighter-rouge">CopyOnWriteArrayList</code>). On read: lock, copy, add to new, update, release lock. Again use volatile for the structure. It is wait-free for readers.
+    <ul>
+      <li>avoids shared state, but slower due to <code class="language-plaintext highlighter-rouge">volatile</code></li>
+      <li>e.g. copy before modification - similar ot copy on array</li>
+      <li><a href="vmlens.com/articles/cp/2_techniques_to_avoid_shared_state/">example from vmlens</a></li>
+    </ul>
+  </li>
+  <li><strong>me</strong> check on <code class="language-plaintext highlighter-rouge">spinlock</code>. It avoids the thread switching. Should not be overused.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-XX:UseSpinning</code> to enable</li>
+      <li><code class="language-plaintext highlighter-rouge">-XX:PreBlockSpinning=12</code> N of try before switching</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="kd">transient</span> <span class="nc">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReentrantLock</span><span class="o">();</span>
+<span class="kd">private</span> <span class="kd">transient</span> <span class="kd">volatile</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">array</span><span class="o">;</span>
+<span class="kd">public</span> <span class="no">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="o">(</span><span class="no">E</span><span class="o">)</span> <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="no">E</span> <span class="nf">set</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="no">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">final</span> <span class="nc">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">lock</span><span class="o">;</span>
+  <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+  <span class="k">try</span> <span class="o">{</span>
+    <span class="nc">Object</span><span class="o">[]</span> <span class="n">elements</span> <span class="o">=</span> <span class="n">array</span><span class="o">;</span>
+    <span class="no">E</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="o">(</span><span class="no">E</span><span class="o">)</span> <span class="n">elements</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">oldValue</span> <span class="o">!=</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+      <span class="nc">Object</span><span class="o">[]</span> <span class="n">newElements</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elements</span><span class="o">,</span> <span class="n">len</span><span class="o">);</span>
+      <span class="n">newElements</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+      <span class="n">array</span> <span class="o">=</span> <span class="n">newElements</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="c1">// Not quite a no-op; ensures volatile write semantics</span>
+      <span class="n">array</span> <span class="o">=</span> <span class="n">elements</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">oldValue</span><span class="o">;</span>
+  <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="semaphores-jenkov">Semaphores <strong>[jenkov]</strong></h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// avoids missed signals in case take() happens before release()</span>
+<span class="kd">class</span> <span class="nc">SignalSemaphore</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">signal</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">take</span><span class="o">()</span> <span class="o">{</span> <span class="n">signal</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span> <span class="n">notify</span><span class="o">();</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">release</span><span class="o">()</span> <span class="o">{</span> <span class="k">while</span><span class="o">(!</span><span class="n">signal</span><span class="o">)</span> <span class="n">wait</span><span class="o">();</span> <span class="n">signal</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span> <span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">SendingThread</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">SignalSemaphore</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">SendingThread</span><span class="o">(</span><span class="nc">SignalSemaphore</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span> <span class="o">}</span>
+  <span class="c1">// do something, then signal</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span> <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span> <span class="n">doSomething</span><span class="o">();</span> <span class="n">s</span><span class="o">.</span><span class="na">take</span><span class="o">();</span> <span class="o">}</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">ReceivingThread</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">SignalSemaphore</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">ReceivingThread</span><span class="o">(</span><span class="nc">SignalSemaphore</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span> <span class="o">}</span>
+  <span class="c1">// receive signal, doSomething</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span> <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span> <span class="n">s</span><span class="o">.</span><span class="na">release</span><span class="o">();</span> <span class="n">doSomething</span><span class="o">();</span> <span class="o">}</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nc">SignalSemaphore</span> <span class="n">s</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SignalSemaphore</span><span class="o">();</span>
+<span class="nc">SendingThread</span> <span class="n">sender</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SendingThread</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+<span class="nc">ReceivingThread</span> <span class="n">receiver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReceivingThread</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+<span class="n">receiver</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">sender</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+<span class="kd">class</span> <span class="nc">CountingSemaphore</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">signal</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">take</span><span class="o">()</span> <span class="o">{</span> <span class="n">signal</span> <span class="o">++;</span> <span class="n">notify</span><span class="o">();</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">release</span><span class="o">()</span> <span class="o">{</span> <span class="k">while</span><span class="o">(</span><span class="n">signal</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="n">wait</span><span class="o">();</span> <span class="n">signal</span> <span class="o">--;</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">BoundedSemaphore</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">signal</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">bound</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">BoundedSemaphore</span><span class="o">(</span><span class="kt">int</span> <span class="n">upperBound</span><span class="o">)</span> <span class="o">{</span> <span class="n">bound</span> <span class="o">=</span> <span class="n">upperBound</span><span class="o">;</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">take</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">signal</span> <span class="o">==</span> <span class="n">bound</span><span class="o">)</span> <span class="n">wait</span><span class="o">();</span>
+    <span class="n">signal</span> <span class="o">++;</span>
+    <span class="n">notify</span><span class="o">();</span>
+  <span class="o">}</span>
+  <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">release</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="n">signal</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="n">wait</span><span class="o">();</span>
+    <span class="n">signal</span> <span class="o">--;</span>
+    <span class="n">notify</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// when bound=1 and on the same thread =&gt; can be used as lock</span>
+<span class="c1">// can be used to control N of threads entering into a section (bound=??)</span>
+<span class="nc">BoundedSemaphore</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoundedSemaphore</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">lock</span><span class="o">.</span><span class="na">take</span><span class="o">();</span>
+<span class="k">try</span> <span class="o">{</span> <span class="c1">// critical section</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span> <span class="n">lock</span><span class="o">.</span><span class="na">release</span><span class="o">();</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="collections">Collections</h2>
+
+<ul>
+  <li><strong>[conc_j9]</strong> <strong>Blocking collections</strong>: This kind of collection includes operations to add and remove data. If the operation can’t be done immediately, because the collection is either full or empty, the thread that makes the call will be blocked until the operation could be carried out.</li>
+  <li><strong>[conc_j9]</strong> <strong>Non-blocking collections</strong>: This kind of collection also includes operations to add and remove data. But in this case, if the operation can’t be done immediately, it returns a null value or throws an exception; the thread that makes the call won’t be blocked here.</li>
+  <li><strong>[jrebel] + [conc_j9]</strong>
+|  collection   | thread-safe            |
+| :———— | :——————— |
+|ArrayList      |CopyOnWriteArrayList    |
+|HashMap/Set    |ConcurrentHashMap       |
+|TreeMap        |ConcurrentSkipListMap   |
+|LinkedHashMap  | <strong>TODO check</strong>         |
+|PriorityQueue  |PriorityBlockingQueue*  |
+|ArrayDeque     |ArrayBlockingQueue*     |
+|Deque          |ConcurrentLinkedDeque   |
+|Queue          |LinkedTransferQueue* ** |
+*blocking **good for producer/consumer</li>
+</ul>
+
+<h2 id="mutable-or-immutable">Mutable or Immutable</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> If you have a simple object without internal data structures, it’s usually not a problem to make it immutable. However, making immutable complex objects that incorporate collections of other objects usually leads to serious performance problems.</li>
+</ul>
+
+<h2 id="atomic">Atomic</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> Prefer using atomic variables instead of synchronization</li>
+  <li><strong>[conc_j9]</strong> API: <code class="language-plaintext highlighter-rouge">AtomicLong</code>, <code class="language-plaintext highlighter-rouge">LongAdder</code>, <code class="language-plaintext highlighter-rouge">DoubleAccumulator</code>, <code class="language-plaintext highlighter-rouge">AtomicIntegerArray</code> …</li>
+  <li><strong>[conc_j9]</strong> The individual <code class="language-plaintext highlighter-rouge">AtomicInteger</code> objects are thread-safe, but the array as a data structure <code class="language-plaintext highlighter-rouge">AtomicInteger[]</code> is not.</li>
+  <li><strong>[conc]</strong> CAS (compare-and-swap; compare-and-set): When multiple threads attempt to update the same variable simultaneously using CAS, one wins and updates the variable’s value, and the rest lose. But the losers are not punished by suspension, as they could be if they failed to acquire a lock; instead, they are told that they didn’t win the race this time but can try again. Because a thread that loses a CAS is not blocked, it can decide whether it wants to try again, take some other recovery action, or do nothing (a failed CAS means that someone else already did the work you were planning to do).
+    <ul>
+      <li>typical pattern: CAS atomically updates V(memory) to the new value B, but only if the value in V matches the expected old value A; otherwise it does nothing.</li>
+      <li>CAS outperform lock-based counters when small contention, and often when no contention</li>
+      <li>disadvantage: forces the caller to deal with contention (by retrying, backing off, giving up…) whereas Lock deals with contention automatically by blocking until the lock is available.</li>
+      <li>difficulty of constructing the surrounding algorithms</li>
+    </ul>
+  </li>
+  <li><strong>me</strong> see also <code class="language-plaintext highlighter-rouge">AtomicReferenceFieldUpdater</code> - smaller objects (no Atomic), but uses reflection and may be slower.</li>
+</ul>
+
+<h2 id="volatile">Volatile</h2>
+
+<ul>
+  <li><strong>[conc_j9]</strong> The <code class="language-plaintext highlighter-rouge">volatile</code> keyword only works well when the value of the shared variable is only modified by one thread. If the variable is modified by multiple threads, the <code class="language-plaintext highlighter-rouge">volatile</code> keyword doesn’t protect you from possible data-race conditions. It also doesn’t make operations, such as + or -, atomic. For example, the ++ operator over a volatile variable is not thread-safe.</li>
+  <li><strong>[conc_j8]</strong> The volatile keyword ensures that when the stopped variable is set to true by another thread, this change will be visible in the main method. Without the volatile keyword, the change cannot be visible due to CPU caching or compiler optimizations.</li>
+  <li><strong>[conc_j9]</strong> Since Java 5, Java Memory Model has a happens-before guarantee established with the volatile keyword. This fact has two implications:
+    <ul>
+      <li>When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too.</li>
+      <li>Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
+    </ul>
+  </li>
+  <li><strong>[conc_j8]</strong> Under some circumstances, you can use the volatile keyword and not use a synchronization mechanism. If only one of the tasks modifies the data and the rest of the tasks read it, you can use the volatile keyword without any synchronization or data inconsistency problem. In other scenarios, you need to use a lock, the synchronized keyword, or any other synchronization method.</li>
+</ul>
+
+<h2 id="barriers-barrier">Barriers <strong>[barrier]</strong></h2>
+
+<ul>
+  <li><strong>Store Barrier</strong>: <code class="language-plaintext highlighter-rouge">sfence</code> instruction on x86, waits for all store instructions prior to the barrier to be written from the store buffer to the L1 cache for the CPU on which it is issued.  This will make the program state visible to other CPUs so they can act on it if necessary.</li>
+  <li><strong>Load Barrier</strong>: <code class="language-plaintext highlighter-rouge">lfence</code> instruction on x86, ensures all load instructions after the barrier, happens after the barrier and then wait on the load buffer to drain for the issuing CPU. This makes program state exposed from other CPUs visible to this CPU before making further progress.</li>
+  <li><strong>Full barrier</strong> <code class="language-plaintext highlighter-rouge">mfence</code> instruction on x86, is a composite of both load and store barriers happening on a CPU.</li>
+  <li>In Java Memory model:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">volatile</code> field has a <em>store barrier</em> before write, <em>full barrier</em> after write, and <em>insert barrier</em> inserted before reading it.</li>
+      <li>qualified <code class="language-plaintext highlighter-rouge">final</code> field of a class, have <em>store barrier</em> after initialization, to ensure fields are visible.</li>
+      <li>atomic instructions (e.g. locks), are effectively a <em>full barrier</em>. Software locks usually employ memory barriers, or atomic instructions, to achieve visibility and preserve program order.</li>
+    </ul>
+  </li>
+  <li>Memory barriers prevent a CPU from performing a lot of techniques to hide memory latency therefore they have a signiﬁcant performance cost. … it is best to model the problem so the processor can do units of work, then have all the necessary memory barriers occur on the boundaries of these work units. This allows the processor to optimise the units of work without restriction. There is an advantage to grouping necessary memory barriers in that buffers ﬂushed after the ﬁrst one will be less costly because no work will be under way to reﬁll them.</li>
+</ul>
+
+<h2 id="future">Future</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> You can cancel the execution of the task using the <code class="language-plaintext highlighter-rouge">cancel()</code> method. This method has a boolean parameter to specify whether you want to interrupt the task if it’s running or not.</li>
+  <li><strong>[conc_j8]</strong> You can check whether the task has been cancelled (with the <code class="language-plaintext highlighter-rouge">isCancelled()</code> method) or it has finished (with the <code class="language-plaintext highlighter-rouge">isDone()</code> method).</li>
+  <li><strong>[conc_j8]</strong> You can get the value returned by the task using the <code class="language-plaintext highlighter-rouge">get()</code> method.</li>
+  <li><strong>[conc_j8]</strong> One possible option is to create other tasks to process the <code class="language-plaintext highlighter-rouge">Future</code> objects associated with every task, and the Java concurrency API provides us with an elegant solution to implement this solution with the <code class="language-plaintext highlighter-rouge">CompletionService</code> interface and its implementation, the <code class="language-plaintext highlighter-rouge">ExecutorCompletionService</code> class.</li>
+  <li><strong>[conc_j8]</strong> A <code class="language-plaintext highlighter-rouge">CompletionService</code> object is a mechanism that has an executor and allows you to decouple the production of tasks and the consumption of the results of those tasks. You can send tasks to the executor using the <code class="language-plaintext highlighter-rouge">submit()</code> method and get the results of the tasks when they finish using the <code class="language-plaintext highlighter-rouge">poll()</code> or <code class="language-plaintext highlighter-rouge">take()</code> methods.</li>
+  <li><strong>[conc_j8]</strong> <code class="language-plaintext highlighter-rouge">CompletableFuture</code>, a new feature of Java 8, extends the <code class="language-plaintext highlighter-rouge">Future</code> mechanism of the executor tasks to generate the result of a task in an asynchronous way. You can specify tasks to be executed after the result is generated, so you can control the order of the execution of the tasks. It allows you to implement an event-driving model linking tasks that will only be executed when others have finished.
+    <ul>
+      <li>As with the <code class="language-plaintext highlighter-rouge">Future</code> interface, <code class="language-plaintext highlighter-rouge">CompletableFuture</code> must be parameterized with the type of the result that will be returned by the operation. As with a Future object, the <code class="language-plaintext highlighter-rouge">CompletableFuture</code> class represents a result of an asynchronous computation, but the result of <code class="language-plaintext highlighter-rouge">CompletableFuture</code> can be established by any thread.</li>
+    </ul>
+  </li>
+  <li><strong>[action8]</strong> a bit more complex example sync and async with <code class="language-plaintext highlighter-rouge">Future</code></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// synced Example</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findPrices</span><span class="o">(</span><span class="nc">String</span> <span class="n">product</span><span class="o">){</span>
+  <span class="k">return</span> <span class="n">shops</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">shop</span> <span class="o">-&gt;</span> <span class="n">shop</span><span class="o">.</span><span class="na">getPrice</span><span class="o">(</span><span class="n">product</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Quote:</span><span class="o">:</span><span class="n">parse</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Discount:</span><span class="o">:</span><span class="n">applyDiscount</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// asynced with Futures</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findPrices</span><span class="o">(</span><span class="nc">String</span> <span class="n">product</span><span class="o">){</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">prices</span> <span class="o">=</span> <span class="n">shop</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="c1">// async retrieve of shops' prices</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">shop</span> <span class="o">-&gt;</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">shop</span><span class="o">.</span><span class="na">getPrice</span><span class="o">(</span><span class="n">product</span><span class="o">),</span><span class="n">executor</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">future</span> <span class="o">-&gt;</span> <span class="n">future</span><span class="o">.</span><span class="na">thenApply</span><span class="o">(</span><span class="nl">Quote:</span><span class="o">:</span><span class="n">parse</span><span class="o">))</span>
+    <span class="c1">// another async task to apply the discount</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">future</span> <span class="o">-&gt;</span> <span class="n">future</span><span class="o">.</span><span class="na">thenCompose</span><span class="o">(</span><span class="n">quote</span> <span class="o">-&gt;</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">Discount</span><span class="o">.</span><span class="na">applyDiscount</span><span class="o">(</span><span class="n">quote</span><span class="o">),</span> <span class="n">executor</span><span class="o">)))</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+  <span class="c1">// Wait for all Futures in the stream to complete and then extract their results(the join() method)</span>
+  <span class="c1">// Alternatively return Future, that may not yet be completed - findProcessAsyn(...);</span>
+  <span class="k">return</span> <span class="n">prices</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">CompletableFuture:</span><span class="o">:</span><span class="n">join</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="measurement">Measurement</h2>
+
+<ul>
+  <li><strong>[well]</strong> latency - end-to-end time to process a single work-unit for a given workflow (Y-axis response time, X-axis load)</li>
+  <li><strong>[well]</strong> throughput - is the number of units of work that a system can perform in some time period with given resources (e.g number of transactions per second)</li>
+  <li><strong>[well]</strong> utilization - represents the percentage of available resources that are being used to handle work units, instead of housekeeping tasks</li>
+  <li><strong>[well]</strong> efficiency - is equal to the throughput divided by the resources used. A system that requires more resources to produce the same throughput is less efficient.</li>
+  <li><strong>[well]</strong> capacity - the number of work units (such as transactions) that can be in flight through the system at any time. That is, it’s the amount of simultaneous processing available at specified latency or throughput.</li>
+  <li><strong>[well]</strong> scalability - As resources are added to a system, the throughput (or latency) will change. This change in throughput or latency is the scalability of the system. If solution A doubles its throughput when the available servers in a pool are doubled, it’s scaling in a perfectly linear fashion. Perfect linear scaling is very, very difficult to achieve under most circumstances.</li>
+  <li><strong>[conc]</strong> measure don’t guess (the actual cost varies across platforms, but a good rule of thumb is that a context switch costs the equivalent of 5000 to 10000 clock cycles (several milliseconds).</li>
+</ul>
+
+<h2 id="basic-synchronization-and-locks">Basic synchronization and Locks</h2>
+
+<ul>
+  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">join()</code>: allows one thread to wait for the completion of another. <code class="language-plaintext highlighter-rouge">t.join();</code> causes the current thread to pause execution until <code class="language-plaintext highlighter-rouge">t</code>’s thread terminates.</li>
+  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">t.sleep()</code>: don’t affect t but the calling thread (same for <code class="language-plaintext highlighter-rouge">yield()</code>). Better use <code class="language-plaintext highlighter-rouge">Thread.sleep(time)</code></li>
+  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">yield()</code>: Don’t rely on thread priorities when designing your multithreaded application. Because thread-scheduling priority behavior is not guaranteed, use thread priorities as a way to improve the efficiency of your program, but just be sure your program doesn’t depend on that behavior for correctness.
+    <ul>
+      <li>What <code class="language-plaintext highlighter-rouge">yield()</code> is supposed to do is make the currently running thread head back to runnable to allow other threads of the same priority to get their turn (from running to runnable state).</li>
+      <li>there’s no guarantee the yielding thread won’t just be chosen again over all the others!</li>
+    </ul>
+  </li>
+  <li><strong>[conc]</strong> Static methods/fields are controlled by a lock that’s distinct from lock for any other instance of the class, because they are associated with the class, not with the object</li>
+  <li><strong>[conc]</strong> Contended (lock contention, more heavy and slow threads) vs. non-contended (sync. or volatile) synchronization
+    <ul>
+      <li>Synchronization by one thread can also affect the performance of other threads. Synchronization creates traffic on the shared memory bus; this bus has a limited bandwidth and is shared across all processors. If threads must compete for synchronization bandwidth, all threads using synchronization will suffer. This aspect is sometimes used to argue against the use of non-blocking algorithms without some sort of back-off, because under heavy contention, non-blocking algorithms generate more synchronization traffic than lock-based ones.</li>
+      <li>Suspending a thread because it could not get a lock, or because it blocked on a condition wait or blocking I/O operation, entails two additional context switches and all the attendant OS and cache activity.</li>
+    </ul>
+  </li>
+  <li><strong>[conc]</strong> Fairness vs Bargaining (ch 10.2)
+    <ul>
+      <li>fairness has a significant performance cost</li>
+      <li><code class="language-plaintext highlighter-rouge">ReentrantLock</code> has a non-fair(default) permit bargaining: if in time of request the lock is free it takes it without waiting.</li>
+      <li><code class="language-plaintext highlighter-rouge">tryLock</code> – always bargains even for fair lock</li>
+    </ul>
+  </li>
+  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">ReentrantReadWriteLock</code> + <code class="language-plaintext highlighter-rouge">ReadWriteMap.java</code> (example)
+    <ul>
+      <li>In reality, <code class="language-plaintext highlighter-rouge">ConcurrentHashMap</code>’s performance is so good that you would probably use it rather than this approach if all you needed was a concurrent hash-based map, but this technique would be useful if you want to provide more concurrent access to an alternate Map implementation such as <code class="language-plaintext highlighter-rouge">LinkedHashMap.</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="forkjoin-notes">Fork/Join Notes</h2>
+
+<ul>
+  <li><strong>[action8]</strong> Work stealing: Each thread holds a doubly linked queue of the tasks assigned to it, and as soon as it computes a task it pulls another from the head of the queue and starts executing it. When its tasks are finished, instead of becoming idle, the thread randomly choose a queue of a different thread and steals a task from its tail.</li>
+  <li><strong>[action8]</strong> Call <code class="language-plaintext highlighter-rouge">join()</code> only after related tasks has been started, as it blocks the caller until result is produced.</li>
+  <li><strong>[action8]</strong> When splitting on computation on two tasks call <code class="language-plaintext highlighter-rouge">fork()</code> on one of them, which will use another thread from the <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and <code class="language-plaintext highlighter-rouge">compute()</code> on the other in order to use the same thread. It is more efficient.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">MyRecursiveTask</span> <span class="kd">extends</span> <span class="nc">RecursiveTask</span><span class="o">&lt;</span><span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="c1">// final fields and constructor</span>
+    <span class="o">...</span>
+    <span class="nd">@Override</span> <span class="kd">protected</span> <span class="nc">Long</span> <span class="nf">compute</span><span class="o">(){</span>
+      <span class="c1">//if(threshold matched) {return computeSequentially();} else ...</span>
+      <span class="nc">MyRecursiveTask</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyRecursiveTask</span><span class="o">(...);</span>
+      <span class="c1">// async exec using another thread from the ForkJoinPool</span>
+      <span class="n">t1</span><span class="o">.</span><span class="na">fork</span><span class="o">();</span>
+      <span class="nc">MyRecursiveTask</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyRecursiveTask</span><span class="o">(...);</span>
+      <span class="c1">// sync exec in the same thread allowing new recursive splits</span>
+      <span class="nc">Long</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="na">compute</span><span class="o">();</span>
+      <span class="c1">// read the result from the 1st task or wait until finished</span>
+      <span class="nc">Long</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+      <span class="k">return</span> <span class="n">result1</span> <span class="o">+</span> <span class="n">result2</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[conc_j8]</strong> Gonzalez - Mastering Concurrency programming with Java 8</li>
+  <li><strong>[conc_j9]</strong> Gonzalez - Java 9 Concurrency Cookbook</li>
+  <li><strong>[conc_jvm]</strong> Subramaniam - Programming Concurrency on the JVM</li>
+  <li><strong>[conc]</strong> Goetz &amp; Peierls - Java Concurrency in Practice</li>
+  <li><strong>[well]</strong> Evans - The Well-Grounded Java Developer</li>
+  <li><strong>[action8]</strong> Urma &amp; Fusco - Java 8 in Action</li>
+  <li><strong>[jrebel]</strong> JRebel Cheat Sheet</li>
+  <li><strong>[jenkov]</strong> <a href="http://tutorials.jenkov.com/java-concurrency/semaphores.html">Jenkov blog - Semaphores</a></li>
+  <li><strong>[barrier]</strong> <a href="https://mechanical-sympathy.blogspot.com/2011/07/memory-barriersfences.html">Martin Thompson - Memory Barriers</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

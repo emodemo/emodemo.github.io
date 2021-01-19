@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Basic Algorithms | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Basic Algorithms" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Basics_Algorithms.html" />
+<meta property="og:url" content="/dev/Basics_Algorithms.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Basic Algorithms" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Basics_Algorithms.html","headline":"Basic Algorithms","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Basic Algorithms</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="the-very-basics">The Very Basics</h2>
+
+<ul>
+  <li>rolling hash instead of rolling window of string as it is faster</li>
+</ul>
+
+<h3 id="backtracking">Backtracking</h3>
+
+<ul>
+  <li>Similar to DFS, but with rejection criteria to continue in a given path or not.</li>
+  <li>Examples: Finding a subset of a set of positive integers S that sum to a particular number T, where S = {10, 7, 5, 18, 12, 20, 8} and T = 23.</li>
+</ul>
+
+<h3 id="dynamic-programming">Dynamic programming</h3>
+
+<h3 id="two-pointers">Two pointers</h3>
+
+<ul>
+  <li>In Linked Lists pointers to different nodes, overcomes the restriction of traversing only in one direction.</li>
+  <li>Fast runner, slow-runner.</li>
+  <li>Start pointer and End pointer going towards each other.</li>
+  <li>Examples: remove duplicates from sorted array, reverse string, reverse nodes in a list, detect cycle.</li>
+</ul>
+
+<h3 id="arithmetic-operations">Arithmetic operations</h3>
+
+<ul>
+  <li>Arithmetic operations aren’t always constant time. Multiplying big numbers is much slower than multiplying small numbers.</li>
+  <li>Operations are not all the same speed. Integer modulus is very fast, addition and multiplication are fast, while division is (relatively) slow.</li>
+  <li>Some number theory: You can multiply the residues of numbers, instead of the numbers themselves. But you cannot divide by residues, or divide the residues unless you have certain guarantees about divisibility.</li>
+  <li><code class="language-plaintext highlighter-rouge">(a + b + c ) % m</code> is the same as <code class="language-plaintext highlighter-rouge">(a % m + b % m + c % m) % m</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(a * b) % m</code> is the same as <code class="language-plaintext highlighter-rouge">((a % m) * (b % m)) % m</code></li>
+</ul>
+
+<h3 id="graphs">Graphs</h3>
+
+<ul>
+  <li>max edges = $n(n-1)/2$ , where $n$ is vertices</li>
+  <li>a lot of edges =&gt; dense, else sparse</li>
+  <li>Depending on the density(sparsity) think whether it will be more efficient to iterate through the edges or vertices.</li>
+  <li>common representations:
+    <ul>
+      <li>adjacency-list (list of lists): <code class="language-plaintext highlighter-rouge">list = [[1,2],[0,2,3],[0,1],[1]]</code>, where the list index is the vertex, and the inner list contains the connected  vertices. An edge <code class="language-plaintext highlighter-rouge">[i,j]</code> is represented by having <code class="language-plaintext highlighter-rouge">j</code> in <code class="language-plaintext highlighter-rouge">list[i]</code>.</li>
+      <li>adjacency-matrix:
+<code class="language-plaintext highlighter-rouge">matrix = [[0,1,1,0], [1,0,1,1], [1,1,0,0], [0,1,0,0]]</code>, pay attention to the representation of “no edges”, especially in weighted graph.</li>
+    </ul>
+  </li>
+  <li>Examples:
+    <ul>
+      <li>shortest path =&gt; BFS</li>
+      <li>shortest path in weighted =&gt; Dijkstra (BFS with minPQ(compare to startNode) // add non-tree node closest to the startNode). Similar to Prim. time: E log V</li>
+      <li>shortest path in negative weights =&gt; Bellman-Ford // time: VE.
+        <ul>
+          <li>V1: loop nodes-1 times over edges and relax their vertices from start node; loop once again (nodes-th loop) and in case of relaxation =&gt; negative cycle =&gt; no shortest path</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// relax(u,v) means find shorter path from start to v, considering u-&gt;v</span>
+<span class="n">relax</span><span class="o">(</span><span class="n">u</span><span class="o">,</span><span class="n">v</span><span class="o">){</span>
+  <span class="k">if</span><span class="o">(</span><span class="n">dist</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">dist</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">u</span><span class="o">)</span> <span class="o">+</span> <span class="n">weight</span><span class="o">(</span><span class="n">u</span><span class="o">,</span> <span class="n">v</span><span class="o">)){</span>
+     <span class="n">dist</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="o">=</span> <span class="n">dist</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">u</span><span class="o">)</span> <span class="o">+</span> <span class="n">weight</span><span class="o">(</span><span class="n">u</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+     <span class="c1">// set the u-&gt;v edge as the valid one</span>
+     <span class="n">predecessor</span><span class="o">(</span><span class="n">v</span><span class="o">)</span> <span class="o">=</span> <span class="n">u</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>cycle detection =&gt; DFS (+ nodes on current path, if track is kept)</li>
+      <li>MST node-by-node =&gt; Prim (BFS with minPQ(compare to closest node on tree) // add non-tree node closest to the tree). Similar to Dijkstra // space: V time: E log V</li>
+      <li>Topological sort =&gt; DFS (postOrder.reverse + cycle detection)</li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Categories | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Categories" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Categories.html" />
+<meta property="og:url" content="/dev/Categories.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Categories" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Categories.html","headline":"Categories","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Categories</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="sources">Sources</h2>
+
+<ul>
+  <li>http://math.mit.edu/~dspivak/teaching/sp18/  // videos for 7 sketches</li>
+  <li>http://www.appliedcategorytheory.org/</li>
+  <li>http://www.compositionality-journal.org/</li>
+  <li>https://www.math3ma.com/</li>
+  <li>https://medium.com/@sinisalouc</li>
+</ul>
+
+<h2 id="terminology">Terminology</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">flatten</code> also known as <code class="language-plaintext highlighter-rouge">join</code></li>
+  <li><code class="language-plaintext highlighter-rouge">flatMap</code> also known as <code class="language-plaintext highlighter-rouge">bind</code></li>
+</ul>
+
+<h2 id="laws">Laws</h2>
+
+<ul>
+  <li>axioms of an abelian group
+    <ul>
+      <li>identity: $a + 0 = a = 0 + a$</li>
+      <li>inverse: $a + (-a) = 0 = (-a) + a$</li>
+      <li>commutative: $a + b = b + a$</li>
+      <li>associative: $(a + b) + c = a + (b + c)$</li>
+    </ul>
+  </li>
+  <li>distributive: $a + (b * c) = a<em>b + a</em>c$</li>
+</ul>
+
+<h2 id="usages">Usages</h2>
+
+<ul>
+  <li>So if you have e.g. n asynchronous requests (e.g. database queries) that result in n Futures, you should pick a proper abstraction based on your needs:
+    <ul>
+      <li>if your Futures don’t depend on each other, use an <strong>applicative</strong> (you can e.g. put them all into one product and map each result with a function that handles success/failure)</li>
+      <li>if your Futures do depend on each other, e.g. you want to call them in series and stop on first success or first failure, then use a <strong>monad</strong> (it allows you to flatMap a future with a function that examines its value and performs the next monadic operation based on it)</li>
+    </ul>
+  </li>
+  <li>This is why you can only build a parser for context-sensitive grammars by using monads, while for context-free grammars it’s enough to use applicatives.</li>
+</ul>
+
+<h2 id="category-theory-for-programmers">Category theory for Programmers</h2>
+
+<ul>
+  <li>Category theory is extreme in the sense that it actively discourages us from looking inside the objects. An object in category theory is an abstract nebulous entity. All you can ever know about it is how it relates to other objects — how it connects with them using arrows. In object-oriented programming, an idealized object is only visible through its abstract interface (pure surface, no volume), with methods playing the role of arrows. <strong>The moment you have to dig into the implementation of the object in order to understand how to compose it with other objects, you’ve lost the advantages of your programming paradigm.</strong></li>
+  <li><strong>!!!</strong> You may think of objects and categories as nouns; and morphisms, functors, and natural transformations as verbs. Morphisms connect objects, functors connect categories, natural transformations connect functors.</li>
+  <li>See CHAPTER 28 ENRICHED CATEGORIES: Metric Spaces: We have to construct a category in which hom-objects are distances. Mind you, distances are not morphisms but hom-objects.</li>
+</ul>
+
+<h2 id="scala-with-cats">Scala with Cats</h2>
+
+<p>See <code class="language-plaintext highlighter-rouge">categories</code> package</p>
+
+<h2 id="java-example">Java example</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getLastFour</span><span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">employee</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getPrimaryAddress</span><span class="o">())</span>
+                   <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">address</span> <span class="o">-&gt;</span> <span class="n">address</span><span class="o">.</span><span class="na">getZipCode</span><span class="o">())</span>
+                   <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">zip</span> <span class="o">-&gt;</span> <span class="n">zip</span><span class="o">.</span><span class="na">getLastFour</span><span class="o">())</span>
+                   <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">FMLException</span><span class="o">(</span><span class="s">"Missing data"</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDrinkForEmployee</span><span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">employee</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getAge</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">21</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getFavoriteBeer</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"Sprite"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">// left identity</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addOne</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+<span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addOne</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="n">addOne</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
+
+<span class="c1">// right identity</span>
+<span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Optional:</span><span class="o">:</span><span class="n">of</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
+
+<span class="c1">// associativity</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addOne</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addTwo</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addThree</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">addOne</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addTwo</span><span class="o">);</span>
+<span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addOne</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addTwo</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addThree</span><span class="o">));</span>
+
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">(</span><span class="no">A</span><span class="o">,</span> <span class="no">B</span><span class="o">,</span> <span class="no">C</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="no">D</span>
+<span class="c1">//may always be replaced with:</span>
+<span class="no">A</span> <span class="o">-&gt;</span> <span class="no">B</span> <span class="o">-&gt;</span> <span class="no">C</span> <span class="o">-&gt;</span> <span class="no">D</span>
+
+<span class="c1">//Currying is the fact of evaluating function arguments one by one, producing a new function with one argument less on each step. For example, if we have the following function: </span>
+<span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="c1">// we may apply the arguments 2, 4, 5 at the same time and get:</span>
+<span class="n">f</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">17</span>
+<span class="c1">// But we may also apply only 3 and get:</span>
+<span class="n">f</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">g</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+<span class="c1">// We have now a new function g, taking only two arguments. We can curry again this function, applying 4 to y:</span>
+<span class="n">g</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">h</span><span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">z</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// java 5/6/7</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">apply</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">apply</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">apply</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">t</span><span class="o">;</span>
+            <span class="o">}</span>
+          <span class="o">};</span>
+        <span class="o">}</span>
+      <span class="o">};</span>
+    <span class="o">}</span>
+  <span class="o">}.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// java 8</span>
+<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(((</span><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;)</span>
+                       <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">t</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">// or </span>
+<span class="kd">interface</span> <span class="nc">F3</span> <span class="kd">extends</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="o">{}</span>
+<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(((</span><span class="no">F3</span><span class="o">)</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="no">F3</span> <span class="n">calculation</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Functions</span> <span class="o">{</span>
+  <span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="n">calculation</span> <span class="o">=</span>
+       <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="o">...</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="nc">Functions</span><span class="o">.</span><span class="na">calculation</span><span class="o">;</span>
+<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+<span class="c1">// in scala</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">(</span><span class="n">b</span><span class="o">)(</span><span class="n">a</span><span class="o">))</span>
+<span class="c1">//</span>
+
+
+<span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="n">calculation</span>
+    <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
+<span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculation</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">x</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">y</span><span class="o">);</span>
+<span class="o">}</span>
+
+
+<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span><span class="o">));</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

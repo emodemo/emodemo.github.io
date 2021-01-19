@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Library | emodemo’s notes</title>
+<title>COBOL RunUnit | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Library" />
+<meta property="og:title" content="COBOL RunUnit" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/pages/library.html" />
-<meta property="og:url" content="/pages/library.html" />
+<link rel="canonical" href="/dev/RunUnit.html" />
+<meta property="og:url" content="/dev/RunUnit.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Library" />
+<meta property="twitter:title" content="COBOL RunUnit" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/pages/library.html","headline":"Library","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/RunUnit.html","headline":"COBOL RunUnit","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
@@ -40,11 +40,46 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Library</h1>
+    <h1 class="post-title">COBOL RunUnit</h1>
   </header>
 
   <div class="post-content">
-    
+    <h2 id="multiple-rununits-in-java"><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/BKDNDNSSDDS001.html">Multiple RunUnits in Java</a></h2>
+
+<ul>
+  <li>Compile the COBOL that you want to call. For procedural COBOL programs use the NOILSTATIC directive, which is the default. This enables any COBOL classes created to be included in a run unit.</li>
+  <li>Any COBOL program or CLASS with instance data/methods can be used with multiple run units providing you do not compile with the REENTRANT or ILSTATIC directives.</li>
+</ul>
+
+<h2 id="use-rununit"><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/BKDNDNSSDDS005.html">Use RunUnit</a></h2>
+
+<ul>
+  <li>Either use the <code class="language-plaintext highlighter-rouge">RunUnit.Call()</code> method to call the COBOL class, or:
+    <ul>
+      <li>Make sure that any parameters are Java primitive data types.</li>
+      <li>Create an instance of the procedural COBOL program to be called.</li>
+      <li>Add the program instance to the new run unit, using the <code class="language-plaintext highlighter-rouge">RunUnit.Add()</code> method.</li>
+      <li>Invoke the program instance within the new run unit.</li>
+    </ul>
+  </li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">StopRun()</code> method to destroy the run unit when you have finished with it.</li>
+  <li><strong>NOTE</strong> In OO COBOL programs in a mixed language environment, do not use static methods and data as they cause run-time errors.</li>
+  <li><strong>NOTE</strong> Ensure that data access is synchronized, as the run units will be executing in different threads.</li>
+  <li><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/GUID-B6038FF3-719B-4712-A6C5-D3AF6A57F4B6.html">JavaEE Session Management</a></li>
+</ul>
+
+<h2 id="monitor-rununit-with-mission-control-and-ctf"><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/GUID-27FC51DC-BC9D-4A47-BE36-E29498B41701.html">Monitor RunUnit with Mission Control and CTF</a></h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">RunUnit myRUBean = new RunUnit("MyApplication", RunUnitStartupOptions.UseManagementBean);</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mbeans=true</code> in cobconfig.properties. in the jar file, or in the class folder</li>
+  <li>-Dcom.sun.management.jmxremote</li>
+  <li><a href="https://dzone.com/articles/connect-jmc-and-other-jmx-monitoring-tools-to-micr">JMX to Docker and AWS</a></li>
+  <li><a href="https://stackoverflow.com/questions/14726224/show-cloudwatch-metric-with-unit-seconds-in-hours">AWS monitor in seconds</a></li>
+  <li><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/HRCTRHUCTF08.html">CTF Emmiter</a></li>
+</ul>
+
+<h2 id="run-unit-routines"><a href="https://www.microfocus.com/documentation/enterprise-developer/ed40pu7/ED-Eclipse/HRCLRHCALL0Z.html">Run Unit routines</a></h2>
 
   </div>
 

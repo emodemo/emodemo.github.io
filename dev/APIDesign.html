@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>API Design | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="API Design" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/APIDesign.html" />
+<meta property="og:url" content="/dev/APIDesign.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="API Design" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/APIDesign.html","headline":"API Design","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">API Design</h1>
+  </header>
+
+  <div class="post-content">
+    <ul>
+  <li>Fred Brooks (The Mythical Man-Month): the communication overhead of a team of size $N$ is $O(N^2)$</li>
+</ul>
+
+<h2 id="event-sourcing">Event Sourcing</h2>
+
+<ul>
+  <li><strong>[events]</strong></li>
+</ul>
+
+<h2 id="requirements">REQUIREMENTS</h2>
+
+<ul>
+  <li><strong>[code_complete]</strong> A problem definition defines what the problem is without any reference to possible solutions. It’s a simple statement, maybe one or two pages, and it should sound like a problem. The statement “We can’t keep up with orders for the Gigatron” sounds like a problem and is a good problem definition. The statement “We need to optimize our automated data-entry system to keep up with orders for the Gigatron” is a poor problem definition. It doesn’t sound like a problem; it sounds like a solution.
+    <ul>
+      <li>Are acceptable tradeoffs between competing attributes specified - for example, between robustness and correctness?</li>
+      <li>Are all the inputs to the system specified, including their source, accuracy, range of values, and frequency?</li>
+      <li>Are all the outputs from the system specified, including their destination, accuracy, range of values, frequency, and format?</li>
+      <li>Acceptance Criteria</li>
+    </ul>
+  </li>
+  <li><strong>[idesign]</strong> Field research, to find out what the intended users are like and what they already do</li>
+  <li><strong>[idesign]</strong> Goal and task analysis, to describe and clarify what users will do with what you’re building</li>
+  <li><strong>[idesign]</strong> Enough time to iterate over several versions of the design, because you won’t get it right the first time. Specifically, you’ll want to learn:
+    <ul>
+      <li>Their goals in using the software you design</li>
+      <li>The specific tasks they undertake in pursuit of those goals</li>
+      <li>The language and words they use to describe what they’re doing</li>
+      <li>Their skill at using software similar to what you’re designing</li>
+      <li>Their attitudes toward the kind of thing you’re designing, and how different designs might affect those attitudes</li>
+    </ul>
+  </li>
+  <li><strong>[idesign]</strong> In other words, how much openness is there in the interface? Too little, and your users feel trapped and unsatisfied; too much, and they stand there paralyzed, not knowing what to do next, unprepared for that level of interaction. Therefore, you need to choose how much freedom your users have to act arbitrarily.</li>
+  <li><strong>[bloch]</strong> API is a cover story
+    <ul>
+      <li>hide impl, info, internal data formats</li>
+      <li>think of concepts rather than code</li>
+      <li>API should do one thing and do it well</li>
+      <li>as small as possible but no smaller</li>
+      <li>API should be easy to use and hard to misuse. It should be easy to do simple things; possible to do complex things; and impossible, or at least difficult, to do wrong things.</li>
+      <li>API should be self-documenting: It should rarely require documentation to read code written to a good API. In fact, it should rarely require documentation to write it.</li>
+      <li>Code the use-cases against your API before you implement it</li>
+      <li>Maintain the code for uses-cases as the API evolves</li>
+      <li>You can’t please everyone so aim to displease everyone equally. Most APIs are over-constrained.</li>
+      <li>When in doubt, leave it out.</li>
+      <li>Minimize mutability.</li>
+      <li>Don’t make the client do anything the library could do.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="planning--spike--tries">PLANNING / SPIKE / TRIES</h2>
+
+<ul>
+  <li><strong>[code_complete]</strong> The overarching goal of preparation is risk reduction: a good project planner clears major risks out of the way as early as possible so that the bulk of the project can proceed as smoothly as possible. By far the most common project risks in software development are poor requirements and poor project planning, thus preparation tends to focus on improving requirements and project plans.</li>
+  <li><strong>[code_complete]</strong> If the “box” is the boundary of constraints and conditions, then the trick is to find the box…. Don’t think outside the box—find the box. —Andy Hunt and Dave Thomas</li>
+  <li><strong>[hf_soft_dev]</strong> The goal during estimation is to eliminate as many assumptions as possible. So that an assumption becomes a requirement (task).</li>
+  <li><strong>[hf_soft_dev]</strong> A BIG user story estimate is a BAD user story estimate!!
+    <ul>
+      <li>RULE OF THUMB: Estimates greater than 15 days par user story allow too much room for error =&gt; break it into smaller meaningful pieces.</li>
+    </ul>
+  </li>
+  <li><strong>[hf_soft_dev]</strong> Estimates are all about confidence.</li>
+  <li><strong>[pragmatic]</strong> Prototype to learn and diminish risk - What sorts of things might you choose to investigate with a prototype? Anything that carries risk. Anything that hasn’t been tried before, or that is absolutely critical to the final system. Anything unproven, experimental, or doubtful. Anything you aren’t comfortable with. You can prototype.
+    <ul>
+      <li>Architecture</li>
+      <li>New functionality in an existing system</li>
+      <li>Structure or contents of external data</li>
+      <li>Third-party tools or components</li>
+      <li>Performance issues</li>
+      <li>User interface design</li>
+      <li>…</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="system-design">SYSTEM DESIGN</h2>
+
+<ul>
+  <li><strong>[code_complete]</strong> Error handling
+    <ul>
+      <li>where in the system</li>
+      <li>how they will be propagated/ or handled.</li>
+      <li>validations - model/view/elsewhere …</li>
+      <li>fault tolerance (think of CAP)</li>
+    </ul>
+  </li>
+  <li><strong>[code_complete]</strong> Scalability</li>
+  <li><strong>[code_complete]</strong> Interoperability</li>
+  <li><strong>[code_complete]</strong> Look for:
+    <ul>
+      <li>Minimize the amount of essential complexity that anyone’s brain has to deal with at any one time</li>
+      <li>Keep accidental complexity from needlessly proliferating</li>
+      <li>Minimal complexity, Ease of maintenance, Extensibility</li>
+      <li>Stratification - it means trying to keep the levels of decomposition stratified so that you can view the system at any single level and get a consistent view. Design the system so that you can view it at one level without dipping into other levels. (e.g. if you’re writing a modern system that has to use a lot of older, poorly designed code, write a layer of the new system that’s responsible for interfacing with the old code).</li>
+    </ul>
+  </li>
+  <li><strong>[pragmatic]</strong> NOTE: The problem with most binary formats is that the context necessary to understand the data is separate from the data itself. You are artificially divorcing the data from its meaning. The data may as well be encrypted; it is absolutely meaningless without the application logic to parse it. With plain text, however, you can achieve a self-describing data stream that is independent of the application that created it.</li>
+  <li><strong>[micro]</strong> Melvin Conway’s paper How Do Committees Invent, published in Datamation magazine in April 1968, observed that: <em>Any organization that designs a system (defined more broadly here than just information systems) will inevitably produce a design whose structure is a copy of the organization’s communication structure.</em> This statement is often quoted, in various forms, as Conway’s law. Eric S. Raymond summarized this phenomenon in The New Hacker’s Dictionary (MIT Press) by stating “If you have four groups working on a compiler, you’ll get a 4-pass compiler.”</li>
+</ul>
+
+<h2 id="api-design--implementation">API DESIGN / IMPLEMENTATION</h2>
+
+<ul>
+  <li><strong>[api_design]</strong> The best API is no API</li>
+  <li><strong>[api_design]</strong> Everything you leave in an API can be misused.</li>
+  <li><strong>[api_design]</strong> The less you need to understand the API’s details to use it, the better.</li>
+  <li><strong>[api_design]</strong> A Factory is better than a Constructor.
+    <ul>
+      <li>No need to return the exact class</li>
+    </ul>
+  </li>
+  <li><strong>[api_design]</strong> Do not expose deep hierarchies</li>
+  <li><strong>[api_design]</strong> Code Against Interfaces (abstract definitions), not implementations.
+    <ul>
+      <li>“Is there actually any reason to use abstract classes?” The short answer is “No.” Abstract classes in an API are suspicious and often indicate an unwillingness to invest more time in the proper API design. The longer answer is, “Well, there might be reasons to use abstract classes in APIs after all.”</li>
+    </ul>
+  </li>
+  <li><strong>[api_design]</strong> Separate APIs for Clients (api that people call) and Providers (api that people implement)
+    <ul>
+      <li>API evolution is different from SPI (service provider interface) evolution.</li>
+      <li>The path of evolution depends on the type of interface: additions to an API are acceptable, while removing functionality is not. In SPIs removals are allowed, while additions are not.</li>
+    </ul>
+  </li>
+  <li><strong>[api_design]</strong> Prefer immutability.</li>
+  <li><strong>[bloch]</strong> if there must be a state, keep it small and known, adn document it</li>
+  <li><strong>[clean_code]</strong> checked expectations (as the one in Java where they are declared) broke encapsulation, because if a method in a class at low level throws a new exception all calls of this modified function must be rewritten also.</li>
+  <li><strong>[clean_code]</strong> define expectations in terms of caller’s needs</li>
+  <li><strong>[clean_code]</strong> wrap third-party apis, so they can be easily changed.</li>
+  <li><strong>[pragmatic]</strong> Avoid global data.</li>
+  <li><strong>[bloch]</strong> API implementation
+    <ul>
+      <li>Fail fast. The sooner you report a bug, the less damage it will do. Compile-time is best. If you must fail at run-time, do it as soon as possible.</li>
+      <li>Provide programmatic access to all data available in string form.</li>
+      <li>Avoid return values that demand exceptional processing. Clients will forget to write the special case code, leading to bugs. For example, return zero-length arrays or collections rather than  nulls.</li>
+      <li>Throw exceptions only to indicate exceptional conditions. Otherwise, clients will be forced to use exceptions for normal flow control, leading to programs that are hard to read</li>
+      <li>Throw unchecked exceptions unless clients can realistically recover from the failure.</li>
+    </ul>
+  </li>
+  <li>Convention over Configuration</li>
+</ul>
+
+<h2 id="user-interface-design">(USER) INTERFACE DESIGN</h2>
+
+<ul>
+  <li><strong>[idesign]</strong> Here’s an even more fundamental question: how much effort are your users willing to spend to learn your interface?
+    <ol>
+      <li><strong>safe exploration</strong> “Let me explore without getting lost or getting into trouble.” Good software allows people to try something unfamiliar, back out   and try something else, all without stress.</li>
+      <li><strong>instant gratification</strong> “I want to accomplish something now, not later.”</li>
+      <li><strong>Satisfying “This is good enough. I don’t want to spend more time learning to do it better”</strong>. Make labels short, plainly worded, and quick to read. (This  includes menu items, buttons, links, and anything else identified  by text.) They’ll be scanned and guessed about; write them so  that a user’s first guess about meaning is correct. If he guesses  wrong several times, he’ll be frustrated and you’re both off to a  bad start. Use  the layout of the interface to communicate meaning</li>
+      <li><strong>changes in midstream</strong> “I changed my mind about what I was doing.” What this means for  designers is that you should provide opportunities for people to  do that. Make choices available. Don’t lock users into a  choice-poor environment with no global navigation, or no  connections to other pages or functionality, unless there’s a  good reason to do so. Those reasons do exist.</li>
+      <li><strong>deferred choices</strong> “I don’t want to answer that now; just let me finish!” Don’t accost the user with too many upfront choices in the first  place. On the forms that he does have to use, clearly mark the required  fields, and don’t make too many of them required. Let him move on  without answering the optional ones.
+Sometimes you can separate the few important questions or options  from others that are less important. Present the short list; hide  the long list.</li>
+      <li><strong>incremental construction</strong> “Let me change this. That doesn’t look right; let me change it  again. That’s better.”</li>
+      <li><strong>habituation</strong> “That gesture works everywhere else; why doesn’t it work here,  too?”</li>
+      <li><strong>spatial memory</strong> “I swear that button was here a minute ago. Where did it go?” When people manipulate objects and documents, they often find  them again later by remembering where they are, not what they’re  named.</li>
+      <li><strong>prospective memory</strong> “I’m putting this here to remind myself to deal with it later.” In many cases, that kind of hands-off flexibility is all you  really need. Give people the tools to create their own reminder  systems. Just don’t try to design a system that’s too smart for  its own good.</li>
+      <li><strong>streamlined repetition</strong> “I have to repeat this how many times?” In many kinds of applications, users sometimes find themselves  having to perform the same operation over and over again. The  easier it is for them, the better. If you can help reduce that  operation down to one keystroke or click per repetition or,  better, just a few keystrokes or clicks for all repetitions then  you will spare users much tedium.</li>
+      <li><strong>keyboard only</strong> “Please don’t make me use the mouse.”</li>
+    </ol>
+  </li>
+  <li><strong>[idesign]</strong> Rather than thinking in terms of windows, tree views, and links, you might think abstractly about how to organize the actions and objects in your application in the way truest to your subject matter. You can postpone the decisions about using specific windows and widgets.</li>
+</ul>
+
+<h2 id="concurrency">CONCURRENCY</h2>
+
+<ul>
+  <li><strong>[api_design]</strong> The basic advice for a programmer using a language with threads and locks, such as Java, is do not hold a lock while calling foreign code. If you follow this rule, you eliminate the fourth condition.</li>
+  <li><strong>[api_design]</strong> In classes that allow subclassing, you should never call a method that can be overridden while holding a lock. Alternatively, you should replace subclassable classes with more interfaces and you should replace delegation with a clear separation of concerns.</li>
+  <li><strong>[clean_code]</strong> Objects are abstractions of processing. Threads are abstractions of schedule.</li>
+  <li><strong>[clean_code]</strong> Concurrency is decoupling WHAT from WHEN</li>
+</ul>
+
+<h2 id="classes">CLASSES</h2>
+
+<ul>
+  <li><strong>[code_complete]</strong> Hiding more is better than hiding less.</li>
+  <li><strong>[code_complete]</strong> It ain’t abstract if you have to look at the underlying implementation to understand what’s going on.</li>
+  <li><strong>[code_complete]</strong> Joshua Bloch - “Inheritance breaks encapsulation”.</li>
+  <li><strong>[code_complete]</strong> class’s methods not more than 7
+    <ul>
+      <li>STM 7+/-2</li>
+    </ul>
+  </li>
+  <li><strong>[code_complete]</strong> loose coupling/high cohesion</li>
+  <li><strong>[clean_code]</strong> One class - one responsibility - one reason to change</li>
+  <li><strong>[code_complete]</strong> Use enumerated types as an alternative to boolean variables
+    <ul>
+      <li>Reserve the first entry in the enumerated type as invalid (i.e. 0)</li>
+    </ul>
+  </li>
+  <li><strong>[code_complete]</strong> Use boolean variables to simplify complicated tests</li>
+  <li><strong>[api_design]</strong> The only real difference between a soft reference and a weak reference is that the garbage collector uses algorithms to decide whether or not to reclaim a softly reachable object, but always reclaims a weakly reachable object.</li>
+  <li><strong>[clean_code]</strong> Data structures / Objects
+    <ul>
+      <li>Data structures only expose their information and have no  behaviour. Other classes control the behviour or business rules</li>
+      <li>The data structure contains information to be used</li>
+      <li>Objects have behaviour to be used, and should not be asked for  its internals.</li>
+    </ul>
+  </li>
+  <li><strong>[bloch]</strong> Subclass only if you can say with a straight face that every instance of the subclass is an instance of the superclass. Exposed classes should never subclass just to reuse implementation code.</li>
+</ul>
+
+<h2 id="methodsfunctions">METHODS/FUNCTIONS</h2>
+
+<ul>
+  <li><strong>[api_design]</strong> Method Design : exceptions for exceptional conditions
+    <ul>
+      <li>Don’t force client to use exceptions for control flow</li>
+      <li>Conversely, don’t fail silently</li>
+      <li>Favor unchecked over checked exceptions (Avoid unnecessary use  of checked exceptions)</li>
+    </ul>
+  </li>
+  <li><strong>[clean_code]</strong> one function - one responsibility</li>
+  <li><strong>[clean_code]</strong> Functions should either do something or answer something, but not both.</li>
+  <li><strong>[clean_code]</strong> Try/catch blocks are ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of the try and catch blocks out into functions of their own.</li>
+  <li><strong>[clean_code]</strong> Functions should do one thing. Error handing is one thing. Thus, a function that handles errors should do nothing else.</li>
+  <li><strong>[bloch]</strong> do not use exceptions for control flow</li>
+  <li><strong>[bloch]</strong> do not throw the client into exception handling, use them only when the client must be alerted</li>
+  <li><strong>[bloch]</strong> do not return collections</li>
+</ul>
+
+<h2 id="test">TEST</h2>
+
+<ul>
+  <li><strong>[hf_soft_dev]</strong> test driven development - when you write tests before any code, and then lets those test drive your code you are using TDD
+    <ul>
+      <li>Rule 1: Your test should always FAIL before you implement any code.</li>
+      <li>Rule 2: Implement the SIMPLEST CODE POSSIBLE to make your tests pass</li>
+    </ul>
+  </li>
+  <li><strong>[hf_soft_dev]</strong> Each test should do just one thing</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[clean_code]</strong> Martin - Clean Code</li>
+  <li><strong>[api_design]</strong> Tulach - Practical API Design</li>
+  <li><strong>[hf_soft_dev]</strong> Pilone &amp; Miles - HF Software development</li>
+  <li><strong>[code_complete]</strong> McConnell - Code Complete 2nd ed</li>
+  <li><strong>[bloch]</strong> <a href="https://www.youtube.com/watch?v=heh4OeB9A-c">Joshua Bloch - How To Design A Good API and Why it Matters</a></li>
+  <li><strong>[idesign]</strong> Tidwell - Designing interfaces</li>
+  <li><strong>[pragmatic]</strong> Hunt &amp; Thomas - The Pragmatic Programer</li>
+  <li><strong>[micro]</strong> Newman - Building Microservices</li>
+  <li><strong>[events]</strong> <a href="https://martinfowler.com/eaaDev/EventSourcing.html">Event Sourcing - Martin Fowler</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

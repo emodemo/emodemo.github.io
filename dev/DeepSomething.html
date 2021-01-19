@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Deep Learning | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Deep Learning" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DeepSomething.html" />
+<meta property="og:url" content="/dev/DeepSomething.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deep Learning" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/DeepSomething.html","headline":"Deep Learning","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Deep Learning</h1>
+  </header>
+
+  <div class="post-content">
+    <ul>
+  <li>(under progress..)</li>
+  <li>see keras_examples for src examples, and more notes</li>
+  <li>TODO: Sebastian Ruder: An Overview of Gradient Descent optimization algorithms: ruder.io/optimizing-gradient-descent</li>
+  <li>TODO: colah.github.io</li>
+</ul>
+
+<h2 id="avoid-over-fitting">AVOID OVER-FITTING</h2>
+
+<ul>
+  <li>
+    <p><strong>regularization</strong> (when not enough data)… the next-best solution is to modulate the quantity of information that your model is allowed to store or to add constraints on what information it’s allowed to store. If a network can only afford to memorize a small number of patterns, the optimization process will force it to focus on the most prominent patterns, which have a better chance of generalizing well.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">regularizers</span><span class="p">.</span><span class="n">l2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>Reducing network size (or capacity), which is N of learnable parameters</strong>.
+        <ul>
+          <li>For instance, a model with 500,000 binary parameters could easily be made to learn the class of every digit in the MNIST training set: we’d need only 10 binary parameters for each of the 50,000 digits. But such a model would be useless for classifying new digit samples. Always keep this in mind: deep-learning models tend to be good at fitting to the training data, but the real challenge is generalization, not fitting.</li>
+        </ul>
+      </li>
+      <li><strong>weight regularization</strong> Simpler models are less likely to overfit than complex ones.  A simple model in this context is a model where the distribution of parameter values has less entropy (or with smaller capacity - see above). Thus a common way to mitigate overfitting is to put constraints on the complexity of a network by forcing its weights to take only small values, which makes the distribution of weight values more regular. This is called weight regularization, and it’s done by adding to the loss function of the network a cost associated with having large weights. This cost comes in two flavors:
+        <ul>
+          <li>L1 regularization— The cost added is proportional to the absolute value of the weight coefficients (the L1 norm of the weights).</li>
+          <li>L2 regularization— The cost added is proportional to the square of the value of the weight coefficients (the L2 norm of the weights). L2 regularization is also called weight decay in the context of neural networks. Don’t let the different name confuse you: weight decay is mathematically the same as L2 regularization. In Keras, weight regularization is added by passing weight regularizer instances to layers as keyword arguments.
+            <ul>
+              <li>has a KERAS API at layer definition level</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>adding dropout</strong> Dropout, applied to a layer, consists of randomly dropping out (setting to zero) a number of output features of the layer during training. Let’s say a given layer would normally return a vector [0.2, 0.5, 1.3, 0.8, 1.1] for a given input sample during training. After applying dropout, this vector will have a few zero entries distributed at random: for example, [0, 0.5, 1.3, 0, 1.1]. The dropout rate is the fraction of the features that are zeroed out; it’s usually set between 0.2 and 0.5. At test time, no units are dropped out; instead, the layer’s output values are scaled down by a factor equal to the dropout rate, to balance for the fact that more units are active than at training time.</p>
+    <ul>
+      <li>The core idea is that introducing noise in the output values of a layer can break up happenstance patterns that aren’t significant (what Hinton refers to as conspiracies), which the network will start memorizing if no noise is present.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">layers</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Measures:
+    <ul>
+      <li>balanced classification: accuracy or ROC AUC (area under the receiver operating characteristics curve)</li>
+      <li>imbalanced classification: recall and precision</li>
+      <li>ranking or multi-label: mean average precision</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="small-data">SMALL DATA</h2>
+
+<ul>
+  <li><strong>k-fold cross validation</strong>, remove redundancy in data</li>
+  <li>(convnets are the opposites of blackboxes)</li>
+  <li>small samples: data augmentation, feature extraction with pretrained net, fine-tuning a pretrained net.</li>
+  <li><strong>Data augmentation</strong>: Takes the approach of generating more training data from existing samples, by <em>augmenting</em> the samples via a number of random transformations that yield believable-looking images (in the case of image). The goal is that at train time, the model does not see the same image twice. This helps expose the model to more aspect of the data and generalize better.</li>
+  <li><strong>Pre-trained convolution nets for feature extraction</strong>. Remember to always freeze the nets.</li>
+  <li><strong>Fine-tuning</strong> is <em>unfreezing</em> a few top layers of a frozen model and jointly train them with the dense layers. It slightly adjusts the more abstract representations of the model.
+1) Add your custom network on top of an already trained base network.
+2) Freeze the base network.
+3) Train the part you added.
+4) Unfreeze some layers in the base network.
+5) Jointly train both these layers and the part you added.</li>
+</ul>
+
+<h2 id="visualization">Visualization</h2>
+
+<ul>
+  <li>Visualizing intermediate convnet outputs (intermediate activations) — Useful for understanding how successive convnet layers transform their input, and for getting a first idea of the meaning of individual convnet filters.</li>
+  <li>Visualizing convnets filters— Useful for understanding precisely what visual pattern or concept each filter in a convnet is receptive to.</li>
+  <li>Visualizing heatmaps of class activation in an image— Useful for understanding which parts of an image were identified as belonging to a given class, thus allowing you to localize objects in images.</li>
+</ul>
+
+<h2 id="text-ch-6--todo-needs-revision--not-that-the-rest-is-good-enough-but">TEXT (ch 6) // TODO: NEEDS REVISION … not that the rest is good enough, but…</h2>
+
+<ul>
+  <li>The two base approaches are RNN and 1D_CNN.</li>
+  <li>None of these models truly understand text, but rather map the statistical structure of the written language.</li>
+  <li>Vectorizing text is the process of transforming text into numeric tensors. This can be done in multiple ways:
+    <ul>
+      <li>Segment text into words, and transform each word into a vector.</li>
+      <li>Segment text into characters, and transform each character into a vector.</li>
+      <li>Extract n-grams of words or characters, and transform each n-gram into a vector. N-grams are overlapping groups of multiple consecutive words or characters.</li>
+    </ul>
+  </li>
+  <li>The likelihood of hash collisions decreases when the dimensionality of the hashing space is much larger than the total number of unique tokens being hashed.</li>
+  <li><strong>on word embedding</strong> The simplest way to associate a dense vector with a word is to choose the vector at random. The problem with this approach is that the resulting embedding space has no structure: for instance, the words accurate and exact may end up with completely different embeddings, even though they’re interchangeable in most sentences. It’s difficult for a deep neural network to make sense of such a noisy, unstructured embedding space. To get a bit more abstract, the geometric relationships between word vectors should reflect the semantic relationships between these words. Word embeddings are meant to map human language into a geometric space. For instance, in a reasonable embedding space, you would expect synonyms to be embedded into similar word vectors; and in general, you would expect the geometric distance (such as L2 distance) between any two word vectors to relate to the semantic distance between the associated words (words meaning different things are embedded at points far away from each other, whereas related words are closer). In addition to distance, you may want specific directions in the embedding space to be meaningful</li>
+  <li>There are two ways to obtain word embeddings:
+    <ul>
+      <li>Learn word embeddings jointly with the main task you care about (e.g. document classification or sentiment prediction). In this setup, you would start with random word vectors, then learn your word vectors in the same way that you learn the weights of a neural network.</li>
+      <li>Load into your model word embeddings that were pre-computed using a different machine learning task than the one you are trying to solve. These are called “pre-trained word embeddings”</li>
+    </ul>
+  </li>
+  <li><strong>on adding a 1D convolution net</strong> But note that merely flattening the embedded sequences and training a single Dense layer on top leads to a model that treats each word in the input sequence separately, without considering inter-word relationships and sentence structure (for example, this model would likely treat both “this movie is a bomb” and “this movie is the bomb” as being negative reviews). <strong>It’s much better to add recurrent layers or 1D convolutional layers on top of the embedded sequences to learn features that take into account each sequence as a whole.</strong></li>
+  <li>Instead of learning word embeddings jointly with the problem you want to solve, you can load embedding vectors from a precomputed embedding space that you know is highly structured and exhibits useful properties—that captures generic aspects of language structure.</li>
+  <li>Such word embeddings are generally computed using word-occurrence statistics (observations about what words co-occur in sentences or documents), using a variety of techniques, some involving neural networks, others not. The idea of a dense, low-dimensional embedding space for words, computed in an unsupervised way, was initially explored by Bengio et al. in the early 2000s,[1] but it only started to take off in research and industry applications after the release of one of the most famous and successful word-embedding schemes: the Word2vec algorithm.</li>
+  <li>There are various precomputed databases of word embeddings that you can download and use in a Keras Embedding layer. Word2vec is one of them. Another popular one is called Global Vectors for Word Representation (GloVe, https://nlp.stanford.edu/projects/glove), which was developed by Stanford researchers in 2014. This embedding technique is based on factorizing a matrix of word co-occurrence statistics. Its developers have made available precomputed embeddings for millions of English tokens, obtained from Wikipedia data and Common Crawl data.</li>
+  <li>Like all recurrent layers in Keras, <code class="language-plaintext highlighter-rouge">SimpleRNN</code> can be run in two different modes: it can return either the full sequences of successive outputs for each timestep (a 3D tensor of shape <code class="language-plaintext highlighter-rouge">(batch_size, timesteps, output_features)</code>), or it can return only the last output for each input sequence (a 2D tensor of shape <code class="language-plaintext highlighter-rouge">(batch_size, output_features)</code>). These two modes are controlled by the <code class="language-plaintext highlighter-rouge">return_sequences</code> constructor argument.</li>
+  <li>SimpleRNN has a major issue: although it should theoretically be able to retain at time t information about inputs seen many timesteps before, in practice, such long-term dependencies are impossible to learn. This is due to the vanishing gradient problem, an effect that is similar to what is observed with non-recurrent networks (feedforward networks) that are many layers deep: as you keep adding layers to a network, the network eventually becomes untrainable. The theoretical reasons for this effect were studied by Hochreiter, Schmidhuber, and Bengio in the early 1990s.[2] The LSTM and GRU layers are designed to solve this problem.</li>
+  <li><strong>advanced techniques for RNN</strong>:
+    <ul>
+      <li>Recurrent dropout— This is a specific, built-in way to use dropout to fight overfitting in recurrent layers. <code class="language-plaintext highlighter-rouge">LSTM(20, recurrent_dropout:0.2)</code>
+        <ul>
+          <li>2015, Yarin Gal, as part of his PhD thesis on Bayesian deep learning,[6] determined the proper way to use dropout with a recurrent network: the same dropout mask (the same pattern of dropped units) should be applied at every timestep, instead of a dropout mask that varies randomly from timestep to timestep. What’s more, in order to regularize the representations formed by the recurrent gates of layers such as GRU and LSTM, a temporally constant dropout mask should be applied to the inner recurrent activations of the layer (a recurrent dropout mask). Using the same dropout mask at every timestep allows the network to properly propagate its learning error through time; a temporally random dropout mask would disrupt this error signal and be harmful to the learning process.: Yarin Gal, “Uncertainty in Deep Learning (PhD Thesis),” October 13, 2016, http://mlg.eng.cam.ac.uk/yarin/blog_2248.html</li>
+        </ul>
+      </li>
+      <li>Stacking recurrent layers— This increases the representational power of the network (at the cost of higher computational loads). (e.g. several layers)</li>
+      <li>Bidirectional recurrent layers— These present the same information to a recurrent network in different ways, increasing accuracy and mitigating forgetting issues. <code class="language-plaintext highlighter-rouge">layers.Bidirectional(layers.LSTM(...))</code>
+        <ul>
+          <li>A bidirectional RNN exploits the order-sensitivity of RNNs: it simply consists of two regular RNNs, such as the GRU or LSTM layers that you are already familiar with, each processing input sequence in one direction (chronologically and antichronologically), then merging their representations. By processing a sequence both way, a bidirectional RNN is able to catch patterns that may have been overlooked by a one-direction RNN.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>not covered here</strong> Note There are two important concepts we won’t cover in detail here: recurrent attention and sequence masking. Both tend to be especially relevant for natural-language processing, and they aren’t particularly applicable to the temperature-forecasting problem. We’ll leave them for future study outside of this book.</li>
+  <li><strong>1D convnet</strong> One difference, though, is the fact that we can afford to use larger convolution windows with 1D convnets. Indeed, with a 2D convolution layer, a 3x3 convolution window contains 3*3 = 9 feature vectors, but with a 1D convolution layer, a convolution window of size 3 would only contain 3 feature vectors. We can thus easily afford 1D convolution windows of size 7 or 9.</li>
+  <li><strong>!!!</strong> Because 1D convnets process input patches independently, they aren’t sensitive to the order of the timesteps (beyond a local scale, the size of the convolution windows), unlike RNNs.</li>
+  <li>One strategy to combine the speed and lightness of convnets with the order–sensitivity of RNNs is to use a 1D convnet as a preprocessing step before an RNN (see figure keras_6…). This is especially beneficial when you’re dealing with sequences that are so long they can’t realistically be processed with RNNs, such as sequences with thousands of steps. The convnet will turn the long input sequence into much shorter (downsampled) sequences of higher-level features. This sequence of extracted features then becomes the input to the RNN part of the network. This technique isn’t seen often in research papers and practical applications, possibly because it isn’t well known. It’s effective and ought to be more common.</li>
+  <li>Because RNNs are extremely expensive for processing very long sequences, but 1D convnets are cheap, it can be a good idea to use a 1D convnet as a preprocessing step before an RNN, shortening the sequence and extracting useful representations for the RNN to process.</li>
+</ul>
+
+<h2 id="mix">MIX</h2>
+
+<h3 id="basic">basic</h3>
+
+<ul>
+  <li><strong>loss or objective function</strong> how far the expected output is from the actual.</li>
+  <li><strong>activation function</strong> allows non-linearity</li>
+  <li><strong>optimizer</strong> adjusts weights to minimize the loss function by using back-propagation.</li>
+  <li>A <strong>kernel function</strong> is a computationally tractable operation that maps any two points in your initial space to the distance between these points in your target representation space, completely bypassing the explicit computation of the new representation.
+    <ul>
+      <li>Kernel functions are typically crafted by hand rather than learned from data—in the case of an SVM, only the separation hyperplane is learned.</li>
+    </ul>
+  </li>
+  <li>Another approach is <strong>gradient boosting machines</strong> … instead of DL.
+    <ul>
+      <li>see XGBoost API</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="good-practices">Good practices</h3>
+
+<ul>
+  <li>To make learning easier for your network, your data should have the following characteristics:
+    <ul>
+      <li>Take small values— Typically, most values should be in the 0–1 range.</li>
+      <li>Be homogenous— That is, all features should take values in roughly the same range.</li>
+    </ul>
+  </li>
+  <li>Additionally, the following stricter normalization practice is common and can help, although it isn’t always necessary (for example, you didn’t do this in the digit-classification example):
+    <ul>
+      <li>Normalize each feature independently to have a mean of 0 and a standard deviation of 1.</li>
+      <li>This is easy to do with Numpy arrays: <code class="language-plaintext highlighter-rouge">x -= x.mean(axis=0)</code> and <code class="language-plaintext highlighter-rouge">x /= x.std(axis=0)</code> Assuming <code class="language-plaintext highlighter-rouge">x</code> is a 2D data matrix of shape (samples, features)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="on-network-topology">On network topology</h3>
+
+<ul>
+  <li>You may wonder, if a simple, well-performing model exists to go from the data to the targets (the common-sense baseline), why doesn’t the model you’re training find it and improve on it? Because this simple solution isn’t what your training setup is looking for. The space of models in which you’re searching for a solution—that is, your hypothesis space—is the space of all possible two-layer networks with the configuration you defined. These networks are already fairly complicated. When you’re looking for a solution with a space of complicated models, the simple, well-performing baseline may be unlearnable, even if it’s technically part of the hypothesis space. That is a pretty significant limitation of machine learning in general: unless the learning algorithm is hardcoded to look for a specific kind of simple model, parameter learning can sometimes fail to find a simple solution to a simple problem.</li>
+</ul>
+
+<h3 id="style-transfer">Style transfer</h3>
+
+<ul>
+  <li>The key notion behind implementing style transfer is the same idea that’s central to all deep-learning algorithms: you define a loss function to specify what you want to achieve, and you minimize this loss. You know what you want to achieve: conserving the content of the original image while adopting the style of the reference image. If we were able to mathematically define content and style, then an appropriate loss function to minimize would be the following: <code class="language-plaintext highlighter-rouge">loss = distance(style(reference_image) - style(generated_image)) + distance(content(original_image) - content(generated_image))</code> Here, distance is a norm function such as the L2 norm, content is a function that takes an image and computes a representation of its content, and style is a function that takes an image and computes a representation of its style. Minimizing this loss causes <code class="language-plaintext highlighter-rouge">style(generated_image)</code> to be close to <code class="language-plaintext highlighter-rouge">style(reference_image)</code>, and <code class="language-plaintext highlighter-rouge">content(generated_image)</code> is close to <code class="language-plaintext highlighter-rouge">content(generated_image)</code>, thus achieving style transfer as we defined it.
+    <ul>
+      <li><strong>Content loss:</strong> activations from earlier layers in a network contain local information about the image, whereas activations from higher layers contain increasingly global, abstract information. Formulated in a different way, the activations of the different layers of a convnet provide a decomposition of the contents of an image over different spatial scales. Therefore, you’d expect the content of an image, which is more global and abstract, to be captured by the representations of the upper layers in a convnet. A good candidate for content loss is thus the L2 norm between the activations of an upper layer in a pretrained convnet, computed over the target image, and the activations of the same layer computed over the generated image.</li>
+      <li><strong>Style loss:</strong> aims to preserve similar internal correlations within the activations of different layers across the style-reference and the generated images. Uses both low-level and hgh-level layers. Uses <em>Gram matrix</em> of layer’s activation: inner product of the features maps of a given layer (maps of correlations between layer’s features).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="vae-gan">VAE, GAN</h3>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>Chollet - Deep Learning with Python</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

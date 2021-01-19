@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>emodemo’s notes | emodemo’s notes on development, fiction, science and other stuff.</title>
+<title>Graal VM | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="emodemo’s notes" />
+<meta property="og:title" content="Graal VM" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/" />
-<meta property="og:url" content="/" />
+<link rel="canonical" href="/dev/GraalVM.html" />
+<meta property="og:url" content="/dev/GraalVM.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="emodemo’s notes" />
+<meta property="twitter:title" content="Graal VM" />
 <script type="application/ld+json">
-{"@type":"WebSite","url":"/","headline":"emodemo’s notes","author":{"@type":"Person","name":"emodemo"},"name":"emodemo’s notes","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/GraalVM.html","headline":"Graal VM","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
@@ -37,12 +37,59 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home"><p><strong>Hi, there,<br />
-if, somehow, you managed to come to this site, please, have in mind it is for my personal use, and therefore not intended for the wide public.</strong></p>
+        <article class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">Graal VM</h1>
+  </header>
 
+  <div class="post-content">
+    <h2 id="tools">Tools</h2>
+
+<ul>
+  <li><a href="https://Renaissance.dev">Renaissance.dev -  benchmark suite</a></li>
+</ul>
+
+<h2 id="advanced-optimizations">Advanced Optimizations</h2>
+
+<ul>
+  <li>Partial Escape Analysis</li>
+  <li>Path Duplication</li>
+  <li>Priority Inlining</li>
+</ul>
+
+<h2 id="check">check</h2>
+
+<ul>
+  <li>libgraal vs gaal.jar - seems like the first is better??</li>
+  <li>graalvm + bloop or bloop only</li>
+  <li>scala native image (AOT??) GraalVM Native</li>
+</ul>
+
+<h2 id="options">options</h2>
+
+<ul>
+  <li>JDK 8: use graalvm_ce in JAVA_HOME and PATH</li>
+  <li>JDK 11: -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler</li>
+</ul>
+
+<h2 id="native--profile-guided-optimizations-pgo">Native + Profile-Guided Optimizations (PGO)</h2>
+
+<h2 id="metrics">metrics</h2>
+
+<ul>
+  <li>startup time, memory footprint</li>
+</ul>
+
+<h2 id="others">Others</h2>
+
+<ul>
+  <li>GraalVM Native images (Scala + JavaFX extensions for Mobile + GluonTools)</li>
+</ul>
 
   </div>
+
+</article>
 
       </div>
     </main><footer class="site-footer h-card">

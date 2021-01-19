@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Hazelcast | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Hazelcast" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/hazelcast.html" />
+<meta property="og:url" content="/dev/hazelcast.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Hazelcast" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/hazelcast.html","headline":"Hazelcast","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Hazelcast</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="serialization-and-in-memory-formats-hz_docs">Serialization and In-Memory formats <strong>[hz_docs]</strong></h2>
+
+<ul>
+  <li><a href="https://code.google.com/archive/p/thrift-protobuf-compare/wikis/BenchmarkingV2.wiki">another comparison</a></li>
+  <li>comparison: <a href="https://hazelcast.com/blog/comparing-serialization-methods/">Comparing Hazelcast 3 Serialization methods with Kryo Serialization and Jackson Smile</a>
+    <ul>
+      <li>PUT - serialize, GET - de-serialize</li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Serialization Type (bytes)</th>
+      <th>1M PUT (ms)</th>
+      <th>1M GET (ms)</th>
+      <th>Value Size (bytes)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Java Serializable</td>
+      <td>23780</td>
+      <td>40890</td>
+      <td>1230</td>
+    </tr>
+    <tr>
+      <td>DataSerializable</td>
+      <td>17913</td>
+      <td>20813</td>
+      <td>918</td>
+    </tr>
+    <tr>
+      <td>IdentifiedDataSerializable</td>
+      <td>18164</td>
+      <td>15937</td>
+      <td>878</td>
+    </tr>
+    <tr>
+      <td>Portable</td>
+      <td>19064</td>
+      <td>16695</td>
+      <td>901</td>
+    </tr>
+    <tr>
+      <td>Kryo</td>
+      <td>22204</td>
+      <td>19072</td>
+      <td>957</td>
+    </tr>
+    <tr>
+      <td>Jackson Smile</td>
+      <td>22055</td>
+      <td>23294</td>
+      <td>1184</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>While Hazelcast serializes a <code class="language-plaintext highlighter-rouge">DataSerializable</code> it writes the className first and when de-serializes it, className is used to instantiate the object using reflection. <code class="language-plaintext highlighter-rouge">IdentifiedDataSerializable</code> To avoid the reflection and long class names <code class="language-plaintext highlighter-rouge">IdentifiedDataSerializable</code> can be used instead of <code class="language-plaintext highlighter-rouge">DataSerializable</code>.</li>
+  <li>Portable is an advanced serialization that supports the following features:
+    <ul>
+      <li>Support multiversion for the same object type.</li>
+      <li>Fetching individual fields without having to rely on reflection</li>
+      <li>Querying and indexing support without de-serialization and/or reflection</li>
+    </ul>
+  </li>
+  <li>!! This improves the query performance a lot. By query I mean Hazelcast Predicate API, where you can write a Predicate on the value and Hazelcast will distribute it to the cluster and return all the matched entries.</li>
+  <li><code class="language-plaintext highlighter-rouge">ByteArraySerializer</code> or <code class="language-plaintext highlighter-rouge">StreamSerializer</code> allow separation of class and its serialization.</li>
+  <li>In Hazelcast there is a lot of control on the format that is used to store the value using the following 3 in-memory-formats:
+    <ol>
+      <li>BINARY: the value is stored in serialized form.</li>
+      <li>OBJECT: the value is not stored in a serialized form, but stored as a normal object instance.</li>
+      <li>CACHED: this is a combination BINARY and OBJECT: the value always is stored in serialized form, but when it is needed, it cached in object form, so it doesn’t need to be deserialized when the object form is needed again.</li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="some-config-details-cap1">Some config details <strong>[cap1]</strong></h2>
+
+<ul>
+  <li><strong>backup counts</strong> - Number of copies across machines</li>
+  <li><strong>quorum configuration</strong> - minimum Number of machines available in network for the data structure to respond back. (e.g. for example 50 %). This is to gurad against <em>split brain</em>
+    <ul>
+      <li><a href="https://docs.hazelcast.org/docs/latest/manual/html-single/#dealing-with-network-partitions">hz-link: dealing-with-network-partitions</a></li>
+    </ul>
+  </li>
+  <li><strong>reconciliation feature</strong>
+    <ul>
+      <li>check if clusters are in sync, and initiate data transfer</li>
+      <li>reconcile periodically with a source system</li>
+      <li><a href="https://docs.hazelcast.org/docs/latest-dev/manual/html-single/#delta-wan-synchronization">hz-link: delta-wan-synchronization</a></li>
+    </ul>
+  </li>
+  <li>Resiliency - with rolling update without stopping the system
+    <ul>
+      <li><a href="https://docs.hazelcast.org/docs/latest-dev/manual/html-single/#rolling-member-upgrades">hz-link: rolling-member-upgrades</a></li>
+    </ul>
+  </li>
+  <li><strong>Cluster rehydration</strong>
+    <ul>
+      <li>Hot-Restart Feature + (EBS volume) - bring data to memory upon restart or upgrade
+        <ul>
+          <li><a href="https://docs.hazelcast.org/docs/latest-dev/manual/html-single/#hot-restart-persistence">hz-link: hot-restart-persistence</a></li>
+        </ul>
+      </li>
+      <li>Backup and restore - seed data to another cluster</li>
+      <li>Hot-Backup - save data to File
+        <ul>
+          <li><a href="https://docs.hazelcast.org/docs/latest-dev/manual/html-single/#hot-backup">hz-link: hot-backup</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="caching-architectural-patterns-hz_ch">Caching Architectural Patterns <strong>[hz_ch]</strong></h2>
+
+<ul>
+  <li>patterns:
+    <ul>
+      <li>embedded</li>
+      <li>embdded-distributed</li>
+      <li>client-server (Generally used by Redis and Memcached. Hazelcast requires Kubernetes + Hazelcast Helm Chart)</li>
+      <li>sidecar</li>
+      <li>reverse proxy sidecar
+<img src="pics/hazelcast.jpg" alt="Patterns" title="Patterns" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[hz_ch]</strong> <a href="https://hazelcast.com/blog/architectural-patterns-for-caching-microservices/">Rafal Leszko - Where is my Cache?</a>
+    <ul>
+      <li><a href="https://github.com/leszko/caching-patterns">sources</a></li>
+    </ul>
+  </li>
+  <li><strong>[cap1]</strong> <a href="https://medium.com/capital-one-tech/building-resilient-imdgs-with-hazelcast-2301d778086">Raol - The ABCs of Building IMDGs</a></li>
+  <li><strong>[hz_docs]</strong> <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">Hazelcast Documentation</a></li>
+  <li><strong>[hz_blog]</strong> <a href="https://hazelcast.com/blog/in-memory-format/">Hazelcast Blog - In-Memory formats</a></li>
+  <li><strong>[hz_dzone]</strong> <a href="https://dzone.com/articles/enumerable-ways-to-serialize-1">Enumerable Ways to Serialize in Hazelcast</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

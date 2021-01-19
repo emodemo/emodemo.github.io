@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Apache Kafka | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Apache Kafka" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/ApacheKafka.html" />
+<meta property="og:url" content="/dev/ApacheKafka.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Apache Kafka" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/ApacheKafka.html","headline":"Apache Kafka","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Apache Kafka</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="zookeeper">Zookeeper</h2>
+
+<ul>
+  <li><a href="https://curator.apache.org">Apache Curator</a> for Distributed Synchronization</li>
+</ul>
+
+<h2 id="definitions">Definitions</h2>
+
+<ul>
+  <li><strong>message</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">byte[] message</code></li>
+      <li><code class="language-plaintext highlighter-rouge">byte[] key</code> (optional), used for choosing a partition. example: key.hash() modulo NOfPartitions = partitionToUse
+        <ul>
+          <li>NOTE: changing the number of partitions will cause issues</li>
+          <li>NOTE: errors when a partition is not available for some reason.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">int offset</code>, unique value per partition added from Kafka</li>
+    </ul>
+  </li>
+  <li><strong>batch</strong> a collection of messages
+    <ul>
+      <li>typically compressed</li>
+      <li>tradeoff between batch size and time to process a message (latency vs throughput)</li>
+      <li>sent as a <strong>wrapper message</strong> that is decompressed by consumers
+<img src="pics\kafka_5_6.jpg" alt="pic56" /></li>
+    </ul>
+  </li>
+  <li><strong>topic</strong> (messages are categorized into topics)
+    <ul>
+      <li>broken down into 1+ partitions</li>
+      <li>time order is NOT GUARANTEED in the topic, but is GUARANTEED inside each partition</li>
+    </ul>
+  </li>
+  <li><strong>partition</strong> FIFO queue
+    <ul>
+      <li>stored on single disc</li>
+      <li>but can be replicated on different servers/brokers</li>
+      <li>still one is designated as a leader</li>
+      <li>only if leader is unavailable, a new one is chosen</li>
+      <li>time order within is GUARANTEED</li>
+    </ul>
+  </li>
+  <li><strong>segment</strong>
+    <ul>
+      <li><strong>partitions</strong> are split into <strong>segments</strong> (e.g. files). When a file size is hit, a new one is started.</li>
+      <li>the current one is called active segment.</li>
+    </ul>
+  </li>
+  <li><strong>stream</strong> data within a single <strong>topic</strong></li>
+  <li><strong>consumer</strong>
+    <ul>
+      <li>subscribe to 1+ <strong>topic</strong> , 1+ <strong>partitions</strong> and reads messages</li>
+      <li>keeps track of read messages with the <strong>messages</strong>’ offset number</li>
+      <li>One consumer per thread is the rule!</li>
+    </ul>
+  </li>
+  <li><strong>consumer group</strong> = 1+ consumers
+<img src="pics\kafka_4_5.jpg" alt="pic45" /></li>
+  <li><strong>producer</strong></li>
+  <li><strong>broker</strong> a single Kafka server
+    <ul>
+      <li>receives <strong>messages</strong> from <strong>producers</strong></li>
+      <li>assigns offsets to <strong>messages</strong></li>
+      <li>commits <strong>messages</strong> to storage/disk</li>
+      <li>serves <strong>consumers</strong> by responding to fetch requests
+<img src="pics\kafka_1_7.jpg" alt="pic17" /></li>
+    </ul>
+  </li>
+  <li>Message retention policy
+    <ul>
+      <li>per topic for either a period of time (e.g. 7 days), or a topic’s max size (e.g. 1GB)</li>
+      <li>per topic as log compacted, which will retain only last message with specific key (when only last update is important)</li>
+      <li>By default, each <strong>segment</strong> contains either 1 GB of data or a week of data, whichever is smaller.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="zookeper">Zookeper</h2>
+
+<p><img src="pics\kafka_2_1.jpg" alt="pic21" /></p>
+
+<ul>
+  <li>to store metadata about Kafka CLuster</li>
+  <li>to store consumer client details</li>
+  <li>consider using a 5-node ensemble, as it needs to tolerate more than one node being down, but not more than 7-nodes due to performance issues</li>
+</ul>
+
+<h3 id="how-to-choose-the-number-of-partitions">How to Choose the Number of Partitions</h3>
+
+<ul>
+  <li>There are several factors to consider when choosing the number of partitions:
+    <ul>
+      <li>What is the throughput you expect to achieve for the topic? For example, do you expect to write 100 KB per second or 1 GB per second</li>
+      <li>What is the maximum throughput you expect to achieve when consuming from a single partition? You will always have, at most, one consumer reading from a partition, so if you know that your slower consumer writes the data to a database and this database never handles more than 50 MB per second from each thread writing to it, then you know you are limited to 60MB throughput when consuming from a partition.</li>
+      <li>You can go through the same exercise to estimate the maximum throughput per producer for a single partition, but since producers are typically much faster than consumers, it is usually safe to skip this.</li>
+      <li>If you are sending messages to partitions based on keys, adding partitions later can be very challenging, so calculate throughput based on your expected future usage, not the current usage.</li>
+      <li>Consider the number of partitions you will place on each broker and available disk space and network bandwidth per broker.</li>
+      <li>Avoid overestimating, as each partition uses memory and other resources on the broker and will increase the time for leader elections.</li>
+    </ul>
+  </li>
+  <li>With all this in mind, it’s clear that you want many partitions but not too many. If you have some estimate regarding the target throughput of the topic and the expected throughput of the consumers, you can divide the target throughput by the expected consumer throughput and derive the number of partitions this way. So if I want to be able to write and read 1 GB/sec from a topic, and I know each consumer can only process 50 MB/s, then I know I need at least 20 partitions. This way, I can have 20 consumers reading from the topic and achieve 1 GB/sec. If you don’t have this detailed information, our experience suggests that limiting the size of the partition on the disk to less than 6 GB per day of retention often gives satisfactory results.</li>
+</ul>
+
+<h2 id="producer">Producer</h2>
+
+<ul>
+  <li>see pic 3.1 from book reference</li>
+  <li>If we specified a partition in the <strong>ProducerRecord</strong>, the partitioner doesn’t do anything and simply returns the partition we specified. If we didn’t, the partitioner will choose a partition for us, usually based on the <strong>ProducerRecord</strong> key. Once a partition is selected, the producer knows which topic and partition the record will go to. It then adds the record to a batch of records that will also be sent to the same topic and partition. A separate thread is responsible for sending those batches of records to the appropriate Kafka brokers. When the broker receives the messages, it sends back a response. If the messages were successfully written to Kafka, it will return a <strong>RecordMetadata</strong> object with the topic, partition, and the offset of the record within the partition. If the broker failed to write the messages, it will return an error. When the producer receives an error, it may retry sending the message a few more times before giving up and returning an error.</li>
+  <li>There are three primary methods of sending messages:
+    <ul>
+      <li>Fire-and-forget: We send a message to the server and don’t really care if it arrives successfully or not. Most of the time, it will arrive successfully, since Kafka is highly available and the producer will retry sending messages automatically. However, some messages will get lost using this method.</li>
+      <li>Synchronous send: We send a message, the <code class="language-plaintext highlighter-rouge">send()</code> method returns a <code class="language-plaintext highlighter-rouge">Future</code> object, and we use <code class="language-plaintext highlighter-rouge">get()</code> to wait on the future and see if the <code class="language-plaintext highlighter-rouge">send()</code> was successful or not.</li>
+      <li>Asynchronous send: We call the <code class="language-plaintext highlighter-rouge">send()</code> method with a callback function, which gets triggered when it receives a response from the Kafka broker.</li>
+    </ul>
+  </li>
+  <li><strong>When Order is important</strong>
+    <ul>
+      <li>For some use cases, order is very important. There is a big difference between depositing USD100 in an account and later withdrawing it, and the other way around! However, some use cases are less sensitive. Setting the retries parameter to nonzero and the <code class="language-plaintext highlighter-rouge">max.in.flights.requests.per.session</code> to more than one means that it is possible that the broker will fail to write the first batch of messages, succeed to write the second (which was already inflight), and then retry the first batch and succeed, thereby reversing the order. Usually, setting the number of retries to zero is not an option in a reliable system, so if guaranteeing order is critical, we recommend setting <code class="language-plaintext highlighter-rouge">max.in.flights.requests.per.session=1</code> to make sure that while a batch of messages is retrying, additional messages will not be sent (because this has the potential to reverse the correct order). This will severely limit the throughput of the producer, so only use this when order is important.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="rebalancing">Rebalancing</h2>
+
+<ul>
+  <li><strong>rebalancing</strong> = moving partition ownership from one consumer to another
+    <ul>
+      <li>during re-balancing consumers cannot consume messages.</li>
+      <li>In addition, when partitions are moved from one consumer to another, the consumer loses its current state; if it was caching any data, it will need to refresh its caches - slowing down the application until the consumer sets up its state again.</li>
+    </ul>
+  </li>
+  <li>The way consumers maintain membership in a consumer group and ownership of the partitions assigned to them is by sending heartbeats to a Kafka broker designated as the group coordinator (this broker can be different for different consumer groups). As long as the consumer is sending heartbeats at regular intervals, it is assumed to be alive, well, and processing messages from its partitions. Heartbeats are sent when the consumer polls (i.e., retrieves records) and when it commits records it has consumed</li>
+  <li>If you are using a new version (0.10.1 or later) and need to handle records that take longer to process, you simply need to tune <code class="language-plaintext highlighter-rouge">max.poll.interval.ms</code> so it will handle longer delays between polling for new records.</li>
+  <li>Will be triggered also when a subscriber is attached to a new topic (e.g. if the <code class="language-plaintext highlighter-rouge">subscribe()</code> method use a regex and a new topic that matches it is started).
+    <ul>
+      <li>Subscribing to multiple topics using a regular expression is most commonly used in applications that replicate data between Kafka and another system.</li>
+    </ul>
+  </li>
+  <li>Will trigger rebalancing on subscriber <code class="language-plaintext highlighter-rouge">close()</code>, which is a must as it will close connections and sockets</li>
+</ul>
+
+<h2 id="commits">Commits</h2>
+
+<ul>
+  <li><strong>commit</strong> = the action of updating the current position in the partition a commit</li>
+  <li>How does a consumer commit an offset? It produces a message to Kafka, to a special <code class="language-plaintext highlighter-rouge">__consumer_offsets</code> topic, with the committed offset for each partition. As long as all your consumers are up, running, and churning away, this will have no impact. However, if a consumer crashes or a new consumer joins the consumer group, this will trigger a rebalance. After a rebalance, each consumer may be assigned a new set of partitions than the one it processed before. In order to know where to pick up the work, the consumer will read the latest committed offset of each partition and continue from there.</li>
+  <li>It is important to remember that <code class="language-plaintext highlighter-rouge">commitSync()</code> will commit the latest offset returned by <code class="language-plaintext highlighter-rouge">poll()</code>, so make sure you call <code class="language-plaintext highlighter-rouge">commitSync()</code> after you are done processing all the records in the collection, or you risk missing messages as described previously. When rebalance is triggered, all the messages from the beginning of the most recent batch until the time of the rebalance will be processed twice.</li>
+  <li><strong>async commits</strong> + see Chapter 4
+    <ul>
+      <li>A simple pattern to get commit order right for asynchronous retries is to use a monotonically increasing sequence number. Increase the sequence number every time you commit and add the sequence number at the time of the commit to the commitAsync callback. When you’re getting ready to send a retry, check if the commit sequence number the callback got is equal to the instance variable; if it is, there was no newer commit and it is safe to retry. If the instance sequence number is higher, don’t retry because a newer commit was already sent.</li>
+    </ul>
+  </li>
+  <li>Combining Synchronous and Asynchronous Commits Normally, occasional failures to commit without retrying are not a huge problem because if the problem is temporary, the following commit will be successful. But if we know that this is the last commit before we close the consumer, or before a reba‐ lance, we want to make extra sure that the commit succeeds. Therefore, a common pattern is to combine <code class="language-plaintext highlighter-rouge">commitAsync()</code> with <code class="language-plaintext highlighter-rouge">commitSync()</code> just before shutdown.</li>
+  <li>Produced messages are considered “committed” when they were written to the partition on all its in-sync replicas (but not necessarily flushed to disk). Producers can choose to receive acknowledgments of sent messages when the message was fully committed, when it was written to the leader, or when it was sent over the network.</li>
+  <li>Messages that are committed will not be lost as long as at least one replica remains alive.</li>
+  <li>Consumers can only read messages that are committed</li>
+</ul>
+
+<h2 id="replicas-and-partitions-from-chapter-5">Replicas and Partitions (from chapter 5)</h2>
+
+<ul>
+  <li>Kafka’s replication mechanism, with its multiple replicas per partition, is at the core of all of Kafka’s reliability guarantees. Having a message written in multiple replicas is how Kafka provides durability of messages in the event of a crash.</li>
+  <li>To summarize, Kafka uses Zookeeper’s ephemeral node feature to elect a controller and to notify the controller when nodes join and leave the cluster. The controller is responsible for electing leaders among the partitions and replicas whenever it notices nodes join and leave the cluster. The controller uses the epoch number to prevent a “split brain” scenario where two nodes believe each is the current controller</li>
+  <li>we’ve already discussed, data in Kafka is organized by topics. Each topic is partitioned, and each partition can have multiple replicas. Those replicas are stored on brokers, and each broker typically stores hundreds or even thousands of replicas belonging to different topics and partitions. There are two types of replicas: Leader replica Each partition has a single replica designated as the leader. All produce and consume requests go through the leader, in order to guarantee consistency. Follower replica All replicas for a partition that are not leaders are called followers. Followers don’t serve client requests; their only job is to replicate messages from the leader and stay up-to-date with the most recent messages the leader has. In the event that a leader replica for a partition crashes, one of the follower replicas will be promoted to become the new leader for the partition</li>
+  <li>Kafka famously uses a zero-copy method to send the messages to the clients. This means that Kafka sends messages from the file (or more likely, the Linux filesystem cache) directly to the network channel without any intermediate buffers. This is different than most databases where data is stored in a local cache before being sent to clients. This technique removes the overhead of copying bytes and managing buffers in memory, and results in much improved performance.</li>
+  <li>On Linux, the messages are written to the filesystem cache and there is no guarantee about when they will be written to disk. Kafka does not wait for the data to get persisted to disk—it relies on replication for message durability.
+<img src="pics\kafka_5_3.jpg" alt="pic53" />
+<img src="pics\kafka_5_4.jpg" alt="pic54" /></li>
+  <li><strong>The basic storage unit of Kafka is a partition replica.</strong> Partitions cannot be split between multiple brokers and not even between multiple disks on the same broker. So the size of a partition is limited by the space available on a single mount point. (A mount point will consist of either a single disk, if JBOD configuration is used, or multiple disks, if RAID is configured. See Chapter 2.) When configuring Kafka, the administrator defines a list of directories in which the partitions will be stored—this is the log.dirs parameter (not to be confused with the location in which Kafka stores its error log, which is configured in the log4j.properties file). The usual configuration includes a directory for each mount point that Kafka will use.</li>
+  <li>The <strong>active segment</strong> is never deleted, so if you set log retention to only store a day of data but each segment contains five days of data, you will really keep data for five days because we can’t delete the data before the segment is closed. If you choose to store data for a week and roll a new segment every day, you will see that every day we will roll a new segment while deleting the oldest segment - so most of the time the partition will have seven segments. A Kafka broker will keep an open file handle to every segment in every partition—even inactive segments. This leads to an usually high number of open file handles, and the OS must be tuned accordingly.</li>
+</ul>
+
+<h2 id="serializers">Serializers</h2>
+
+<ul>
+  <li>AVRO is the recommended one.</li>
+</ul>
+
+<h2 id="from-presentation-at-leanplum-on-kafka">From Presentation at Leanplum on Kafka</h2>
+
+<ul>
+  <li>One consumer per partition</li>
+  <li>Strict message order per partition</li>
+  <li>monotonically increasing offset</li>
+  <li>Use the power of 2 for partition count</li>
+  <li>Keep over partitioning reasonable - not more than 30%</li>
+  <li>extract batching in intermediate batching processor</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>Narkhede et al - Kafka the Definitive Guide - 2017</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Java | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Java" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Java.html" />
+<meta property="og:url" content="/dev/Java.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Java" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Java.html","headline":"Java","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Java</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="tips">Tips</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">list.removeIf(lambda)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">map.computeIfPresent(lambda)</code> // good for multi-threading with ConcurrentHashMap ??</li>
+</ul>
+
+<h2 id="jit-in-the-hotspot">JIT in the HotSpot</h2>
+
+<p>(java is best thought as dynamically compiled)</p>
+
+<ul>
+  <li><strong>[well]</strong> Let’s look at some good basic facts about JIT compilation:
+    <ul>
+      <li>Virtually all modern JVMs will have a JIT compiler of some sort.</li>
+      <li>Purely interpreted VMs are very slow by comparison.</li>
+      <li>Compiled methods run much, much faster than interpreted code.</li>
+      <li>It makes sense to compile the most heavily used methods first.</li>
+      <li>When doing JIT compilation, it’s always important to take the low-hanging fruit first.</li>
+    </ul>
+  </li>
+  <li><strong>[well]</strong> Methods start off being interpreted from their bytecode representation, with the JVM keeping track of how many times a method has been called (and a few other statistics). When a threshold value is reached (10,000 times, by default), and if the method is eligible, a JVM thread will compile the bytecode to machine code in the background. If compilation succeeds, all further calls to the method will use the compiled form, unless something happens to invalidate it or otherwise cause deoptimization.</li>
+  <li><strong>[well]</strong> Depending on the exact nature of the code in a method, a compiled method can be up to 100 times faster than the same method in interpreted mode. Understanding which methods are important in a program, and which important methods are being compiled, is very often the cornerstone of improving performance.</li>
+  <li><strong>[well]</strong> client -server modes
+    <ul>
+      <li>client: tends to make more conservative decisions when compiling. This means that it can’t pause unexpectedly while it backs out an optimization decision that turned out to be incorrect or based on a faulty assumption.</li>
+      <li>server: By contrast, the server compiler (C2) will make aggressive assumptions when compiling. To ensure that the code that’s run is always correct, C2 will add a quick runtime check (usually called a guard condition) that the assumption it made is valid. If not, it will back out the aggressive compilation and will often try something else. This aggressive approach can yield far better performance than the rather risk-averse client compiler.</li>
+      <li>real-time java (a separate VM, not the HotSpot): Real-time programming is really about the guarantees that can be made. In statistical terms, a real-time system seeks to reduce the variance of the time taken to perform certain operations, and is prepared to sacrifice a certain amount of mean latency to do so. Overall performance may be slightly sacrificed in order to attain more consistent running.</li>
+    </ul>
+  </li>
+  <li><strong>[well]</strong> inlining - It works by eliminating the call to the inlined method, and instead placing the code of the called method inside the caller.
+    <ul>
+      <li>One of the advantages of the platform is that the compiler can make the decision to inline based on decent runtime statistics about how often the method is called and other factors (for example, will it make the caller method too large and potentially affect code caches). This means that HotSpot’s compiler can make much smarter decisions about inlining than ahead-of-time compilers.</li>
+      <li>HotSpot can and will ignore access control when compiling methods to machine code and will replace an accessor method with a direct access to the private field. This doesn’t compromise Java’s security model, because all of the access control was checked at class loading and linking time.</li>
+      <li>pp 198</li>
+    </ul>
+  </li>
+  <li><strong>[well]</strong> GC strategies - pp 182</li>
+</ul>
+
+<h2 id="aspects-aspect">Aspects <strong>[aspect]</strong></h2>
+
+<h3 id="weaving">Weaving</h3>
+
+<ul>
+  <li>(ajc) Compile Time: AspectJ compiler takes as input both aspect and application sources and produces woven class files</li>
+  <li>(ajc) Post-Compile Time (a.k.a Binary): AspectJ compiler takes as input aspect sources and application class or jar files</li>
+  <li>(ajc) Load Time: same as Binary, but the weaving is postponed until a class loader loads the class files to the JVM.</li>
+  <li>(spring aop) Runtime weaving - With runtime weaving, the aspects are woven during the execution of the application using proxies of the targeted object – using either JDK dynamic proxy or CGLIB proxy
+    <ul>
+      <li>JDK dynamic proxy (interface based) – the preferred way for Spring AOP. Whenever the targeted object implements even one interface, then JDK dynamic proxy will be used.</li>
+      <li>CGLIB proxy (class based) – if the target object doesn’t implement an interface, then CGLIB proxy can be used.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="jointpoints">Jointpoints</h3>
+
+<ul>
+  <li>Spring AOP have limitations on final, static and private methods, due to the runtime weaving approach.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Jointpoints</th>
+      <th style="text-align: left">Spring AOP</th>
+      <th style="text-align: left">AspectJ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Method Execution</td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Constructor Call</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Constructor Execution</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Static initializer execution</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Object initialization</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Field assignment</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Handler execution</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Advice execution</td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="matrix-apis">Matrix APIs</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">multiply by self</th>
+      <th style="text-align: left">3000x3000</th>
+      <th style="text-align: left">300x300</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ATLAS, Pyhton, R</td>
+      <td style="text-align: left">4 sec*</td>
+      <td style="text-align: left">–</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">JAMA</td>
+      <td style="text-align: left">50 sec*</td>
+      <td style="text-align: left">–</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">COLT</td>
+      <td style="text-align: left">150 sec*</td>
+      <td style="text-align: left">–</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">JBLAS (ATLAS)</td>
+      <td style="text-align: left">4 sec*</td>
+      <td style="text-align: left">–</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Breeze BASE</td>
+      <td style="text-align: left">19,5 sec</td>
+      <td style="text-align: left">500 ms</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Breeze Native</td>
+      <td style="text-align: left">17 sec</td>
+      <td style="text-align: left">600 ms</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Breeze MKL(blas)</td>
+      <td style="text-align: left">1,5 sec</td>
+      <td style="text-align: left">500 ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Notes: * ‘s are from the net, Breeze’s are from my laptop</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[well]</strong> Evans - The Well-Grounded Java Developer</li>
+  <li><strong>[aspect]</strong> [Comparing Spring AOP and AspectJ] (http://www.baeldung.com/)</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

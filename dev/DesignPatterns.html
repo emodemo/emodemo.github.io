@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Design Patterns | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Design Patterns" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DesignPatterns.html" />
+<meta property="og:url" content="/dev/DesignPatterns.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Design Patterns" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/DesignPatterns.html","headline":"Design Patterns","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Design Patterns</h1>
+  </header>
+
+  <div class="post-content">
+    <ul>
+  <li>A closure wraps up a function along with the state available to it when it was created. This means that a function can reference any variable that was in scope when the function was created at the time it’s called. The programmer doesn’t have to do anything special to create a closure; the compiler and runtime take care of it, and the closure simply captures all the state that it needs automatically.</li>
+</ul>
+
+<h2 id="oo-patterns">OO Patterns</h2>
+
+<h3 id="functional-interface---named-function">Functional Interface -&gt; Named Function</h3>
+
+<h3 id="state-carrying-functional-i-face---closures-a-function-and-its-context-at-the-time-of-its-definition">State carrying functional i-face -&gt; closures (a function and its context at the time of its definition)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ComposedComparator</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;[]</span> <span class="n">comparators</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">ComposedComparator</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;...</span> <span class="n">comparators</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">comparators</span> <span class="o">=</span> <span class="n">comparators</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="no">T</span> <span class="n">o1</span><span class="o">,</span> <span class="no">T</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//Iterate through comparators and call each in turn.</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">makeComposedComparison</span><span class="o">(</span><span class="n">comparisons</span><span class="k">:</span> <span class="o">(</span><span class="kt">Person</span><span class="o">,</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="o">(</span><span class="n">p1</span><span class="k">:</span> <span class="kt">Person</span><span class="o">,</span> <span class="n">p2</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">comparisons</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">cmp</span> <span class="k">=&gt;</span> <span class="nf">cmp</span><span class="o">(</span><span class="n">p1</span><span class="o">,</span> <span class="n">p2</span><span class="o">)).</span><span class="py">find</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">).</span><span class="py">getOrElse</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+<span class="o">}</span>
+  <span class="k">def</span> <span class="nf">firstNameComparison</span><span class="o">(</span><span class="n">p1</span><span class="k">:</span> <span class="kt">Person</span><span class="o">,</span> <span class="n">p2</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=</span> <span class="nv">p1</span><span class="o">.</span><span class="py">firstName</span><span class="o">.</span><span class="py">compareTo</span><span class="o">(</span><span class="nv">p2</span><span class="o">.</span><span class="py">firstName</span><span class="o">)</span>
+  <span class="k">def</span> <span class="nf">lastNameComparison</span><span class="o">(</span><span class="n">p1</span><span class="k">:</span> <span class="kt">Person</span><span class="o">,</span> <span class="n">p2</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=</span> <span class="nv">p1</span><span class="o">.</span><span class="py">lastName</span><span class="o">.</span><span class="py">compareTo</span><span class="o">(</span><span class="nv">p2</span><span class="o">.</span><span class="py">lastName</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">firstAndLastNameComparison</span> <span class="k">=</span> <span class="nf">makeComposedComparison</span><span class="o">(</span><span class="n">firstNameComparison</span><span class="o">,</span> <span class="n">lastNameComparison</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">p1</span> <span class="k">=</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"John"</span><span class="o">,</span> <span class="s">""</span><span class="o">,</span> <span class="s">"Adams"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">p2</span> <span class="k">=</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"John"</span><span class="o">,</span> <span class="s">"Quincy"</span><span class="o">,</span> <span class="s">"Adams"</span><span class="o">)</span>
+  <span class="nf">firstAndLastNameComparison</span><span class="o">(</span><span class="n">p1</span><span class="o">,</span> <span class="n">p2</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="command">Command</h3>
+
+<h3 id="builder---immutable-object">Builder -&gt; Immutable object</h3>
+
+<h3 id="iterator---a-sequence-comprehension">Iterator -&gt; A sequence comprehension</h3>
+
+<h3 id="template">Template</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">TemplateExample</span><span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">anOperation</span><span class="o">(){</span>
+    <span class="n">subOperationOne</span><span class="o">();</span>
+    <span class="n">subOperationTwo</span><span class="o">();</span>
+  <span class="o">}</span>
+  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">subOperationOne</span><span class="o">();</span>
+  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">subOperationTwo</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">makeAnOperation</span><span class="o">(</span><span class="n">subOperationOne</span><span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">,</span> <span class="n">subOperationTwo</span><span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="nf">subOperationOne</span><span class="o">()</span>
+  <span class="nf">subOperationTwo</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="strategy">Strategy</h3>
+
+<h3 id="null-object">Null object</h3>
+
+<h3 id="decorator-or-wrapper">Decorator or Wrapper</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">add</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">def</span> <span class="nf">subtract</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="k">def</span> <span class="nf">multiply</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="k">def</span> <span class="nf">divide</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="k">def</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">calcFn</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span>
+  <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nf">calcFn</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+    <span class="nf">println</span><span class="o">(</span><span class="s">"Result is: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">)</span>
+    <span class="n">result</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="nv">loggingAdd</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">add</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">loggingSubtract</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">subtract</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">loggingMultiply</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">multiply</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">loggingDivide</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">divide</span><span class="o">)</span>
+<span class="c1">// usage</span>
+<span class="nf">loggingAdd</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// Result is: 5</span>
+</code></pre></div></div>
+
+<h3 id="visitor---implicit-conversion-or-mix-inheritancetraits">Visitor -&gt; implicit conversion, or mix-inheritance/traits</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//  a) Visitor, b) static class with utility methods (e.g. Collection)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Person</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">fullName</span><span class="k">:</span> <span class="kt">String</span>
+  <span class="k">def</span> <span class="nf">firstName</span><span class="k">:</span> <span class="kt">String</span>
+  <span class="k">def</span> <span class="nf">lastName</span><span class="k">:</span> <span class="kt">String</span>
+  <span class="k">def</span> <span class="nf">houseNum</span><span class="k">:</span> <span class="kt">Int</span>
+  <span class="k">def</span> <span class="nf">street</span><span class="k">:</span> <span class="kt">String</span>
+<span class="o">}</span>
+<span class="k">class</span> <span class="nc">SimplePerson</span><span class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">houseNum</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Person</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">fullName</span> <span class="k">=</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">lastName</span>
+<span class="o">}</span>
+<span class="k">implicit</span> <span class="k">class</span> <span class="nc">ExtendedPerson</span><span class="o">(</span><span class="n">person</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">fullAddress</span> <span class="k">=</span> <span class="nv">person</span><span class="o">.</span><span class="py">houseNum</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">person</span><span class="o">.</span><span class="py">street</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now when we try to call <code class="language-plaintext highlighter-rouge">fullAddress()</code> on a <code class="language-plaintext highlighter-rouge">Person</code> , the Scala compiler will realize that the Person type has no such method. It will then search for an implicit conversion from a Person to a type that does and find it in the <code class="language-plaintext highlighter-rouge">ExtendedPerson</code> class.
+Make it a bit hared now …</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ComplexPerson</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Name</span><span class="o">,</span> <span class="n">address</span><span class="k">:</span> <span class="kt">Address</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Person</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">fullName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">name</span><span class="o">.</span><span class="py">lastName</span>
+  <span class="k">def</span> <span class="nf">firstName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">firstName</span>
+  <span class="k">def</span> <span class="nf">lastName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">lastName</span>
+  <span class="k">def</span> <span class="nf">houseNum</span> <span class="k">=</span> <span class="nv">address</span><span class="o">.</span><span class="py">houseNum</span>
+  <span class="k">def</span> <span class="nf">street</span> <span class="k">=</span> <span class="nv">address</span><span class="o">.</span><span class="py">street</span>
+<span class="o">}</span>
+<span class="k">class</span> <span class="nc">Address</span><span class="o">(</span><span class="k">val</span> <span class="nv">houseNum</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">val</span> <span class="nv">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="k">class</span> <span class="nc">Name</span><span class="o">(</span><span class="k">val</span> <span class="nv">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="k">val</span> <span class="nv">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="c1">// usage</span>
+<span class="k">val</span> <span class="nv">name</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Name</span><span class="o">(</span><span class="s">"Mike"</span><span class="o">,</span> <span class="s">"Linn"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">address</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Address</span><span class="o">(</span><span class="mi">123</span><span class="o">,</span> <span class="s">"Fake St."</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">complexPerson</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ComplexPerson</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">address</span><span class="o">)</span>
+<span class="c1">//Our existing implicit conversion will still work!</span>
+<span class="nv">complexPerson</span><span class="o">.</span><span class="py">fullName</span> <span class="c1">// res2: String = Mike Linn</span>
+<span class="nv">complexPerson</span><span class="o">.</span><span class="py">fullAddress</span> <span class="c1">// res3: String = 123 Fake St.</span>
+</code></pre></div></div>
+
+<p>Note !!This means we were able to extend a data type with both a new operation and a new implementation.</p>
+
+<h3 id="di">DI</h3>
+
+<h3 id="dp_scala-adapter-scala-has-built-in-concept-of-interface-adapters-expressed-as-implicit-classes"><strong>[dp_scala]</strong> Adapter Scala has built-in concept of interface adapters, expressed as <code class="language-plaintext highlighter-rouge">implicit</code> classes</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Log</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">);</span> <span class="o">}</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Logger</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">log</span><span class="o">(</span><span class="nc">Level</span> <span class="n">level</span><span class="o">,</span> <span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span> <span class="cm">/* ... */</span> <span class="o">}</span> <span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoggerToLogAdapter</span> <span class="kd">implements</span> <span class="nc">Log</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">LoggerToLogAdapter</span><span class="o">(</span><span class="nc">Logger</span> <span class="n">logger</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">logger</span> <span class="o">=</span> <span class="n">logger</span><span class="o">;</span> <span class="o">}</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span> <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="no">WARNING</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="nc">Log</span> <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LoggerToLogAdapter</span><span class="o">(</span><span class="k">new</span> <span class="nc">Logger</span><span class="o">());</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Log</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">warning</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">}</span>
+<span class="k">final</span> <span class="k">class</span> <span class="nc">Logger</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">log</span><span class="o">(</span><span class="n">level</span><span class="k">:</span> <span class="kt">Level</span><span class="o">,</span> <span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span> <span class="cm">/* ... */</span> <span class="o">}</span> <span class="o">}</span>
+<span class="k">implicit</span> <span class="k">class</span> <span class="nc">LoggerToLogAdapter</span><span class="o">(</span><span class="n">logger</span><span class="k">:</span> <span class="kt">Logger</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Log</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">warning</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span> <span class="nv">logger</span><span class="o">.</span><span class="py">log</span><span class="o">(</span><span class="nc">WARNING</span><span class="o">,</span> <span class="n">message</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="nv">log</span><span class="k">:</span> <span class="kt">Log</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Logger</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h2 id="functional-patterns">Functional Patterns</h2>
+
+<h3 id="tail-recursion">Tail recursion</h3>
+
+<p>Not supported by JVM =&gt; Scala’s <code class="language-plaintext highlighter-rouge">@tailrec</code>, if the function is called recursively without being in the tail position, the compiler will generate an error.</p>
+
+<h3 id="mutual-recursion-trampoline">Mutual recursion (trampoline)</h3>
+
+<p>Not supported by JVM =&gt; Scala’s support for trampolining hides a lot of the details of this and provides us with both a <code class="language-plaintext highlighter-rouge">tailcall()</code> method to make mutually recursive calls and a <code class="language-plaintext highlighter-rouge">done()</code> method to call when we’re done with the recursion.</p>
+
+<pre><code class="language-Scala">def isOdd(n: Long): Boolean = if (n == 0) false else isEven(n - 1)
+def isEven(n: Long): Boolean = if (n == 0) true else isOdd(n - 1)
+// usage
+isOdd(1001) // res3: Boolean = true
+isOdd(100001) // java.lang.StackOverflowError
+//
+def isOddTrampoline(n: Long): TailRec[Boolean] = if (n == 0) done(false) else tailcall(isEvenTrampoline(n - 1))
+def isEvenTrampoline(n: Long): TailRec[Boolean] = if (n == 0) done(true) else tailcall(isOddTrampoline(n - 1))
+// usage
+isOddTrampoline(100001).result // res4: Boolean = true, but it is O(n) (linear)
+</code></pre>
+
+<h3 id="filter-map-reduce">Filter-Map-Reduce</h3>
+
+<h3 id="chain-of-operations">Chain of operations</h3>
+
+<h3 id="function-builder">Function Builder</h3>
+
+<h3 id="memoisation">Memoisation</h3>
+
+<h3 id="lazy-sequence---scalas-has-built-in-support-for-lazy-sequence-in-its-stream-library">Lazy sequence - Scala’s has built-in support for Lazy Sequence in its Stream library</h3>
+
+<h3 id="focused-mutabilty---good-for-holding-a-collection-for-indexing-as-it-is-faster-than-with-immutable-objects">Focused mutabilty - Good for holding a collection for indexing as it is faster than with immutable objects</h3>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>Linn - Functional Programming Patterns in Scala and Clojure</li>
+  <li><strong>[dp_scala]</strong> https://pavelfatin.com/design-patterns-in-scala</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

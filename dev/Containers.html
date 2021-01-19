@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Containers | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Containers" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Containers.html" />
+<meta property="og:url" content="/dev/Containers.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Containers" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Containers.html","headline":"Containers","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Containers</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="docker">DOCKER</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># run myTomcat image in bridge network</span>
+<span class="o">&gt;</span> docker run <span class="nt">-it</span> <span class="nt">--net</span><span class="o">=</span>bridge myTomcat
+<span class="c"># run myPostgreSQL in the same network as myTomcat</span>
+<span class="o">&gt;</span> docker run <span class="nt">-it</span> <span class="nt">--net</span><span class="o">=</span>container:myTomcat myPostgreSQL
+<span class="c"># volume mapping</span>
+<span class="o">&gt;</span> docker run <span class="nt">-it</span> <span class="nt">-v</span> C:<span class="se">\w</span>orkspaces<span class="se">\w</span>s1:/home/workspaces/ws1 f33e9a6c90c9
+
+<span class="o">&gt;</span> <span class="nb">sudo </span>systemctl start docker.service <span class="c">## &lt;-- Start docker ##</span>
+<span class="o">&gt;</span> <span class="nb">sudo </span>systemctl stop docker.service <span class="c">## &lt;-- Stop docker ##</span>
+<span class="o">&gt;</span> <span class="nb">sudo </span>systemctl restart docker.service <span class="c">## &lt;-- Restart docker ##</span>
+<span class="o">&gt;</span> <span class="nb">sudo </span>systemctl status docker.service <span class="c">## &lt;-- Get status of docker ##</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[d3]</strong> Unlike <code class="language-plaintext highlighter-rouge">CMD</code>, the <code class="language-plaintext highlighter-rouge">RUN</code> instruction is actually used to build the image, by creating a new layer on top of the previous one which is committed.</li>
+  <li><strong>[d3]</strong> The <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> specifies a command that will always be executed when the container starts. The CMD, on the other hand, specifies the arguments that will be fed to the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Docker has a default <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> which is <code class="language-plaintext highlighter-rouge">/bin/sh -c</code> but does not have a default <code class="language-plaintext highlighter-rouge">CMD</code>.</li>
+  <li><strong>[d3]</strong> Unlike the <code class="language-plaintext highlighter-rouge">CMD</code> parameters, the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> command and parameters are not ignored when a Docker container runs with command-line parameters.</li>
+  <li><strong>[d3]</strong> If there are more than one <code class="language-plaintext highlighter-rouge">CMD</code> instruction in a Dockerfile, only the last one will take effect.</li>
+  <li><strong>[d3]</strong> <code class="language-plaintext highlighter-rouge">EXPOSE</code> command followed by a port number allow incoming traffic to the container</li>
+  <li><strong>[d3]</strong> The fundamental difference between <code class="language-plaintext highlighter-rouge">VOLUME</code> and <code class="language-plaintext highlighter-rouge">-v</code> is this: <code class="language-plaintext highlighter-rouge">-v</code> will mount existing files from your operating system inside your Docker container and <code class="language-plaintext highlighter-rouge">VOLUME</code> will create a new, empty volume on your host and mount it inside your container.</li>
+  <li><strong>[d3]</strong> !! Each <code class="language-plaintext highlighter-rouge">LABEL</code> instruction creates a new layer. If your image has many labels, use the multiple form of the single <code class="language-plaintext highlighter-rouge">LABEL</code> instruction.</li>
+</ul>
+
+<h3 id="cheat-sheet">cheat sheet</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM &lt;image&gt;
+FROM &lt;image&gt;:&lt;tag&gt;
+FROM &lt;image&gt;@&lt;digest&gt;
+<span class="c"># must be 1st non-comment instruction</span>
+<span class="c"># can appear multiple times</span>
+
+RUN &lt;<span class="nb">command</span><span class="o">&gt;</span> <span class="c"># run in a shell, by default "/bin/sh -c" or "cmd /S /C"</span>
+RUN <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <span class="s2">"&lt;param1&gt;"</span>, <span class="s2">"&lt;param2&gt;"</span><span class="o">]</span>
+<span class="c"># default shell can be changed using the SHELL command</span>
+<span class="c"># normal shell processing does not occur when using the exec form</span>
+
+CMD <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <span class="s2">"&lt;param1&gt;"</span>, <span class="s2">"&lt;param2&gt;"</span><span class="o">]</span> <span class="c"># exec form , preferred one</span>
+CMD <span class="o">[</span><span class="s2">"&lt;param1&gt;"</span>, <span class="s2">"&lt;param2&gt;"</span><span class="o">]</span>                 <span class="c"># as default params to ENTRYPOINT =&gt; must have an ENTRYPOINT =&gt; must use JSON array format</span>
+CMD &lt;executable&gt; &lt;param1&gt; &lt;param2&gt;           <span class="c"># shell form</span>
+
+LABEL &lt;key&gt;<span class="o">=</span>&lt;value&gt; <span class="o">[</span>&lt;key&gt;<span class="o">=</span>&lt;value&gt; ...]
+
+EXPOSE &lt;port&gt; <span class="o">[</span>&lt;port&gt; ...] <span class="c"># container will listen on the specified ports, # EXPOSE does not make the ports of the container accessible to the host</span>
+
+ENV &lt;key&gt; &lt;value&gt;
+ENV &lt;key&gt;<span class="o">=</span>&lt;value&gt; <span class="o">[</span>&lt;key&gt;<span class="o">=</span>&lt;value&gt; ...]
+
+ADD &lt;src&gt; <span class="o">[</span>&lt;scr&gt; ...] &lt;dest&gt;  <span class="c"># &lt;src&gt; must be relative to building folder, uses GO's filepath.Match rules</span>
+ADD <span class="o">[</span><span class="s2">"&lt;scr&gt;"</span>, ... , <span class="s2">"&lt;dest&gt;"</span><span class="o">]</span> <span class="c"># for path with white spaces, &lt;dest&gt; is absolute ot relative to WORKDIR</span>
+
+ENTRYPOINT <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <span class="s2">"&lt;param1&gt;"</span>, <span class="s2">"&lt;param2&gt;"</span><span class="o">]</span> <span class="c"># exec form , preferred one</span>
+ENTRYPOINT &lt;executable&gt; &lt;param1&gt; &lt;param2&gt;           <span class="c"># shell form</span>
+
+VOLUME <span class="o">[</span><span class="s2">"&lt;path&gt;"</span>, ...]
+
+WORKDIR &lt;path/to/workdir&gt; <span class="c"># sets the working dir for any command that follows it</span>
+<span class="c"># can be used multiple times</span>
+<span class="c"># if relative path is provided it will be relative to the previous WORKDIR</span>
+
+ARG &lt;name&gt;[<span class="o">=</span>&lt;default value&gt;] <span class="c"># vars that can be passed to the builder at build time</span>
+
+HEALTHCHECK <span class="o">[</span>&lt;options&gt;] CMD &lt;<span class="nb">command</span><span class="o">&gt;</span>
+HEALTHCHECK NONE
+<span class="c"># only 1 should be used; only the last HELATHCHECK will be used</span>
+<span class="c"># options are:</span>
+<span class="c"># --interval=&lt;duration&gt; // default 30s</span>
+<span class="c"># --timeout=&lt;duration&gt;  // default 30s</span>
+<span class="c"># --retries=&lt;number&gt;    // default 3</span>
+
+SHELL <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <span class="s2">"&lt;param1&gt;"</span>, <span class="s2">"&lt;param2&gt;"</span><span class="o">]</span> <span class="c"># overrides default shell</span>
+<span class="c"># each SHELL overrides previous ones and affects subsequent instructions</span>
+</code></pre></div></div>
+
+<h2 id="k8s">K8S</h2>
+
+<ul>
+  <li>K*s manages jobs. It know how to delegates these jobs to the nodes.
+    <ul>
+      <li>Jobs run containers on nodes.</li>
+      <li>Many masters (e.g. one per region). Masters schedule jobs on nodes based on load.</li>
+      <li>A <strong>Service</strong> assigns a fixed IP to your POD replicas and allows other pods or services to communicate with them.</li>
+      <li><strong>Labels</strong> and <strong>Selectors</strong>
+        <ul>
+          <li><strong>App</strong>: MyApp, <strong>Phase</strong>: prod or test or else, <strong>Role</strong>: FE or BE or else (e.g. Front End)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="on-ubuntu">on Ubuntu</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> apt-transport-https
+<span class="o">&gt;</span> curl <span class="nt">-s</span> https://packages.cloud.google.com/apt/doc/apt-key.gpg | <span class="nb">sudo </span>apt-key add -
+<span class="o">&gt;</span> <span class="nb">echo</span> <span class="s2">"deb https://apt.kubernetes.io/ kubernetes-xenial main"</span> | <span class="nb">sudo tee</span> <span class="nt">-a</span> /etc/apt/sources.list.d/kubernetes.list
+<span class="o">&gt;</span> <span class="nb">sudo </span>apt-get update
+<span class="o">&gt;</span> <span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> kubectl
+<span class="o">&gt;</span> <span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> kubeadm kubelet
+</code></pre></div></div>
+
+<p>Minikube: https://kubernetes.io/docs/tasks/tools/install-minikube/<br />
+Kops: https://github.com/kubernetes/kops<br />
+Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
+
+<h3 id="architecture">Architecture</h3>
+
+<p><img src="pics\architecture_control_and_data_overview.jpg" alt="architecture" /></p>
+
+<ul>
+  <li>One or More API Servers: Entry point for REST / kubectl</li>
+  <li>etcd: Distributed key/value store</li>
+  <li>Controller-manager: Always evaluating current vs desired state</li>
+  <li>Scheduler: Schedules pods to worker nodes</li>
+  <li>kubelet: Acts as a conduit between the API server and the node</li>
+  <li>kube-proxy: Manages IP translation and routing</li>
+  <li><strong>[d2]</strong> kube-proxy knows only UDP and TCP, does not understand HTTP, provides load balancing, and is just used to reach services.</li>
+  <li>A Worker Node contains
+    <ul>
+      <li>Kubelet service to communicate with the Master Node</li>
+      <li>Proxy acting as a network proxy and load balancer for a service on the node</li>
+      <li>Docker Engine - container runtime</li>
+    </ul>
+  </li>
+  <li>Worker Nodes are accessed thru Load Balancer</li>
+  <li>multiple definitions within a single yaml are separated by —</li>
+</ul>
+
+<h3 id="kubectl">kubectl</h3>
+
+<ul>
+  <li><strong>[d3]</strong> kubectl + JSONPath to extract specific fields from objects (pod, daemonSet, deployment). As an example, this command will extract and print the IP address of the pod: <code class="language-plaintext highlighter-rouge">&gt; kubectl get pods my-pod -o jsonpath --template={.status.podIP}</code></li>
+  <li>
+    <p><strong>[d3]</strong> deploy an image with Docker vs Kubernetes:<br />
+<code class="language-plaintext highlighter-rouge">&gt; docker run -d --name loanamort --publish 8080:8080 loanamort:v01</code><br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl apply -f loanamort-pod.yaml</code>
+<code class="language-plaintext highlighter-rouge">&gt; kubectl run {name} --image={image} --port={number}</code> , where the port is exposed within the cluster, not outside.<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl expose deployment {deployment name} --name={service name} --port{number} --target-port={number}</code>, where <code class="language-plaintext highlighter-rouge">--port</code> is where the service should listen, and <code class="language-plaintext highlighter-rouge">--target-port</code> is where the traffic should be directed to.<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl delete deployment/{deployment name}</code> deletes the resource-type/resource-name<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl create -f myConfigFile.yml</code> and <code class="language-plaintext highlighter-rouge">kubectl delete -f myConfigFile.yml</code>, where the configuration file (and what is defined inside).<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl proxy</code>, default access URL is: http://localhost:8001/api/v1/proxy/namespaces/default/{resource-type}/{resource-name}<br />
+example: http://localhost:8001/api/v1/proxy/namespaces/default/services/hello-wildfly-service/index.html<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl proxy --address 0.0.0.0 --accept-hosts '.*'</code><br />
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\</p>
+  </li>
+  <li><strong>[d3]</strong> Using Port Forwarding Later in the book, we’ll show how to expose a service to the world or other containers using load balancers, but oftentimes you simply want to access a specific Pod, even if it’s not serving traffic on the internet. To achieve this, you can use the port-forwarding support built into the Kubernetes API and command-line tools. When you run: <code class="language-plaintext highlighter-rouge">&gt; kubectl port-forward loanamort 8080:8080</code> a secure tunnel is created from your local machine, through the Kubernetes master, to the instance of the Pod running on one of the worker nodes. As long as the port-forward command is still running, you can access the Pod (in this case the kuard web interface) on http://localhost:8080.</li>
+</ul>
+
+<h3 id="pod---a-logical-collection-of-containers">POD - a logical collection of containers</h3>
+
+<ul>
+  <li>smallest deployable unit that can be created, scheduled, managed</li>
+  <li><strong>[d3]</strong> Pods have a termination grace period. By default, this is 30 seconds.</li>
+  <li>created in namespace =&gt; containers inside share network namespace (ip and port), volume, networks stack, UTS namespace, and find each other on <code class="language-plaintext highlighter-rouge">localhost</code>.
+    <ul>
+      <li>have the same hostname (UTS namespace),</li>
+      <li>and can communicate using native interprocess communication channels over System V IPC or POSIX message queues (IPC namespace).</li>
+    </ul>
+  </li>
+  <li>configuration file example: <strong>loanamort-pod.yml</strong></li>
+  <li>not created directly</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span> <span class="c1"># fixed - the Kubernetes API</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span> <span class="c1"># the resource type, Can be also Service, Job, ScheduledJob, DaemonSet, Deployment etc.</span>
+<span class="na">metadata</span><span class="pi">:</span> <span class="c1"># allows attaching resource info</span>
+  <span class="c1"># mandatory name, or use `generate name` attribute, not used when in Deployment or ReplicaSet</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-app</span>
+  <span class="na">labels</span><span class="pi">:</span> <span class="c1"># identifying attributes</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-app</span>
+    <span class="na">tier</span><span class="pi">:</span> <span class="s">backend</span> <span class="c1"># optional</span>
+    <span class="na">environment</span><span class="pi">:</span> <span class="s">dev</span> <span class="c1"># optional</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span> <span class="c1"># define all containers inside the POD</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-container</span> <span class="c1"># unique name</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">loanamort.image:v01</span> <span class="c1"># the Docker image</span>
+    <span class="na">ports</span><span class="pi">:</span> <span class="c1"># access point of the container</span>
+    <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8080</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">http</span>
+      <span class="na">protocol</span><span class="pi">:</span> <span class="s">TCP</span>
+</code></pre></div></div>
+
+<h3 id="replica-set---a-better-replication-controller">REPLICA SET - A better REPLICATION CONTROLLER</h3>
+
+<ul>
+  <li>Maintains the lifecycle and number of POD’s replicas running at one time.</li>
+  <li>example of creating two instance of loanamort pod: <strong>loanamort-rc.yml</strong></li>
+  <li>All the requirements, from both <code class="language-plaintext highlighter-rouge">matchLabels</code> and <code class="language-plaintext highlighter-rouge">matchExpressions</code>, must match for the POD to be selected.</li>
+  <li>ReplicaSet has a few additional params compared to Replication controller (e.g. <code class="language-plaintext highlighter-rouge">matchExpressions</code> from the example below)</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span> <span class="c1"># not part of the `core` API</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ReplicaSet</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-rs</span> <span class="c1"># all PODs names will be `loanamort-rc-xxxx`, where xxxx is the hash value of the POD template</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">3</span> <span class="c1"># the number of replicas, defaults to 1</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span> <span class="c1"># manages PODs having this label</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">loanamort-app</span> <span class="c1"># exact label</span>
+    <span class="na">matchExpressions</span><span class="pi">:</span> <span class="c1"># list of POD selector requirements</span>
+      <span class="pi">-</span> <span class="pi">{</span><span class="nv">key</span><span class="pi">:</span> <span class="nv">tier</span><span class="pi">,</span> <span class="nv">operator</span><span class="pi">:</span> <span class="nv">In</span><span class="pi">,</span> <span class="nv">values</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">backend"</span><span class="pi">]}</span>
+      <span class="pi">-</span> <span class="pi">{</span><span class="nv">key</span><span class="pi">:</span> <span class="nv">environment</span><span class="pi">,</span> <span class="nv">operator</span><span class="pi">:</span> <span class="nv">NotIn</span><span class="pi">,</span> <span class="nv">values</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">prod"</span><span class="pi">]}</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="c1"># defines the POD, instead of using separate pod.yml</span>
+    <span class="c1"># same as loanamort-pod.yml</span>
+</code></pre></div></div>
+
+<h3 id="deployments---declarative-updates-for-pods-and-replica-sets">DEPLOYMENTS - declarative updates for PODs and REPLICA SETs</h3>
+
+<ul>
+  <li><strong>[d2]</strong> The Deployment is responsible for creating and updating instances of your application. It is a higher level of abstraction; it manages ReplicaSets when doing Pod orchestration, creation, deletion, and updates. A Deployment provides declarative updates for Pods and ReplicaSets. The Deployment allows for easy updating of a Replica Set as well as the ability to roll back to a previous deployment.</li>
+  <li><strong>[d2]</strong> When you want to update a Pod, you will need to modify the Deployment manifest. This modification will create a new ReplicaSet, which will be scaled up while the previous ReplicaSet will be scaled down, providing no down-time deployment of your application.</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span> <span class="c1"># not part of the `core` API</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-deployment</span>
+  <span class="c1">#labels:</span>
+  <span class="c1">#  app: loanamort-service</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">3</span> <span class="c1"># copies of each POD</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">loanamort-app</span> <span class="c1"># defined in the POD</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="c1"># POD update strategy</span>
+    <span class="na">rollingUpdate</span><span class="pi">:</span> <span class="c1"># updates an application to a newer version, in a serial, one-by-one fashion</span>
+      <span class="na">maxSurge</span><span class="pi">:</span> <span class="s">25%</span>
+      <span class="na">maxUnavailable</span><span class="pi">:</span> <span class="s">25%</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">RollingUpdate</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="c1"># defines the POD, instead of using separate pod.yml</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="c1"># this label is used by the Service and the Deployment</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">loanamort-app</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-container</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">loanamort.image:v01</span>
+        <span class="na">imagePullPolicy</span><span class="pi">:</span> <span class="s">Always</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8080</span>
+          <span class="na">protocol</span><span class="pi">:</span> <span class="s">TCP</span>
+        <span class="na">resources</span><span class="pi">:</span>
+          <span class="na">limits</span><span class="pi">:</span>
+            <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">128Mi"</span>
+            <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">500m"</span>
+</code></pre></div></div>
+
+<h3 id="service---a-logical-collection-of-pods-and-access-policy">SERVICE - a logical collection of PODs, and access policy</h3>
+
+<ul>
+  <li><strong>[d2]</strong> Each service is given its own IP address and port which remains constant for the lifetime of the service. Services have an integrated load-balancer that will distribute network traffic to all Pods. While a Pod’s life can be fragile as they are being spun up or down depending on your application needs, the service is a more constant concept.</li>
+  <li>PODs inside are defined by a label</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="c1"># access PODs from outside world</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">loanamort-app</span> <span class="c1"># manages PODs having this label (defined in the POD)</span>
+  <span class="c1"># configure an ELB to handle incoming traffic to this service</span>
+  <span class="c1"># default type is ClusterIP. This exposes the service on a cluster-internal IP,</span>
+  <span class="c1"># which will make the service reachable within the cluster only.</span>
+  <span class="c1"># aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">LoadBalancer</span>
+  <span class="na">ports</span><span class="pi">:</span> <span class="c1"># access point of the container</span>
+   <span class="pi">-</span>  <span class="na">protocol</span><span class="pi">:</span> <span class="s">TCP</span>
+      <span class="na">port</span><span class="pi">:</span> <span class="m">8080</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="m">8080</span>
+</code></pre></div></div>
+
+<h3 id="job---creates-at-most-1-pods-to-ensure-n-of-them-complete-successfully">JOB - creates at most 1+ PODs to ensure N of them complete successfully</h3>
+
+<ul>
+  <li>for short running processes</li>
+  <li>Nonparallel (a single POD to finish), Parallel (N PODs finishes, or coordination work queue, or external service for terminate condition) and CronJob</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">batch/v1</span> <span class="c1"># JOBs' own API group</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Job</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">wait</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">wait</span>
+    <span class="na">spec</span><span class="pi">:</span> <span class="c1"># JOB resource as a POD template, similar to Replication Controller</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">wait</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">ubuntu</span>
+        <span class="na">command</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">sleep"</span><span class="pi">,</span>  <span class="s2">"</span><span class="s">20"</span><span class="pi">]</span>
+      <span class="na">restartPolicy</span><span class="pi">:</span> <span class="s">Never</span> <span class="c1"># or OnFailure</span>
+
+</code></pre></div></div>
+
+<h3 id="volumes---directory-accessible-to-the-containers">VOLUMES - Directory accessible to the containers</h3>
+
+<ul>
+  <li>The lifecycle of a volume is tied to the pod that created it. Pods can store data on this volume and preserve data across container restarts. But the volume ceases to exist along with the pod. Moreover, pods are ephemeral and so may be rescheduled on a different host. This means the data cannot be stored on a host as well.</li>
+  <li>Types:
+    <ul>
+      <li><strong>hostPath</strong>: A file or directory from the host node’s filesystem</li>
+      <li><strong>nfs</strong>: Existing Network File System share</li>
+      <li><strong>awsElasticBlockStore</strong>: An Amazon Web Service EBS volume</li>
+      <li><strong>gcePersistentDisk</strong>: A Google Compute Engine persistent disk</li>
+    </ul>
+  </li>
+  <li>example: <strong>pod.yml</strong></li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-pod</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-pod</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">arungupta/couchbase-oreilly:k8s</span>
+    <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8091</span>
+    <span class="na">volumeMounts</span><span class="pi">:</span> <span class="c1"># where to mount the volume inside the container</span>
+    <span class="pi">-</span> <span class="na">mountPath</span><span class="pi">:</span> <span class="s">/var/couchbase/lib</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-data</span> <span class="c1"># matches name of a volume defined in volumes</span>
+  <span class="na">volumes</span><span class="pi">:</span> <span class="c1"># defines the volume type</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-data</span> <span class="c1"># name to be matched</span>
+    <span class="na">hostPath</span><span class="pi">:</span> <span class="c1"># the volume type</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s">/opt/data</span> <span class="c1"># path in the host node filesystem.</span>
+</code></pre></div></div>
+
+<h3 id="persistent-volumes---cluster-scoped-storage-for-applications-that-require-long-lived-data">PERSISTENT VOLUMES - cluster-scoped storage for applications that require long-lived data.</h3>
+
+<ul>
+  <li>Provision</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolume</span> <span class="c1"># the volume</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-pv</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">amazonEBS</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">capacity</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="s">5Gi</span> <span class="c1"># the capacity</span>
+  <span class="na">accessModes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ReadWriteOnce</span>
+  <span class="na">awsElasticBlockStore</span><span class="pi">:</span>
+    <span class="na">volumeID</span><span class="pi">:</span> <span class="s">vol-0e04a9f45ad0cc01d</span> <span class="c1"># unique ID</span>
+    <span class="na">fsType</span><span class="pi">:</span> <span class="s">ext4</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Request</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolumeClaim</span> <span class="c1"># the claim</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-pvc</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">amazonEBS</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">accessModes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ReadWriteOnce</span>
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">storage</span><span class="pi">:</span> <span class="s">3Gi</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Replication Controller to claim the PVC</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ReplicationController</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="c1"># defines the POD, instead of using separate pod.yml</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
+        <span class="na">context</span><span class="pi">:</span> <span class="s">couchbase-pv</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">arungupta/oreilly-couchbase</span>
+        <span class="na">volumeMounts</span><span class="pi">:</span>  <span class="c1"># where to mount the volume inside the container</span>
+        <span class="pi">-</span> <span class="na">mountPath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/opt/couchbase/var"</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">mypd</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8091</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8092</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8093</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">11210</span>
+      <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">mypd</span>
+        <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
+          <span class="na">claimName</span><span class="pi">:</span> <span class="s">couchbase-pvc</span> <span class="c1"># the claim match</span>
+
+</code></pre></div></div>
+
+<h3 id="horizontal-pod-auto-scaling">HORIZONTAL POD AUTO-SCALING</h3>
+
+<ul>
+  <li>Scales the numbers of pods in a replication controller, deployment, or replica based on observed CPU utilization.</li>
+  <li>By default, the auto-scaler checks every 30 seconds and adjusts the number of replicas to match the observed average CPU utilization to the target specified by the user.</li>
+  <li>The auto-scaler uses https://github.com/kubernetes/heapster to collect CPU utilization information, so it must be installed in the cluster for auto-scaling to work.</li>
+</ul>
+
+<h3 id="daemon-sets---to-run-pods-on-selected-nodes">DAEMON SETS - to run PODs on selected Nodes</h3>
+
+<h3 id="health-probes">HEALTH PROBES</h3>
+
+<p>inside <code class="language-plaintext highlighter-rouge">spec.template.spec.containers</code></p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">livenessProbe</span><span class="pi">:</span> <span class="c1"># or readinessProbe</span>
+  <span class="na">httpGet</span><span class="pi">:</span> <span class="c1"># success: httpGet - status code btwn 200/399; exec - command exists with 0; tcpSocket -  port is open and can make connection</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="s">/pools</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="m">8091</span>
+  <span class="na">initialDelaySeconds</span><span class="pi">:</span> <span class="m">30</span>
+  <span class="na">timeoutSeconds</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre></div></div>
+
+<h3 id="namespace">NAMESPACE</h3>
+
+<ul>
+  <li><strong>[d2]</strong> A namespace functions as a grouping mechanism inside of Kubernetes. Pods, Volumes, ReplicaSets, and services can easily cooperate within a namespace, but the namespace provides an isolation from the other parts of the cluster. What would be the possible use case for such isolation? Well, namespaces let you manage different environments within the same cluster. For example, you can have different test and staging environments in the same cluster of machines.</li>
+  <li>Each namespace can be assigned a resource quota (cpu, memory …), see <code class="language-plaintext highlighter-rouge">type: ResourceQuota</code>.</li>
+</ul>
+
+<h2 id="aws-eks-example">AWS EKS Example</h2>
+
+<p><img src="pics\aws_eks_architecture.jpg" alt="architecture" /></p>
+
+<ul>
+  <li>Install:
+    <ul>
+      <li>docker</li>
+      <li>aws</li>
+      <li>kubectl</li>
+      <li>aws-iam-authenticatior (just move to folder in the PATH)</li>
+      <li>eksctl (just move to folder in the PATH)</li>
+    </ul>
+  </li>
+  <li>Create IAM Role with AmazonEKSClusterPolicy and AmazonEKSServicePolicy</li>
+  <li>Create VPC with new stack https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml</li>
+  <li>AWS WebUI: Create cluster with IAM and VPC (may take 10+ munites)
+    <ul>
+      <li>another option is<br />
+ <code class="language-plaintext highlighter-rouge">&gt; eksctl create cluster --name &lt;NAME&gt; --nodes 3 --region &lt;REGION_ID&gt;</code><br />
+ , which will also create the modes.</li>
+      <li>another option is cloudformation stack:</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## --nodes, --region</span>
+<span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::EKS::Cluster</span>
+<span class="na">Properties</span><span class="pi">:</span>
+  <span class="na">Name</span><span class="pi">:</span> <span class="s">prod</span>
+  <span class="na">Version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1.11'</span>
+  <span class="na">RoleArn</span><span class="pi">:</span> <span class="s">arn:aws:iam::012345678910:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBQ4PI</span>
+  <span class="na">ResourcesVpcConfig</span><span class="pi">:</span>
+    <span class="na">SecurityGroupIds</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">sg-6979fe18</span>
+    <span class="na">SubnetIds</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">subnet-6782e71e</span>
+    <span class="pi">-</span> <span class="s">subnet-e7e761ac</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Connect kubectl with cluster<br />
+<code class="language-plaintext highlighter-rouge">&gt; aws eks update-kubeconfig --name &lt;CLUSTER_NAME&gt;</code></li>
+  <li>Create worker nodes with new stack https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
+    <ul>
+      <li>use <CLUSTER_NAME></CLUSTER_NAME></li>
+      <li>use <SECURITY_GROUP> which is an output artefact from VPC</SECURITY_GROUP></li>
+      <li>use NodeImageId from the table in the main link above</li>
+      <li>keyPair - get from Services -&gt; EC2 -&gt; Network &amp; Security -&gt; Key Pairs -&gt; Create Key Pair</li>
+      <li>vpcid and subnets from VPC</li>
+    </ul>
+  </li>
+  <li>Connect nodes to cluster: <code class="language-plaintext highlighter-rouge">ConfigMap</code> object<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl apply -f aws-auth-cm.yml</code><br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl get nodes</code> should print the nodes</li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html</span>
+<span class="c1"># k8s aws-auth-cm.yml</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ConfigMap</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">aws-auth</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kube-system</span>
+<span class="na">data</span><span class="pi">:</span>
+  <span class="na">mapRoles</span><span class="pi">:</span>
+    <span class="c1"># get it from the stack output for worker nodes creation</span>
+    <span class="pi">-</span> <span class="na">rolearn</span><span class="pi">:</span> <span class="s">NodeInstanceRole from previous step output</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="s">system:node:</span>
+      <span class="na">groups</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">system:bootstrappers</span>
+        <span class="pi">-</span> <span class="s">system:nodes</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Launch an app (k8s object <code class="language-plaintext highlighter-rouge">Deployment</code>, <code class="language-plaintext highlighter-rouge">Service</code>)<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl create -f ....yml</code><br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl get services -o wide</code> and get the EXTERNAL_IP address<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl describe svc &lt;SERVICE-NAME&gt;</code></p>
+  </li>
+  <li>
+    <p>Delete everything:<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl get svc --all-namespaces</code><br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl delete svc &lt;SERVICE_NAME&gt;</code><br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl delete deployment &lt;DEPLOYMENT_NAME&gt;</code>\, will delete the rs too<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl get deployments</code> to find the proper name<br />
+<code class="language-plaintext highlighter-rouge">&gt; kubectl get rs</code><br />
+stop/terminate ec2 instances ???<br />
+delete node creation stack<br />
+delete cluster creations stack<br />
+delete iam role</p>
+  </li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>Gupta - Kubernetes for Java Developers</li>
+  <li><strong>[d2]</strong> Krochmalski - Docker and Kubernetes for Java Developers</li>
+  <li><strong>[d3]</strong> Kubernetes: Up and Running - Hightower++</li>
+  <li>https://docs.oracle.com/cd/E52668_01/E88884/html/kube-components-controllers.html</li>
+</ul>
+
+<h3 id="aws-eks-example-1">aws eks example</h3>
+
+<p>https://eksworkshop.com<br />
+https://github.com/brentley/ecsdemo-nodejs<br />
+https://hub.docker.com/r/brentley/ecsdemo-nodejs<br />
+https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html<br />
+https://www.edureka.co/blog/amazon-eks/<br />
+https://www.oreilly.com/ideas/how-to-manage-docker-containers-in-kubernetes-with-java<br />
+https://www.youtube.com/watch?v=8OPkt93WyPA</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

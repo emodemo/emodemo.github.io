@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Distributed Systems Patterns | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Distributed Systems Patterns" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DistributedPatterns.html" />
+<meta property="og:url" content="/dev/DistributedPatterns.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Distributed Systems Patterns" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/DistributedPatterns.html","headline":"Distributed Systems Patterns","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Distributed Systems Patterns</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="distributed-patterns">Distributed Patterns</h2>
+
+<ul>
+  <li>see in <strong>[dist]</strong></li>
+  <li><img src="pics/distributed_patterns_1.jpg" alt="distributed_patterns_1" /></li>
+  <li><img src="pics/distributed_patterns_2.jpg" alt="distributed_patterns_2" /></li>
+  <li>see in <strong>[micropat]</strong></li>
+  <li><strong>[micropat]</strong> saga + aggregates + domain event (state changes) per aggregate
+    <ul>
+      <li>This is a way to manage data consistency across microservices in distributed transaction scenarios. A saga is a sequence of transactions that updates each service and publishes a message or event to trigger the next transaction step. If a step fails, the saga executes compensating transactions that counteract the preceding transactions.</li>
+      <li>semantic lock (transaction step is in PENDING state and is not yet committed) telling other transactions to wait.</li>
+      <li>pessimistic view</li>
+      <li>reread value</li>
+    </ul>
+  </li>
+  <li><strong>[micropat]</strong> events and snapshot of events</li>
+  <li><strong>[micropat]</strong> API composition or Command Query Responsibility Segregation (CQRS)
+    <ul>
+      <li>CQRS - Instead of DB and a separate search log that is periodically updated =&gt; Implement a query that needs data from several services by using events to maintain a read-only view that replicates data from the services
+        <ul>
+          <li>separate the write and read model and maintain the read with events from services</li>
+          <li>The command side modules and data model implement create, update, and delete operations (abbreviated CUD—for example, HTTP POSTs, PUTs, and DELETEs). The query-side modules and data model implement queries (such as HTTP GETs). The query side keeps its data model synchronized with the command-side data model by subscribing to the events published by the command side.</li>
+          <li>see <strong>[bael-cqrs]</strong>
+            <ul>
+              <li>commands (writes) are aggregated <code class="language-plaintext highlighter-rouge">Aggregator.handleCommand()</code></li>
+              <li>queries (reads)</li>
+              <li><code class="language-plaintext highlighter-rouge">Projector</code> is responsible to project the write model into the read model <code class="language-plaintext highlighter-rouge">Projecto.project(...)</code></li>
+              <li>may lead to additional complexity due to code duplication and having two models.</li>
+              <li>the <strong>example</strong> with CQRS + Events is a good one.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>[micropat]</strong> API Gateways
+    <ul>
+      <li>Examples of reactive abstractions for the JVM include the following:
+        <ul>
+          <li>Java 8 CompletableFutures</li>
+          <li>Project Reactor Monos</li>
+          <li>RxJava (Reactive Extensions for Java) Observables, created by Netflix specifically to solve this problem in its API gateway</li>
+          <li>Scala Futures</li>
+        </ul>
+      </li>
+      <li>Another option is using GraphQL or with Netflix Falcor</li>
+    </ul>
+  </li>
+  <li><strong>[micropat]</strong> Service mesh + sidecar</li>
+</ul>
+
+<h3 id="additional">Additional</h3>
+
+<ul>
+  <li>see in <strong>[spring]</strong> + <strong>[piotr]</strong></li>
+  <li>Service Discovery - Clients need to find micro-services instances.
+    <ul>
+      <li>register/un-register services and their instances</li>
+      <li>client calls logical endpoint of a servies, and is then routed to an instance + load balancing</li>
+      <li>detect non-healthy instances</li>
+      <li>Client-Side routing: client communicates with Service-Discovery to find where to put the request.</li>
+      <li>Server-Side routing: Service-Discovery exposes a proxy for each service, where all requests are sent to, which send the request to a proper instance on behalf of the client.</li>
+    </ul>
+  </li>
+  <li>Edge-Server - Expose only part of the services to the outside world, where all incoming request will go to.
+    <ul>
+      <li>Partial overlap with API Gateway.</li>
+      <li>Use OAuth2, API keys, etc to allow access.</li>
+    </ul>
+  </li>
+  <li>Configuration Server - get complete picture of the configuration landscape, update one place only.</li>
+  <li>Centralized Log Analysis - get an overview of what is going on, find errors and get reports for the overall system.</li>
+  <li>Distributed tracing - correlation ID</li>
+  <li>Control loop - compare actual with desired state
+    <ul>
+      <li>Container orchestration scripts</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="some-implementations">Some Implementations</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Implementation</th>
+      <th>Replaced By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Discovery Service</td>
+      <td>Netflix Eureka</td>
+      <td>Netflix Eureka, Spring Cloud load balancer,  Zookeeper</td>
+    </tr>
+    <tr>
+      <td>Client Side Load Balancer</td>
+      <td>Netflix Ribbon</td>
+      <td>Spring Cloud load balancer</td>
+    </tr>
+    <tr>
+      <td>Edge Server</td>
+      <td>Netflix Zuul</td>
+      <td>Spring Cloud Gateway (API Gateway) + Spring Security OAuth, K8S ingress resource</td>
+    </tr>
+    <tr>
+      <td>Circuit Breaker</td>
+      <td>Netflix Hystrix</td>
+      <td>Resilience4j</td>
+    </tr>
+    <tr>
+      <td>Centralized Configuration</td>
+      <td>Spring Cloud Configuration Server, K8S config maps and secrets</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Distributed Tracing</td>
+      <td>Spring Cloud Sleuth, Zipkin, Jaeger</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Sleuth adds Correlation IDs (or TraceID) and trancing data is send to Zipkin</li>
+  <li>ngrok for tunneling internet to K8S cluster</li>
+  <li>Itsio (combination of several tools, grafana, prometheus, Jaeger, kiali etc), as a separate container in the pod.</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[dist]</strong> <a href="https://docs.microsoft.com/en_us/azure/architecture/patterns">Distributed Patterns - Microsoft</a></li>
+  <li><strong>[spring]</strong> Larsson - Hands on Microservices with Spring</li>
+  <li><strong>[piotr]</strong> <a href="https://piotrminkowski.wordpress.com/">Spring + Elasticsearch, Hazelcast, etc..</a></li>
+  <li><strong>[micropat]</strong> Chris Richardson - MicroServices Patterns</li>
+  <li><strong>[bael-cqrs]</strong> <a href="https://www.baeldung.com/cqrs-event-sourcing-java">Baledung - CQRS and Event Sourcing in Java</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

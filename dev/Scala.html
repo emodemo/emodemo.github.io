@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Scala | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Scala" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Scala.html" />
+<meta property="og:url" content="/dev/Scala.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Scala" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Scala.html","headline":"Scala","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Scala</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="equality">Equality</h2>
+
+<ul>
+  <li>Any: <code class="language-plaintext highlighter-rouge">==</code> delegates to <code class="language-plaintext highlighter-rouge">equals</code></li>
+  <li>AnyRef:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">)</span> <span class="o">==</span> <span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">)</span>      <span class="c1">// true in Scala, false in Java</span>
+<span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">).</span><span class="py">equals</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">))</span> <span class="c1">// true in both Scala and Java</span>
+<span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">)</span> <span class="n">eq</span> <span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="s">"A"</span><span class="o">)</span>      <span class="c1">// false in Scala, eq() is from AnyRef</span>
+</code></pre></div></div>
+
+<h2 id="math">Math</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">map()</code> does not preserve associativity</li>
+  <li><code class="language-plaintext highlighter-rouge">reduce()</code> must be associative</li>
+  <li>floating point is not associative <code class="language-plaintext highlighter-rouge">(d1+d2)+d3 != d1+(d2+d3)</code></li>
+  <li><strong>[jetbrains]</strong> Write pure functions with no side effects. Otherwise, isolate side effects from code.</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li><strong>[learning concurrent]</strong> As turning a single field case class into a value class is as trivial as extending the AnyVal trait, we recommend that you always use AnyVal wherever possible. The overhead is quite low, and it generate high benefits in terms of garbage collection’s performance. To learn more about value classes, their limitations, and use cases, you can find detailed descriptions at http://docs.scala-lang.org/overviews/core/value-classes.html</li>
+  <li>
+    <p><strong>[other]</strong> functional literal syntax example</p>
+
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">check</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">condition</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">onTrue</span><span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">onFalse</span><span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span><span class="o">(</span><span class="n">condition</span><span class="o">)</span> <span class="nf">onTrue</span><span class="o">()</span> <span class="k">else</span> <span class="nf">onFalse</span><span class="o">()</span>
+<span class="o">}</span>
+<span class="c1">// () =&gt; A is a syntactic alias for Funtion0[A]</span>
+<span class="nf">check</span><span class="o">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">22</span><span class="o">,</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"a"</span><span class="o">),</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"b"</span><span class="o">))</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="implicit">Implicit</h2>
+
+<h3 id="implicit-parameters">Implicit Parameters</h3>
+
+<ul>
+  <li><strong>[implicit]</strong> Implicit parameters are method parameters which do not have to be explicitly passed to the method when it is called. If they’re missing, the compiler will look in the surrounding scope for something that fits the bill.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">multiply</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">3</span><span class="o">)(</span><span class="mi">10</span><span class="o">)</span> <span class="c1">// 30</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">4</span><span class="o">)(</span><span class="mi">10</span><span class="o">)</span> <span class="c1">// 40</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// error: could not find implicit value for parameter factor: Int</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">z</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// 30</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// 40</span>
+
+<span class="c1">// IN CASE OF TWO IMPLICIT VARS =&gt; ERROR</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">z2</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="nf">multiply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// error: ambiguous implicit values:</span>
+</code></pre></div></div>
+
+<h3 id="implicit-conversions">Implicit Conversions</h3>
+
+<ul>
+  <li><strong>[implicit]</strong> Scala compiler will look for opportunities to do an implicit conversion whenever there is a type mismatch.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">alert</span><span class="o">(</span><span class="n">msg</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">println</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
+<span class="nf">alert</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span> <span class="c1">// error: type mismatch; found: Int(7); required: String</span>
+
+<span class="k">implicit</span> <span class="k">def</span> <span class="nf">intToString</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nv">i</span><span class="o">.</span><span class="py">toString</span>
+<span class="nf">alert</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span> <span class="c1">// 7</span>
+
+<span class="c1">// So what’s actually happening on the last line there is:</span>
+<span class="nf">alert</span><span class="o">(</span><span class="nf">intToString</span><span class="o">(</span><span class="mi">7</span><span class="o">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[implicit]</strong> The compiler will also look for opportunities to implicitly convert types when code tries to access an object member which is not defined for that type.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.</span><span class="n">chat</span> <span class="c1">// error: value chat is not a member of Int</span>
+
+<span class="k">class</span> <span class="nc">LoquaciousInt</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">chat</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">x</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="s">"Hi!"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">implicit</span> <span class="k">def</span> <span class="nf">intToLoquaciousInt</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LoquaciousInt</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="mf">3.</span><span class="n">chat</span>
+<span class="c1">// Hi!</span>
+<span class="c1">// Hi!</span>
+<span class="c1">// Hi!</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[implicit]</strong> Shorthand for the above - <strong>implicit class</strong> and <strong>type enrichment</strong></li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">class</span> <span class="nc">LoquaciousInt</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">chat</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">x</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="s">"Hi!"</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="mf">3.</span><span class="n">chat</span>
+<span class="c1">// Hi!</span>
+<span class="c1">// Hi!</span>
+<span class="c1">// Hi!</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[implicit]</strong> Life with <strong>type classes</strong>.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// INTERFACE OBJECT SYNTAX</span>
+<span class="c1">// the type class (actually an i-face)</span>
+<span class="k">trait</span> <span class="nc">Chat</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">}</span>
+<span class="k">object</span> <span class="nc">ChattyAddons</span> <span class="o">{</span>
+  <span class="c1">// the type class instance PersonChat</span>
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">PersonChat</span> <span class="k">extends</span> <span class="nc">Chat</span><span class="o">[</span><span class="kt">Person</span><span class="o">]{</span>
+    <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=</span> <span class="n">s</span><span class="s">"Hi, I'm ${x.firstName}"</span>
+  <span class="o">}</span>
+  <span class="c1">// the type class instance DogChat</span>
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">DogChat</span> <span class="k">extends</span> <span class="nc">Chat</span><span class="o">[</span><span class="kt">Dog</span><span class="o">]{</span>
+    <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Dog</span><span class="o">)</span> <span class="k">=</span> <span class="n">s</span><span class="s">"Woof, my name is ${x.name}"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// the type interface</span>
+<span class="k">object</span> <span class="nc">ChatUtil</span><span class="o">{</span>
+  <span class="k">def</span> <span class="nf">chat</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">chattyThing</span><span class="k">:</span> <span class="kt">CanChat</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">=</span> <span class="nv">chattyThing</span><span class="o">.</span><span class="py">chat</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">// in another package:</span>
+<span class="k">import</span> <span class="nn">ChattyAddons._</span>
+
+<span class="nv">ChatUtil</span><span class="o">.</span><span class="py">chat</span><span class="o">(</span><span class="nc">Person</span><span class="o">(</span><span class="s">"John"</span><span class="o">,</span> <span class="s">"Smith"</span><span class="o">))</span>
+<span class="nv">ChatUtil</span><span class="o">.</span><span class="py">chat</span><span class="o">(</span><span class="nc">Dog</span><span class="o">(</span><span class="s">"Meg"</span><span class="o">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[implicit]</strong> … plus implicit conversion</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// INTERFACE SYNTAX</span>
+<span class="k">object</span> <span class="nc">ChattyAddons</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">PersonCanChat</span> <span class="k">extends</span> <span class="nc">CanChat</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=</span> <span class="n">s</span><span class="s">"Hi, I'm ${x.firstName}"</span>
+  <span class="o">}</span>
+  <span class="k">implicit</span> <span class="k">object</span> <span class="nc">DogCanChat</span> <span class="k">extends</span> <span class="nc">CanChat</span><span class="o">[</span><span class="kt">Dog</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Dog</span><span class="o">)</span> <span class="k">=</span> <span class="n">s</span><span class="s">"Woof, my name is ${x.name}"</span>
+  <span class="o">}</span>
+  <span class="k">implicit</span> <span class="k">class</span> <span class="nc">ChatUtil</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">chat</span><span class="o">(</span><span class="k">implicit</span> <span class="n">makesChatty</span><span class="k">:</span> <span class="kt">CanChat</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="nv">makesChatty</span><span class="o">.</span><span class="py">chat</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// in another package...</span>
+
+<span class="k">import</span> <span class="nn">ChattyAddons._</span>
+
+<span class="nc">Person</span><span class="o">(</span><span class="s">"John"</span><span class="o">,</span> <span class="s">"Smith"</span><span class="o">).</span><span class="py">chat</span>
+<span class="nc">Dog</span><span class="o">(</span><span class="s">"Meg"</span><span class="o">).</span><span class="py">chat</span>
+</code></pre></div></div>
+
+<h2 id="functional">Functional</h2>
+
+<ul>
+  <li><strong>[realtime analytics]</strong> In a functional language, functions are treated the same way as data. They can be stored in objects the same way as integers or strings, returned from functions, and passed to other functions. (In Java) these two entities are separate and treated quite differently by the Java compiler.</li>
+  <li>View Bound - <code class="language-plaintext highlighter-rouge">T &lt;% V</code> requires the existence of an implicit conversion from <code class="language-plaintext highlighter-rouge">T</code> to <code class="language-plaintext highlighter-rouge">V</code>. A context bound has the form <code class="language-plaintext highlighter-rouge">T : M</code>, where <code class="language-plaintext highlighter-rouge">M</code> is another generic type. It requires that there is an “implicit value” of type <code class="language-plaintext highlighter-rouge">M[T]</code>.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Pair</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Comparable</span><span class="o">[</span><span class="kt">T</span><span class="o">]](</span><span class="k">val</span> <span class="nv">first</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="k">val</span> <span class="nv">second</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">def</span> <span class="nf">smaller</span> <span class="k">=</span> <span class="nf">if</span> <span class="o">(</span><span class="nv">first</span><span class="o">.</span><span class="py">compareTo</span><span class="o">(</span><span class="n">second</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">first</span> <span class="k">else</span> <span class="n">second</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>View Bound - Type constraints give you another way of restricting types. There are three relationships that you can use: <code class="language-plaintext highlighter-rouge">T =:= U</code> <code class="language-plaintext highlighter-rouge">T &lt;:&lt; U</code> <code class="language-plaintext highlighter-rouge">T &lt;%&lt; U</code>. These constraints test whether <code class="language-plaintext highlighter-rouge">T</code> equals <code class="language-plaintext highlighter-rouge">U</code>, is a subtype of <code class="language-plaintext highlighter-rouge">U</code>, or is view-convertible to <code class="language-plaintext highlighter-rouge">U</code>. To use such a constraint, you add an “implicit evidence parameter”.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Pair</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="k">val</span> <span class="nv">first</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="k">val</span> <span class="nv">second</span><span class="k">:</span> <span class="kt">T</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">ev</span><span class="k">:</span> <span class="kt">T</span> <span class="k">&lt;:</span><span class="kt">&lt;</span> <span class="kt">Comparable</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Structural Type - Under the hood Scala uses reflection. Only use structural typing when you model common behavior from classes that cannot share a trait. In the <strong>example</strong> you can call the <code class="language-plaintext highlighter-rouge">appendLines</code> method with an instance of any class that has an append method:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">appendLines</span><span class="o">(</span>
+  <span class="n">target</span><span class="k">:</span> <span class="o">{</span> <span class="kt">def</span> <span class="kt">append</span><span class="o">(</span><span class="kt">str:</span> <span class="kt">String</span><span class="o">)</span><span class="kt">:</span> <span class="kt">Any</span> <span class="o">},</span>
+  <span class="n">lines</span><span class="k">:</span> <span class="kt">Iterable</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+  <span class="o">)</span>
+    <span class="o">{</span><span class="nf">for</span> <span class="o">(</span><span class="n">l</span> <span class="k">&lt;-</span> <span class="n">lines</span><span class="o">)</span>
+      <span class="o">{</span><span class="nv">target</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+       <span class="nv">target</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="s">"\n"</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Structural types are similar to “duck typing” in dynamically typed programming languages such as JavaScript or Ruby. In those languages, variables have no type. When you write <code class="language-plaintext highlighter-rouge">obj.quack()</code>, the runtime figures out whether the particular object to which obj refers at this point has a quack method. In other words, you don’t have to declare obj as a Duck as long as it walks and quacks like one.</li>
+  <li>lambda <code class="language-plaintext highlighter-rouge">val twice: Int =&gt; Int = (x: Int) =&gt; x * 2</code>, where the <code class="language-plaintext highlighter-rouge">(x: Int)</code> part is the argument to the lambda, and <code class="language-plaintext highlighter-rouge">x * 2</code> is its body. The <code class="language-plaintext highlighter-rouge">Int =&gt; Int</code> express the type of the lambda.</li>
+</ul>
+
+<h2 id="partially-applied-function">Partially applied function</h2>
+
+<ul>
+  <li><strong>[louc]</strong> if we have a function that takes three parameters, x, y and z, we can only apply the first one and as a result get a function of two parameters. Or we can apply the first two and get a function of only one parameter. For example, having a function that takes two integers and adds them, we can apply only the first one, e.g. 42, and as a result we will get a function that adds the input number to 42:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Note that if you don’t explicitly define add42 to be of type Int =&gt; Int, you will need to explicitly define the type of the unused parameter: add(42, _: Int).</span>
+<span class="k">val</span> <span class="nv">add</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">val</span> <span class="nv">add42</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="nf">add</span><span class="o">(</span><span class="mi">42</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nf">add42</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span> <span class="c1">// 50</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[louc]</strong> Currying is a similar principle. Main idea with currying is to separate a function of n parameters into n functions of one parameter… Note that if we curry a function, there’s no need for the underscore thingy; with partially applied functions it’s needed because otherwise compiler will rightfully complain that add() takes two parameters, but with currying we are simply providing only the first parameter, which is completely valid:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">add</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">val</span> <span class="nv">add42</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="nf">add</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nf">add42</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span> <span class="c1">// 50</span>
+<span class="k">val</span> <span class="nv">add42and8</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nf">add</span><span class="o">(</span><span class="mi">42</span><span class="o">)(</span><span class="mi">8</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">add42and8</span><span class="o">)</span> <span class="c1">// 50</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[louc]</strong> There is a difference between methods with no parenthesis and methods with empty parenthesis: former are basically values, but re-evaluated upon every access, while latter are methods as we know them. Invoke them as they are defined (if there are empty parenthesis in definition, put them in invocation too; this way you don’t have to remember what happens if f is invoked as f() and vice versa).</li>
+</ul>
+
+<h2 id="stackable-trait">Stackable Trait</h2>
+
+<ul>
+  <li><strong>[pattern]</strong> Stackable traits decorate the core traits at compile time, similar to the way decorator objects modify core objects at run time in the decorator pattern.
+    <ul>
+      <li>Order of applying is from rightmost to leftmost.</li>
+      <li>The trait has a super call on a method declared <code class="language-plaintext highlighter-rouge">abstract</code>. Such calls are illegal for normal classes, because they will certainly fail at run time. For a trait, however, such a call can actually succeed. Since super calls in a trait are dynamically bound, the super call in trait <code class="language-plaintext highlighter-rouge">Filtering</code> will work so long as the trait is mixed in after another trait or class that gives a concrete definition to the method. This arrangement is frequently needed with traits that implement stackable modifications. To tell the compiler you are doing this on purpose, you must mark such methods as <code class="language-plaintext highlighter-rouge">abstract override</code>. This combination of modifiers is only allowed for members of traits, not classes, and it means that the trait must be mixed into some class that has a concrete definition of the method in question.</li>
+    </ul>
+  </li>
+  <li><strong>[pattern]</strong> example</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// BASE</span>
+<span class="k">abstract</span> <span class="k">class</span> <span class="nc">IntQueue</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">get</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span> <span class="k">def</span> <span class="nf">put</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">}</span>
+<span class="c1">// CORE</span>
+<span class="k">class</span> <span class="nc">BasicIntQueue</span> <span class="k">extends</span> <span class="nc">IntQueue</span><span class="o">{</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">buf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ArrayBuffer</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
+  <span class="k">def</span> <span class="nf">get</span><span class="o">()</span> <span class="k">=</span> <span class="nv">buf</span><span class="o">.</span><span class="py">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="k">def</span> <span class="nf">put</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span> <span class="n">buf</span> <span class="o">+=</span> <span class="n">x</span><span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// STACKABLE</span>
+<span class="k">trait</span> <span class="nc">Incrementing</span> <span class="k">extends</span> <span class="nc">IntQueue</span> <span class="o">{</span>
+  <span class="k">abstract</span> <span class="k">override</span> <span class="k">def</span> <span class="nf">put</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span> <span class="nv">super</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="k">trait</span> <span class="nc">Filtering</span> <span class="k">extends</span> <span class="nc">IntQueue</span> <span class="o">{</span>
+  <span class="k">abstract</span> <span class="k">override</span> <span class="k">def</span> <span class="nf">put</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span> <span class="nf">if</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="nv">super</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// USAGE 1 : first filtering is applied, then incrementing</span>
+<span class="k">val</span> <span class="nv">queue</span> <span class="k">=</span> <span class="o">(</span><span class="k">new</span> <span class="nc">BasicIntQueue</span> <span class="k">with</span> <span class="nc">Incrementing</span> <span class="k">with</span> <span class="nc">Filtering</span><span class="o">)</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span> <span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">get</span><span class="o">()</span> <span class="c1">// 1</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">get</span><span class="o">()</span> <span class="c1">// 2</span>
+<span class="c1">// USAGE 2 : reverse order of stackables =&gt; first incrementing and then filtering</span>
+<span class="k">val</span> <span class="nv">queue</span> <span class="k">=</span> <span class="o">(</span><span class="k">new</span> <span class="nc">BasicIntQueue</span> <span class="k">with</span> <span class="nc">Filtering</span> <span class="k">with</span> <span class="nc">Incrementing</span><span class="o">)</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span> <span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="nv">queue</span><span class="o">.</span><span class="py">put</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">get</span><span class="o">()</span> <span class="c1">// 0</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">get</span><span class="o">()</span> <span class="c1">// 1</span>
+<span class="nv">queue</span><span class="o">.</span><span class="py">get</span><span class="o">()</span> <span class="c1">// 2</span>
+</code></pre></div></div>
+
+<h2 id="parallel-computations">Parallel computations</h2>
+
+<ul>
+  <li>For parallelism an unevaluated computation should be passed (call by name)</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">myParallel</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">taskA</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">taskB</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=</span> <span class="o">{...}</span> <span class="c1">// by name</span>
+<span class="k">def</span> <span class="nf">myNonParallel</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">taskA</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">taskB</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=</span> <span class="o">{...}</span> <span class="c1">// by value</span>
+</code></pre></div></div>
+
+<ul>
+  <li>both are equivalent</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">val</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">=</span> <span class="nf">parallel</span><span class="o">(</span><span class="nf">doSomething</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">,</span><span class="n">d</span><span class="o">),</span> <span class="nf">doSomething</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">+</span><span class="n">z</span><span class="o">,</span><span class="n">d</span><span class="o">+</span><span class="n">z</span><span class="o">))</span>
+<span class="nf">power</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">t1</span> <span class="k">=</span> <span class="n">task</span><span class="o">{</span><span class="nf">doSomething</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">,</span><span class="n">d</span><span class="o">)}</span>
+<span class="k">val</span> <span class="nv">t2</span> <span class="k">=</span> <span class="n">task</span><span class="o">{</span><span class="nf">doSomething</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">+</span><span class="n">z</span><span class="o">,</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="o">)}</span>
+<span class="nf">power</span><span class="o">(</span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span><span class="o">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>join() call</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">parallel</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">ca</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">cb</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">tB</span><span class="k">:</span> <span class="kt">Task</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="n">task</span><span class="o">{</span><span class="n">cb</span><span class="o">}</span>
+  <span class="k">val</span> <span class="nv">tA</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span> <span class="nf">ca</span>
+    <span class="o">(</span><span class="n">ta</span><span class="o">,</span> <span class="nv">tb</span><span class="o">.</span><span class="py">join</span><span class="o">)</span> <span class="c1">// correct for parallel</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">parallelWrong</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">ca</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">cb</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">tB</span><span class="k">:</span> <span class="kt">Task</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="n">task</span><span class="o">{</span><span class="n">cb</span><span class="o">}.</span><span class="py">join</span> <span class="c1">// incorrect for parallel</span>
+  <span class="k">val</span> <span class="nv">tA</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span> <span class="nf">ca</span>
+  <span class="o">(</span><span class="n">ta</span><span class="o">,</span> <span class="n">tb</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Loop: <code class="language-plaintext highlighter-rouge">for (i &lt;- (0 until 100).par) print(i + " ")</code> - the numbers are printed in the order they are produced by the threads working on the task. In a for/yield loop <code class="language-plaintext highlighter-rouge">for (i &lt;- (0 until 100).par) yield i + " "</code> the results are assembled in order.</li>
+  <li><strong>[scala high-performance]</strong> Operations on parallelizable collections are fast, as the newly created structure from <code class="language-plaintext highlighter-rouge">.par</code> shares the same underlying data set <code class="language-plaintext highlighter-rouge">Array, ArrayBuffer,</code> mutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet, Range, Vector,</code> immutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet,</code> and concurrent <code class="language-plaintext highlighter-rouge">TrieMap</code>.</li>
+  <li><strong>[scala high-performance]</strong> Other Scala collections need to be converted to their parallel counterparts upon calling <code class="language-plaintext highlighter-rouge">.par</code>. Calling <code class="language-plaintext highlighter-rouge">par</code> on non-parallelizable collections entails copying their elements into a new collection. <strong>Importantly</strong>, the conversion from a sequential collection to a parallel one is not itself parallelized, and is a possible sequential bottleneck.
+    <ul>
+      <li>For example, calling par on List takes 55 milliseconds on our machine, whereas calling par on Vector takes 0.025 milliseconds.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">ParNonParallelizableCollections</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">list</span> <span class="k">=</span> <span class="nv">List</span><span class="o">.</span><span class="py">fill</span><span class="o">(</span><span class="mi">1000000</span><span class="o">)(</span><span class="s">""</span><span class="o">)</span>
+    <span class="k">val</span> <span class="nv">vector</span> <span class="k">=</span> <span class="nv">Vector</span><span class="o">.</span><span class="py">fill</span><span class="o">(</span><span class="mi">1000000</span><span class="o">)(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nf">log</span><span class="o">(</span><span class="n">s</span><span class="s">"list conversion time: ${timed(list.par)} ms"</span><span class="o">)</span>
+    <span class="nf">log</span><span class="o">(</span><span class="n">s</span><span class="s">"vector conversion time: ${timed(vector.par)} ms"</span><span class="o">)}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[scala high-performance]</strong> Tip: Converting a non-parallelizable sequential collection to a parallel collection is not a parallel operation; it executes on the caller thread.</li>
+  <li>Tip Treat operations invoked on a generic collection type as if they are parallel.</li>
+  <li><strong>[scala high-performance]</strong> Note: Binary operators used in parallel operations do not need to be commutative.</li>
+  <li><strong>[scala high-performance]</strong> Tip: Make sure that binary operators used in parallel operations are associative.</li>
+  <li><strong>[cats]</strong> <code class="language-plaintext highlighter-rouge">|@|</code> for parallel computations</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// sequential</span>
+<span class="k">for</span><span class="o">{</span>
+  <span class="n">a</span> <span class="k">&lt;-</span> <span class="nc">Future</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="n">b</span> <span class="k">&lt;-</span> <span class="nc">Future</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+  <span class="n">c</span> <span class="k">&lt;-</span> <span class="nc">Future</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
+<span class="c1">// parallel</span>
+<span class="k">import</span> <span class="nn">cats.implicits._</span>
+<span class="o">(</span><span class="nc">Future</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">|@|</span> <span class="nc">Future</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="o">|@|</span> <span class="nc">Future</span><span class="o">(</span><span class="mi">3</span><span class="o">)).</span><span class="py">map</span><span class="o">(</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="concurrent">Concurrent</h2>
+
+<ul>
+  <li>Use promises to bridge the gap between callback-based APIs and futures.</li>
+  <li>Use promises to extend futures with additional functional combinators.</li>
+  <li>Use promises to implement cancellation, or any other form of two-way communication between the client and the asynchronous computation.</li>
+  <li><strong>[scala high-performance]</strong> The lowest cost development option is to replace unnecessarily costly Future creation with the use of <code class="language-plaintext highlighter-rouge">Future.success</code> or <code class="language-plaintext highlighter-rouge">Future.failure</code>. The order submission web service took advantage of these factory methods to lift values into a <code class="language-plaintext highlighter-rouge">Future</code>. As the value is already computed, these factory methods avoid submitting any tasks to the Executor that are referenced by the provided <code class="language-plaintext highlighter-rouge">ExecutionContext</code>.
+    <ul>
+      <li>Replacing usages of <code class="language-plaintext highlighter-rouge">Future.apply</code> with either <code class="language-plaintext highlighter-rouge">Future.successful</code> or <code class="language-plaintext highlighter-rouge">Future.failure</code> when the value is already computed can yield cost savings.</li>
+    </ul>
+  </li>
+  <li><strong>[scala high-performance]</strong> All the callers are importing the global <code class="language-plaintext highlighter-rouge">ExecutionContext</code> to be implicitly used by the method. The default thread pool is backed by a <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and it is sized based on the available cores on the machine. As such, it is CPU-bound and designed to handle nonblocking, CPU intensive operations. This is a good choice for applications that do not perform blocking calls. However, if your application runs blocking calls asynchronously (that is, in a Future execution), relying on the default <code class="language-plaintext highlighter-rouge">ExecutionContext</code> will most likely quickly degrade performance.</li>
+  <li><strong>[scala high-performance]</strong> Iterators on most concurrent collections are weakly consistent. This means that they are not guaranteed to correctly traverse the data structure if some thread concurrently updates the collection during traversal.</li>
+  <li><strong>[learning concurrent]</strong> Unlike Java, Scala allows you to declare local fields volatile (in this case, local to the closure of the enclosing for loop). A heap object with a volatile field is created for each local volatile variable used in some closure or a nested class. We say the variable is lifted into an object.</li>
+</ul>
+
+<h2 id="ordering">Ordering</h2>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">math.Ordering</span>  
+
+<span class="k">def</span> <span class="nf">msort</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">xs</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">T</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">ord</span><span class="k">:</span> <span class="kt">Ordering</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> <span class="o">...}</span>  
+<span class="nf">msort</span><span class="o">(</span><span class="n">fruits</span><span class="o">)(</span><span class="nv">Ordering</span><span class="o">.</span><span class="py">String</span><span class="o">)</span>  
+<span class="nf">msort</span><span class="o">(</span><span class="n">fruits</span><span class="o">)</span>   <span class="c1">// the compiler figures out the right ordering  </span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[jetbrains]</strong> Perform reverse sorting in one step, avoiding tmp collections and additional transformation steps:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Before</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sorted</span><span class="o">.</span><span class="py">reverse</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">).</span><span class="py">reverse</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortWith</span><span class="o">(</span><span class="nf">f</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">)).</span><span class="py">reverse</span>
+
+  <span class="c1">// After</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sorted</span><span class="o">(</span><span class="nc">Ordering</span><span class="o">[</span><span class="kt">T</span><span class="o">].</span><span class="py">reverse</span><span class="o">)</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">)(</span><span class="nc">Ordering</span><span class="o">[</span><span class="kt">T</span><span class="o">].</span><span class="py">reverse</span><span class="o">)</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortWith</span><span class="o">(!</span><span class="nf">f</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[jetbrains]</strong> Do not use sorting to find smallest/largest element, so a tmp collection is not created.:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Before</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sorted</span><span class="o">.</span><span class="py">head</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">).</span><span class="py">head</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sorted</span><span class="o">.</span><span class="py">last</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">).</span><span class="py">last</span>
+
+  <span class="c1">// After</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">min</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">minBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">)</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">max</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">maxBy</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">property</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="mutators">Mutators</h2>
+
+<ul>
+  <li>At any time, you can redefine the getter and setter methods yourself. For example,</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span> <span class="o">{</span>
+  <span class="k">private</span> <span class="k">var</span> <span class="n">privateAge</span> <span class="k">=</span> <span class="mi">0</span> <span class="c1">// Make private and rename</span>
+  <span class="k">def</span> <span class="nf">age</span> <span class="k">=</span> <span class="n">privateAge</span>
+  <span class="k">def</span> <span class="nf">age_=</span><span class="o">(</span><span class="n">newValue</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">newValue</span> <span class="o">&gt;</span> <span class="n">privateAge</span><span class="o">)</span> <span class="n">privateAge</span> <span class="k">=</span> <span class="n">newValue</span><span class="o">;</span> <span class="c1">// Can’t get younger</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>TIP: It may sound scary that Scala generates getter and setter methods for every field. But you have some control over this process.
+    <ul>
+      <li>If the field is private, the getter and setter are private.</li>
+      <li>If the field is a val, only a getter is generated.</li>
+      <li>If you don’t want any getter or setter, declare the field as private[this].</li>
+    </ul>
+  </li>
+  <li>Overriding restrictions
+    <ul>
+      <li>A def can only override another def.</li>
+      <li>A val can only override another val or a parameterless def.</li>
+      <li>A var can only override an abstract var</li>
+    </ul>
+  </li>
+  <li>TIP: You can debug construction order problems with the <code class="language-plaintext highlighter-rouge">-Xcheckinit</code> compiler flag. This flag generates code that throws an exception (instead of yielding the default value) when an uninitialized field is accessed.</li>
+</ul>
+
+<h2 id="laziness">Laziness</h2>
+
+<ul>
+  <li>Laziness is not cost-free. Every time a lazy value is accessed, a method is called that checks, in a threadsafe manner, whether the value has already been initialized.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">scala</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"/.../words"</span><span class="o">).</span><span class="py">mkString</span> <span class="c1">// Evaluated as soon as words is defined</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">scala</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"/.../words"</span><span class="o">).</span><span class="py">mkString</span> <span class="c1">// Evaluated the first time words is used</span>
+<span class="k">def</span> <span class="nf">words</span> <span class="k">=</span> <span class="nv">scala</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"/.../words"</span><span class="o">).</span><span class="py">mkString</span> <span class="c1">// Evaluated every time words is used</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[learning concurrent]</strong> Avoid cyclic dependencies between lazy values, as they can cause deadlocks.</li>
+  <li><strong>[learning concurrent]</strong> Cyclic dependencies between lazy values are unsupported in both sequential and concurrent Scala programs. The difference is that they potentially manifest themselves as deadlocks instead of stack overflows in concurrent programming.</li>
+  <li><strong>[learning concurrent]</strong> Never invoke blocking operations inside lazy value initialization expressions or singleton object constructors.</li>
+  <li><strong>[learning concurrent]</strong> It is a good practice to initialize the lazy value with an expression that does not depend on the current state of the program.</li>
+</ul>
+
+<h2 id="streams">Streams</h2>
+
+<ul>
+  <li>To avoid Stream memoization, it is good practice to avoid storing a Stream in a val. Using a val creates a permanent reference to the head of the Stream, ensuring that every element that is realized will be cached. If a Stream is defined as a def, it can be garbage collected as soon as it is no longer needed.</li>
+</ul>
+
+<h2 id="views">Views</h2>
+
+<ul>
+  <li>Stream methods are computed lazily, delivering results only when they are needed. You can get a similar effect with other collections by applying the <code class="language-plaintext highlighter-rouge">view</code> method. This method yields a collection on which methods are applied lazily. For example: <code class="language-plaintext highlighter-rouge">val powers = (0 until 1000).view.map(pow(10, _))</code> yields a collection that is unevaluated. (Unlike a stream, not even the first element is evaluated.) When you call <code class="language-plaintext highlighter-rouge">powers(100)</code> then <code class="language-plaintext highlighter-rouge">pow(10, 100)</code> is computed, but the other powers are not. Unlike streams, these views do not cache any values. If you call <code class="language-plaintext highlighter-rouge">powers(100)</code> again, <code class="language-plaintext highlighter-rouge">pow(10, 100)</code> is recomputed</li>
+  <li><strong>[scala high-performance]</strong> When a view applies transformations, it applies all transformations to each element rather than applying each transformation to all elements… By applying all transformations in one step, the view is able to return the first two elements without evaluating the entire collection. Here, we see the potential performance gains from view usage due to lazy evaluation.</li>
+  <li><strong>[scala high-performance]</strong> When transforming a large collection, 1,000,000 elements in our benchmark, a view is more efficient with an increasing differential as the number of transformations increases. For example, with 1,000,000 elements and two transformations, views deliver approximately triple the throughput of List. In the case of a medium size collection, such as 1,000 elements in this example, this is not as clear-cut. When performing a single transformation, an eager List performs better, while a view delivers better throughput when applying more than one transformation.</li>
+  <li><strong>[scala high-performance]</strong> A second axis of performance to consider is the nature of the transformation. Transformations that benefit from early termination (for example, find), benefit strongly from lazy evaluation. This benchmark illustrates that it is important to understand the size of your data and the transformations that you intend to perform.</li>
+</ul>
+
+<h2 id="collections">Collections</h2>
+
+<ul>
+  <li><strong>[jetbrains]</strong> Prefer <code class="language-plaintext highlighter-rouge">length</code> to <code class="language-plaintext highlighter-rouge">size</code> for arrays. <code class="language-plaintext highlighter-rouge">Array.size</code> is implemented via implicit conversion and intermediate wrapper objects are created every call.</li>
+  <li><strong>[jetbrains]</strong> Do not compute length for empty check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code> and <code class="language-plaintext highlighter-rouge">seq.isEmpty</code> instead.</li>
+  <li><strong>[jetbrains]</strong> Do not compute full length for matching. Use <code class="language-plaintext highlighter-rouge">seq.lengthCompare(n) &gt; 0</code></li>
+  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">exists</code> for emptyness check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code>.</li>
+  <li><strong>[jetbrains]</strong> Do not rely on <code class="language-plaintext highlighter-rouge">==</code> for arrays compare. Use <code class="language-plaintext highlighter-rouge">array1.sameElements(array2)</code>. <code class="language-plaintext highlighter-rouge">==</code> is always false for different instances.</li>
+  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">sameElements</code> for collections compare. Use <code class="language-plaintext highlighter-rouge">seq1 == seq2</code>.</li>
+  <li><strong>[jetbrains]</strong> Retrieve first/last elements with <code class="language-plaintext highlighter-rouge">seq.head</code> and <code class="language-plaintext highlighter-rouge">seq.last</code>.</li>
+  <li><strong>[jetbrains]</strong> Prefer <code class="language-plaintext highlighter-rouge">exists</code> or <code class="language-plaintext highlighter-rouge">contains</code> for existence and absence.</li>
+  <li><strong>[jetbrains]</strong> Use <code class="language-plaintext highlighter-rouge">count(p)</code> instead of <code class="language-plaintext highlighter-rouge">filter(p).length</code>. The call to <code class="language-plaintext highlighter-rouge">filter</code> creates an intermediate collection (which is not really needed) that takes heap space and loads GC.</li>
+  <li><strong>[jetbrains]</strong> Merge consecutive <code class="language-plaintext highlighter-rouge">filter</code> calls, to avoid tmp collections:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">seq</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">p1</span><span class="o">).</span><span class="py">filter</span><span class="o">(</span><span class="n">p2</span><span class="o">)</span> <span class="c1">// Before</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nf">p1</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="nf">p2</span><span class="o">(</span><span class="n">x</span><span class="o">))</span> <span class="c1">// After</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[jetbrains]</strong> Merge consecutive <code class="language-plaintext highlighter-rouge">map</code> calls, to avoid tmp collections:</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">seq</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">f</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="n">g</span><span class="o">)</span> <span class="c1">// Before</span>
+  <span class="nv">seq</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">f</span><span class="o">.</span><span class="py">andThen</span><span class="o">(</span><span class="n">g</span><span class="o">))</span> <span class="c1">// After</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>[jetbrains]</strong> !!! Do not create tmp collections…  my use <code class="language-plaintext highlighter-rouge">view</code> when a lot of transformations are to be done.</li>
+</ul>
+
+<h2 id="options">Options</h2>
+
+<ul>
+  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">None</code> and <code class="language-plaintext highlighter-rouge">Some</code> to compare. Prefer <code class="language-plaintext highlighter-rouge">isEmpty</code>, <code class="language-plaintext highlighter-rouge">isDefined</code> and <code class="language-plaintext highlighter-rouge">contains()</code>.</li>
+  <li><strong>[jetbrains]</strong> Do not compare value with <code class="language-plaintext highlighter-rouge">null</code>. Use <code class="language-plaintext highlighter-rouge">Option(v)</code> instead of <code class="language-plaintext highlighter-rouge">if(v != null) Some(v) else None</code>.</li>
+</ul>
+
+<h2 id="data-science--math-apis">Data science &amp; Math APIs</h2>
+
+<ul>
+  <li>Spark Notebooks - data manipulation</li>
+  <li>Apache Zeppelin - data manipulation</li>
+  <li>Saddle - high-perf data manipulation</li>
+  <li>Algebird - algebra API</li>
+  <li>Factorie - probabilistic models, relational graphs…</li>
+  <li>Figaro - probabilistic programming</li>
+  <li>Spire - numeric lib with polynomial, real, distributions…
+    <ul>
+      <li>cfor macro</li>
+    </ul>
+  </li>
+  <li>Breeze - numeric processing, signal processing</li>
+  <li>nettib-java</li>
+  <li>Blitz - parallel collections - use for primitive data. It is a lot faster.</li>
+  <li>Slick - Functional relational mapping</li>
+  <li>Scalaz, Cats, scala-hamsters</li>
+  <li>H<sub>2</sub>O - high perf in-memory compute engine for data analysis
+    <ul>
+      <li>h20_ai - provides deep learning ???</li>
+    </ul>
+  </li>
+  <li>Spark + MLib + GraphX</li>
+  <li>Kroy - serialization</li>
+  <li>Miniboxing - http://scala-miniboxing.org/</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>Horstmann - Scala for the Impatient</li>
+  <li><strong>[realtime analytics]</strong> Real-Time Analytics</li>
+  <li><strong>[learning concurrent]</strong> Learning Concurrent Programming in Scala</li>
+  <li><strong>[scala high-performance]</strong> Scala High Performance Programming</li>
+  <li><strong>[jetbrains]</strong>  https://pavelfatin.com/scala-collections-tips-and-tricks/</li>
+  <li><strong>[pattern]</strong>  http://www.artima.com/scalazine/articles/stackable_trait_pattern.html</li>
+  <li><strong>[implicit]</strong> https://www.theguardian.com/info/developer-blog/2016/dec/22/parental-advisory-implicit-content</li>
+  <li><strong>[louc]</strong> https://medium.com/@sinisalouc</li>
+  <li><strong>[cats]</strong> typesafe Cats API</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

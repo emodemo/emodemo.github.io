@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Security | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Security" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Security.html" />
+<meta property="og:url" content="/dev/Security.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Security" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/dev/Security.html","headline":"Security","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Security</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="software">Software</h2>
+
+<ul>
+  <li>TLS and WWS, the S of https. TLS is newer and better than SSL</li>
+  <li>OS Security modules
+    <ul>
+      <li>AppArmour for Ubuntu and SuSE</li>
+      <li>SELinux for RedHat</li>
+      <li>GrSSecurity</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li><strong>[micro]</strong> Pefer SAML or OpenID Connect
+    <ul>
+      <li>There are a couple of other downsides, though. First, just as with Basic Auth, we need to securely store our credentials: where do the username and password live? The client will need to find some secure way to store this data. The other problem is that some of the technology in this space to do the authentication is fairly tedious to code for. SAML, in particular, makes implementing a client a painful affair. OpenID Connect has a simpler workflow, but as we discussed earlier it isn’t that well supported yet.</li>
+    </ul>
+  </li>
+  <li><strong>[micro]</strong> HMAC over HTTP
+    <ul>
+      <li>With HMAC the body request along with a private key is hashed, and the resulting hash is sent along with the request. The server then uses its own copy of the private key and the request body to re-create the hash. If it matches, it allows the request. The nice thing here is that if a man in the middle messes with the request, then the hash won’t match and the server knows the request has been tampered with. And the private key is never sent in the request, so it cannot be compromised in transit! The added benefit is that this traffic can then more easily be cached, and the overhead of generating the hashes may well be lower than handling HTTPS traffic (although your mileage may vary).</li>
+      <li>There are three downsides to this approach.
+        <ul>
+          <li>First, both the client and server need a shared secret that needs to be communicated somehow. How do they share it? It could be hardcoded at both ends, but then you have the problem of revoking access if the secret becomes compromised. If you communicate this key over some alternative protocol, then you need to make sure that that protocol is also very secure!</li>
+          <li>Second, this is a pattern, not a standard, and thus there are divergent ways of implementing it. As a result, there is a dearth of good, open, and usable implementations of this approach. In general, if this approach interests you, then do some more reading to understand the different ways it is done. I’d go as far as to say just look at how Amazon does this for S3 and copy its approach, especially using a sensible hashing function with a suitably long key like SHA-256. JSON web tokens (JWT) are also worth looking at, as they implement a very similar approach and seem to be gaining traction. But be aware of the difficulty of getting this stuff right. My colleague was working with a team that was implementing its own JWT implementation, omitted a single Boolean check, and invalidated its entire authentication code! Hopefully over time we’ll see more reusable library implementations.</li>
+          <li>Finally, understand that this approach ensures only that no third party has manipulated the request and that the private key itself remains private. The rest of the data in the request will still be visible to parties snooping on the network.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>[micro]</strong> API Keys
+    <ul>
+      <li>All public APIs from services like Twitter, Google, Flickr, and AWS make use of API keys. API keys allow a service to identify who is making a call, and place limits on what they can do. Often the limits go beyond simply giving access to a resource, and can extend to actions like rate-limiting specific callers to protect quality of service for other people. When it comes to using API keys to handle your own microservice-to-microservice approach, the exact mechanics of how it works will depend on the technology you use. Some systems use a single API key that is shared, and use an approach similar to HMAC as just described. A more common approach is to use a public and private key pair. Typically, you’ll manage keys centrally, just as we would manage identities of people centrally. The gateway model is very popular in this space.</li>
+    </ul>
+  </li>
+  <li><strong>[micro]</strong> Decrypt on Demand Encrypt data when you first see it. Only decrypt on demand, and ensure that data is never stored anywhere.</li>
+  <li><strong>[micro]</strong> Intrusion Detection (and Prevention) System Intrusion
+    <ul>
+      <li>detection systems (IDS) can monitor networks or hosts for suspicious behavior, reporting problems when it sees them. Intrusion prevention systems (IPS), as well as monitoring for suspicious activity, can step in to stop it from happening. Unlike a firewall, which is primarily looking outward to stop bad things from getting in, IDS and IPS are actively looking inside the perimeter for suspect behavior. When you’re starting from scratch, IDS may make most sense. These systems are heuristic-based (as are many application firewalls), and it is possible that the generic starting set of rules will either be too lenient or not lenient enough for how your service behaves. Using a more passive IDS to alert you to problems is a good way to tune your rules before using it in a more active capacity.</li>
+    </ul>
+  </li>
+  <li><strong>[micro]</strong> OS Security modules
+    <ul>
+      <li>Another thing to look at if you are using Linux is the emergence of security modules for the operating system itself. <strong>AppArmour</strong>, for example, allows you to define how your application is expected to behave, with the kernel keeping an eye on it. If it starts doing something it shouldn’t, the kernel steps in. <strong>AppArmour</strong> has been around for a while, as has <strong>SeLinux</strong>. Although technically either of them should work on any modern Linux system, in practice some distributions support one better than the other. <strong>AppArmour</strong> is used by default in Ubuntu and SuSE, for example, whereas <strong>SELinux</strong> has traditionally been well supported by RedHat. A newer option is <strong>GrSSecurity</strong>, which aims to be simpler to use than either AppArmour or GrSecurity while also trying to expand on their capabilities, but it requires a custom kernel to work. I’d suggest taking a look at all three to see which fits your use cases best, but I like the idea of having another layer of protection and prevention at work.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="example-from-micro">Example from <strong>[micro]</strong></h2>
+
+<p><strong>//TODO: fix this paragraph</strong></p>
+
+<ul>
+  <li>A Worked Example Having a finer-grained system architecture gives us much more freedom in how we implement our security. For those parts that deal with the most sensitive information or expose the most valuable capabilities, we can adopt the strictest security provisions. But for other parts of the system, we can afford to be much more lax in what we worry about.</li>
+  <li>Let’s consider MusicCorp once again, and pull some of the preceding concepts together to see where and how we might use some of these security techniques. We’re looking primarily at the security concerns of data in transit and at rest. … shows a subset of the overall system that we’ll be analyzing, which currently shows a crushing lack of regard for security concerns. Everything is sent over plain old HTTP. Here we have standard web browsers that are used by our customers to shop on the site. We also introduce the concept of a third-party royalty gateway: we’ve started working with a third-party company that will handle royalty payments for our new streaming service. It contacts us occasionally to pull down records of what music has been streamed when — information we jealously protect as we are worried about competition from rival companies. Finally, we expose our catalog data to other third parties — for example, allowing the metadata about artist or song to be embedded in music review sites. Inside our network perimeter, we have some collaborating services, which are only ever used internally. For the browser, we’ll use a mix of standard HTTP traffic for nonsecure content, to allow for it to be cached. For secure, logged-in pages, all secure content will be sent over HTTPS, giving our customers extra protection if they are doing things like running on public WiFi networks. When it comes to the third-party royalty payment system, we are concerned not only about the nature of the data we are exposing, but also about making sure the requests we’re getting are legitimate. Here, we insist that our third party uses client certificates. All the data is sent over a secure, cryptographic channel, increasing our ability to ensure we’re being asked for this data by the right person. We do, of course, have to think about what happens when the data leaves our control. Will our partner care about the data as much as we will? For the feeds of catalog data, we want this information shared as widely as possible to allow people to easily buy music from us! However, we don’t want this abused, and we’d like some idea of who is using our data. Here, API keys make perfect sense. Inside the network perimeter, things are a bit more nuanced. How worried are we about people compromising our internal networks? Ideally, we’d like to use HTTPS at a minimum, but managing it is somewhat painful. We decide instead to put the work (initially, at least) into hardening our network perimeter, including having a properly configured firewall and selecting an appropriate hardware or software security appliance to check for malicious traffic (e.g., port scanning or denial-of-service attacks). That said, we are concerned about some of our data and where it lives. We aren’t worried about the catalog service; after all, we want that data shared and have provided an API for it! But we are very concerned about our customers’ data. Here, we decide to encrypt the data held by the customer service, and decrypt data on read. If attackers do penetrate our network, they could still run requests against the customer service’s API, but the current implementation does not allow for the bulk retrieval of customer data. If it did, we would likely consider the use of client certificates to protect this information. Even if attackers compromise the machine the database is running on and manage to download the entire contents, they would need access to the key used to encrypt and decrypt the data to make use if it. <strong>Figure 9-5</strong> shows the final picture. As you can see, the choices we made about what technology to use were based on an understanding of the nature of the information being secured. Your own architecture’s security concerns are likely to be very different, and so you may end up with a different-looking solution.</li>
+  <li>
+    <p><strong>Figure 9-5</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       |BROWSER|      |3rd PARTY CONSUMERS| |3rd PARTY ROYALTY SYSTEMS|
+      http &amp; https           API keys           client certificates       
+           |                    |                       |
+----------------------------------------------------------------
+Network perimeter
+----------------------------------------------------------------
+           |                    |                       |
+           V                    V                       |  
+       |WEBSITE|          |API GATEWAY|                 |
+----------------------------------------------------------------
+Network defences (IPS, etc.)
+----------------------------------------------------------------
+    http   |  http              |                       |
+  -------------------------     |                       |
+  |        |              |     |                       |
+  V        V              V     V                       V
+|CATALOG||CUST SERVICE||RECOMMEND SERVICE|   |STREAMING SERVICE|
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="oauth2">OAuth2</h2>
+
+<ul>
+  <li>The OAuth 2.0 authorization framework enables a third-party application to obtain limited access to an HTTP service
+    <ul>
+      <li>either on behalf of a resource owner by orchestrating an approval interaction between the resource owner and the HTTP service</li>
+      <li>or by allowing the third-party application to obtain access on its own behalf.</li>
+    </ul>
+  </li>
+  <li>simple example:
+    <ol>
+      <li>MyApp send request to GoogleOAuth2</li>
+      <li>Google redirects to authentication page</li>
+      <li>Google sends message to <code class="language-plaintext highlighter-rouge">callback Url</code> with <code class="language-plaintext highlighter-rouge">code</code></li>
+      <li>MyApp sends the code to Backend Server</li>
+      <li>Backend Server sends the code + a few other params to Google</li>
+      <li>Google returns a <strong>token</strong> to Backend Server</li>
+      <li>Backend Server uses <strong>token</strong> to get Contacts from Resource Server</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">// MyApp request to google example</span>
+<span class="na">request scope</span><span class="pi">:</span> <span class="s">contacts // name service/resource to be accessed</span>
+<span class="na">response type</span><span class="pi">:</span> <span class="s">code // grant the code to be shared with server</span>
+<span class="na">client id</span><span class="pi">:</span> <span class="s">provided by google</span>
+<span class="na">callback URL</span><span class="pi">:</span> <span class="s">called by Google after user clicks "allow"</span>
+</code></pre></div></div>
+
+<h2 id="openid-connect">OpenID Connect</h2>
+
+<ul>
+  <li>On top of OAuth2, for logging (authentication)</li>
+  <li>example: Signing with Google
+    <ul>
+      <li>same as OAuth2 example above points 1 to 5, but instead of <strong>token</strong>, an <strong>user profile</strong> (access token and id token) is returned. id token contains information for authentication</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">// MyApp request to google example</span>
+<span class="na">request scope</span><span class="pi">:</span> <span class="s">openid profile email // HERE IS DIFFERENCE WITH OAUTH2 example above</span>
+<span class="na">response type</span><span class="pi">:</span> <span class="s">code // grant the code to be shared with server</span>
+<span class="na">client id</span><span class="pi">:</span> <span class="s">provided by google</span>
+<span class="na">callback URL</span><span class="pi">:</span> <span class="s">called by Google after user clicks "allow"</span>
+</code></pre></div></div>
+
+<h2 id="threat-models-mf_trainig">Threat models <strong>[mf_trainig]</strong></h2>
+
+<ul>
+  <li><a href="https://mavensecurity.com/resources/web-security-dojo">Maven Security Dojo Linux</a></li>
+  <li>STRIDE
+    <ul>
+      <li>Spoofing -&gt; Authentication // Trust no one, Every access must be checked each time.</li>
+      <li>Tampering -&gt; Integrity</li>
+      <li>Repudiation -&gt; Non Repudiability</li>
+      <li>Information Disclosure -&gt; Confidentiality</li>
+      <li>Denial of Service -&gt; Availability // limit N of trials, set max pass length (e.g. 64 or 128) as long pass can cause DOS, and some hash algorithms have a max.</li>
+      <li>Elevation of privilege -&gt; Authorization  // + Grant least privileges, Implement a role based access control system
+        <ul>
+          <li>see Cross-Site Request Forgery + synchronizer token.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Defend in depth. Do not rely only on firewall, but also use an Intrusion Detection System: validate IP, use 2 factor authentication, prevent brute-force attack, hash passwords …</li>
+  <li>Fail secure -  deny access in case of specific failure.
+    <ul>
+      <li>Fail safe is the reverse - e.g. in case of fire allow access to closed doors so that people can come out of the building</li>
+    </ul>
+  </li>
+  <li>Make security usable :-)</li>
+  <li>Collect only information needed for specific purpose, store it securely, limit access, delete it when done.</li>
+  <li>Audit: the action, who, when, how</li>
+  <li>SQL injection. Prevent with parametrized queries and prepared statement.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// VULNERABLE</span>
+<span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">"SELECT account_no, balance_amt FROM accounts WHERE cust_id = '"</span> <span class="o">+</span>
+<span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"cust_id"</span><span class="o">)</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">;</span>
+<span class="k">try</span>
+<span class="o">{</span>
+  <span class="nc">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+  <span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// FIXED</span>
+<span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">"SELECT account_no, balance_amt FROM accounts WHERE cust_id = ?"</span><span class="o">;</span>
+<span class="nc">String</span> <span class="n">custid</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"cust_id"</span><span class="o">);</span>
+<span class="k">try</span>
+<span class="o">{</span>
+  <span class="nc">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span> <span class="n">query</span> <span class="o">);</span>
+  <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span> <span class="mi">1</span><span class="o">,</span> <span class="n">custid</span><span class="o">);</span>
+  <span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span> <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>OS command injection:
+    <ul>
+      <li>avoid direct command calls, use built-in library functions or “allow list”</li>
+      <li>separate command from data: they must be validated separately</li>
+      <li>run with lowest possible privilege</li>
+    </ul>
+  </li>
+  <li>passowrds - <code class="language-plaintext highlighter-rouge">store(secure_hash(salt+passowrd))</code>, use unique salt per user not system-wide, change the salt on every password change.
+    <ul>
+      <li>scrypt, bcrypt, pbkdf2</li>
+      <li>hash(one way function) + salt, not encryption(requires decryption) + salt</li>
+      <li>credit card number -&gt; use encryption.</li>
+      <li>product binary download -&gt; hash checksum</li>
+      <li>digitally signed file -&gt; hashing for maintaining integrity and then encrypt the hash with signer’s private key.</li>
+    </ul>
+  </li>
+  <li>Path Traversal Vulnerability
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">http://example.com/getUserProfile.jsp?item=page1.xml</code> changed to <code class="language-plaintext highlighter-rouge">https://example.com/getUserProfile.jsp?item=../../../../etc/passwd</code></li>
+      <li>The attackers may also use escape codes such as <code class="language-plaintext highlighter-rouge">%2e%2e/</code> for <code class="language-plaintext highlighter-rouge">../..</code> (if the .. Is blocked) (<code class="language-plaintext highlighter-rouge">%2e</code> represents dot)</li>
+      <li><code class="language-plaintext highlighter-rouge">File f = new File(input_path);</code> can lead to path traversal vulnerability if input_path is not trusted</li>
+      <li>Prevention: Input validation, create allowlist</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">getCanonicalPath()</code> instead of <code class="language-plaintext highlighter-rouge">getAbsolutePath()</code> to get the actual full path name then validate it with allowed folder.</li>
+      <li>Beyond this use filters to block URLs containing commands or escape code</li>
+      <li>see the ZipSlip vulnerability in Java</li>
+    </ul>
+  </li>
+  <li>XSS Cross Site Scripting -&gt; use <code class="language-plaintext highlighter-rouge">org.owasp.encoder.Encode</code>
+    <ul>
+      <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">OWASP XSS cheatsheet</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><strong>[micro]</strong> Newmann - Building Microservices</li>
+  <li><strong>[mf_trainig]</strong> Micro Focus Internal training</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>
