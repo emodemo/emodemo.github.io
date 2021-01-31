@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Java" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Java.html","headline":"Java","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Java.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Java","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="tips">Tips</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="tips">Tips</h2>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">list.removeIf(lambda)</code></li>
@@ -56,7 +67,7 @@
 <p>(java is best thought as dynamically compiled)</p>
 
 <ul>
-  <li><strong>[well]</strong> Let’s look at some good basic facts about JIT compilation:
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> Let’s look at some good basic facts about JIT compilation:
     <ul>
       <li>Virtually all modern JVMs will have a JIT compiler of some sort.</li>
       <li>Purely interpreted VMs are very slow by comparison.</li>
@@ -65,26 +76,26 @@
       <li>When doing JIT compilation, it’s always important to take the low-hanging fruit first.</li>
     </ul>
   </li>
-  <li><strong>[well]</strong> Methods start off being interpreted from their bytecode representation, with the JVM keeping track of how many times a method has been called (and a few other statistics). When a threshold value is reached (10,000 times, by default), and if the method is eligible, a JVM thread will compile the bytecode to machine code in the background. If compilation succeeds, all further calls to the method will use the compiled form, unless something happens to invalidate it or otherwise cause deoptimization.</li>
-  <li><strong>[well]</strong> Depending on the exact nature of the code in a method, a compiled method can be up to 100 times faster than the same method in interpreted mode. Understanding which methods are important in a program, and which important methods are being compiled, is very often the cornerstone of improving performance.</li>
-  <li><strong>[well]</strong> client -server modes
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> Methods start off being interpreted from their bytecode representation, with the JVM keeping track of how many times a method has been called (and a few other statistics). When a threshold value is reached (10,000 times, by default), and if the method is eligible, a JVM thread will compile the bytecode to machine code in the background. If compilation succeeds, all further calls to the method will use the compiled form, unless something happens to invalidate it or otherwise cause deoptimization.</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> Depending on the exact nature of the code in a method, a compiled method can be up to 100 times faster than the same method in interpreted mode. Understanding which methods are important in a program, and which important methods are being compiled, is very often the cornerstone of improving performance.</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> client -server modes
     <ul>
       <li>client: tends to make more conservative decisions when compiling. This means that it can’t pause unexpectedly while it backs out an optimization decision that turned out to be incorrect or based on a faulty assumption.</li>
       <li>server: By contrast, the server compiler (C2) will make aggressive assumptions when compiling. To ensure that the code that’s run is always correct, C2 will add a quick runtime check (usually called a guard condition) that the assumption it made is valid. If not, it will back out the aggressive compilation and will often try something else. This aggressive approach can yield far better performance than the rather risk-averse client compiler.</li>
       <li>real-time java (a separate VM, not the HotSpot): Real-time programming is really about the guarantees that can be made. In statistical terms, a real-time system seeks to reduce the variance of the time taken to perform certain operations, and is prepared to sacrifice a certain amount of mean latency to do so. Overall performance may be slightly sacrificed in order to attain more consistent running.</li>
     </ul>
   </li>
-  <li><strong>[well]</strong> inlining - It works by eliminating the call to the inlined method, and instead placing the code of the called method inside the caller.
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> inlining - It works by eliminating the call to the inlined method, and instead placing the code of the called method inside the caller.
     <ul>
       <li>One of the advantages of the platform is that the compiler can make the decision to inline based on decent runtime statistics about how often the method is called and other factors (for example, will it make the caller method too large and potentially affect code caches). This means that HotSpot’s compiler can make much smarter decisions about inlining than ahead-of-time compilers.</li>
       <li>HotSpot can and will ignore access control when compiling methods to machine code and will replace an accessor method with a direct access to the private field. This doesn’t compromise Java’s security model, because all of the access control was checked at class loading and linking time.</li>
       <li>pp 198</li>
     </ul>
   </li>
-  <li><strong>[well]</strong> GC strategies - pp 182</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> GC strategies - pp 182</li>
 </ul>
 
-<h2 id="aspects-aspect">Aspects <strong>[aspect]</strong></h2>
+<h2 id="aspects-comparing-spring-aop-and-aspectj-2017">Aspects <a class="citation" href="#baeldung2020aspects">(<i>Comparing Spring AOP and AspectJ</i>, 2017)</a></h2>
 
 <h3 id="weaving">Weaving</h3>
 
@@ -211,12 +222,13 @@
   <li>Notes: * ‘s are from the net, Breeze’s are from my laptop</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[well]</strong> Evans - The Well-Grounded Java Developer</li>
-  <li><strong>[aspect]</strong> [Comparing Spring AOP and AspectJ] (http://www.baeldung.com/)</li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="baeldung2020aspects"><i>Comparing Spring AOP and AspectJ</i>. (2017). https://www.baeldung.com/spring-aop-vs-aspectj/</span></li>
+<li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer : vital techniques of Java 7 and polyglot programming</i>. Manning.</span></li></ul>
 
   </div>
 
@@ -249,7 +261,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

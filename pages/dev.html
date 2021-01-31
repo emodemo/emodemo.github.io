@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Development" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/pages/dev.html","headline":"Development","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/pages/dev.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Development","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <!--  -->
+    <!-- used in /pages folder-->
+<!--  -->
 <!-- <h1>tags: []</h1> -->
 <div>
 
@@ -57,7 +68,7 @@
     
     
          
-        <p><a href="/dev/APIDesign.html">API Design</a></p>
+        <li><a href="/dev/APIDesign.html">API Design</a></li>
         <!-- <h1>tags: []</h1> -->
         
     
@@ -65,15 +76,7 @@
     
     
          
-        <p><a href="/dev/ApacheKafka.html">Apache Kafka</a></p>
-        <!-- <h1>tags: [kafka]</h1> -->
-        
-    
-
-    
-    
-         
-        <p><a href="/dev/Basics_Algorithms.html">Basic Algorithms</a></p>
+        <li><a href="/dev/BasicsAlgorithms.html">Basic Algorithms</a></li>
         <!-- <h1>tags: [algorithm]</h1> -->
         
     
@@ -81,7 +84,7 @@
     
     
          
-        <p><a href="/dev/Categories.html">Categories</a></p>
+        <li><a href="/dev/Categories.html">Categories</a></li>
         <!-- <h1>tags: [categories, java]</h1> -->
         
     
@@ -89,7 +92,7 @@
     
     
          
-        <p><a href="/dev/Containers.html">Containers</a></p>
+        <li><a href="/dev/Containers.html">Containers</a></li>
         <!-- <h1>tags: [container, docker, k8s]</h1> -->
         
     
@@ -97,7 +100,7 @@
     
     
          
-        <p><a href="/dev/DB.html">Database</a></p>
+        <li><a href="/dev/DB.html">Database</a></li>
         <!-- <h1>tags: [database]</h1> -->
         
     
@@ -105,7 +108,7 @@
     
     
          
-        <p><a href="/dev/DOP.html">Data-Oriented Programming</a></p>
+        <li><a href="/dev/DOP.html">Data-Oriented Programming</a></li>
         <!-- <h1>tags: []</h1> -->
         
     
@@ -113,7 +116,7 @@
     
     
          
-        <p><a href="/dev/DeepSomething.html">Deep Learning</a></p>
+        <li><a href="/dev/DeepSomething.html">Deep Learning</a></li>
         <!-- <h1>tags: [deep learning]</h1> -->
         
     
@@ -121,7 +124,7 @@
     
     
          
-        <p><a href="/dev/DesignPatterns.html">Design Patterns</a></p>
+        <li><a href="/dev/DesignPatterns.html">Design Patterns</a></li>
         <!-- <h1>tags: [pattern, scala, java]</h1> -->
         
     
@@ -129,7 +132,7 @@
     
     
          
-        <p><a href="/dev/Distributed.html">Distributed Systems</a></p>
+        <li><a href="/dev/Distributed.html">Distributed Systems</a></li>
         <!-- <h1>tags: [distributed, cap]</h1> -->
         
     
@@ -137,7 +140,7 @@
     
     
          
-        <p><a href="/dev/DistributedPatterns.html">Distributed Systems Patterns</a></p>
+        <li><a href="/dev/DistributedPatterns.html">Distributed Systems Patterns</a></li>
         <!-- <h1>tags: [distributed, pattern]</h1> -->
         
     
@@ -145,7 +148,7 @@
     
     
          
-        <p><a href="/dev/GraalVM.html">Graal VM</a></p>
+        <li><a href="/dev/GraalVM.html">Graal VM</a></li>
         <!-- <h1>tags: []</h1> -->
         
     
@@ -153,8 +156,16 @@
     
     
          
-        <p><a href="/dev/Java.html">Java</a></p>
+        <li><a href="/dev/Java.html">Java</a></li>
         <!-- <h1>tags: [java]</h1> -->
+        
+    
+
+    
+    
+         
+        <li><a href="/dev/Kafka.html">Kafka</a></li>
+        <!-- <h1>tags: [kafka]</h1> -->
         
     
 
@@ -171,7 +182,7 @@
     
     
          
-        <p><a href="/dev/MultiThreading.html">Multithreading and Concurrency</a></p>
+        <li><a href="/dev/MultiThreading.html">Multithreading and Concurrency</a></li>
         <!-- <h1>tags: [multithreading, concurrency, java]</h1> -->
         
     
@@ -179,7 +190,7 @@
     
     
          
-        <p><a href="/dev/Optionals.html">Optionals</a></p>
+        <li><a href="/dev/Optionals.html">Optionals</a></li>
         <!-- <h1>tags: [java, optional]</h1> -->
         
     
@@ -187,7 +198,7 @@
     
     
          
-        <p><a href="/dev/RunUnit.html">COBOL RunUnit</a></p>
+        <li><a href="/dev/RunUnit.html">COBOL RunUnit</a></li>
         <!-- <h1>tags: [cobol]</h1> -->
         
     
@@ -195,7 +206,7 @@
     
     
          
-        <p><a href="/dev/Scala.html">Scala</a></p>
+        <li><a href="/dev/Scala.html">Scala</a></li>
         <!-- <h1>tags: [scala]</h1> -->
         
     
@@ -208,7 +219,7 @@
     
     
          
-        <p><a href="/dev/Services.html">Web Services</a></p>
+        <li><a href="/dev/Services.html">Web Services</a></li>
         <!-- <h1>tags: [web service]</h1> -->
         
     
@@ -216,7 +227,7 @@
     
     
          
-        <p><a href="/dev/Spark.html">Spark</a></p>
+        <li><a href="/dev/Spark.html">Spark</a></li>
         <!-- <h1>tags: [spark, scala]</h1> -->
         
     
@@ -249,7 +260,7 @@
     
     
          
-        <p><a href="/dev/hazelcast.html">Hazelcast</a></p>
+        <li><a href="/dev/hazelcast.html">Hazelcast</a></li>
         <!-- <h1>tags: [hazelcats, distributed, java]</h1> -->
         
     
@@ -265,7 +276,7 @@
     
     
          
-        <p><a href="/dev/linuxCmd.html">Linux command line cheat sheet</a></p>
+        <li><a href="/dev/linuxCmd.html">Linux command line cheat sheet</a></li>
         <!-- <h1>tags: [linux, terminal]</h1> -->
         
     
@@ -299,7 +310,6 @@
 
 
 </div>
-
   </div>
 
 </article>
@@ -331,7 +341,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

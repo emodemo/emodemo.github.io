@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Containers" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Containers.html","headline":"Containers","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Containers.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Containers","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="docker">DOCKER</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="docker">DOCKER</h2>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># run myTomcat image in bridge network</span>
 <span class="o">&gt;</span> docker run <span class="nt">-it</span> <span class="nt">--net</span><span class="o">=</span>bridge myTomcat
@@ -60,13 +71,14 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[d3]</strong> Unlike <code class="language-plaintext highlighter-rouge">CMD</code>, the <code class="language-plaintext highlighter-rouge">RUN</code> instruction is actually used to build the image, by creating a new layer on top of the previous one which is committed.</li>
-  <li><strong>[d3]</strong> The <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> specifies a command that will always be executed when the container starts. The CMD, on the other hand, specifies the arguments that will be fed to the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Docker has a default <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> which is <code class="language-plaintext highlighter-rouge">/bin/sh -c</code> but does not have a default <code class="language-plaintext highlighter-rouge">CMD</code>.</li>
-  <li><strong>[d3]</strong> Unlike the <code class="language-plaintext highlighter-rouge">CMD</code> parameters, the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> command and parameters are not ignored when a Docker container runs with command-line parameters.</li>
-  <li><strong>[d3]</strong> If there are more than one <code class="language-plaintext highlighter-rouge">CMD</code> instruction in a Dockerfile, only the last one will take effect.</li>
-  <li><strong>[d3]</strong> <code class="language-plaintext highlighter-rouge">EXPOSE</code> command followed by a port number allow incoming traffic to the container</li>
-  <li><strong>[d3]</strong> The fundamental difference between <code class="language-plaintext highlighter-rouge">VOLUME</code> and <code class="language-plaintext highlighter-rouge">-v</code> is this: <code class="language-plaintext highlighter-rouge">-v</code> will mount existing files from your operating system inside your Docker container and <code class="language-plaintext highlighter-rouge">VOLUME</code> will create a new, empty volume on your host and mount it inside your container.</li>
-  <li><strong>[d3]</strong> !! Each <code class="language-plaintext highlighter-rouge">LABEL</code> instruction creates a new layer. If your image has many labels, use the multiple form of the single <code class="language-plaintext highlighter-rouge">LABEL</code> instruction.</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a></li>
+  <li>Unlike <code class="language-plaintext highlighter-rouge">CMD</code>, the <code class="language-plaintext highlighter-rouge">RUN</code> instruction is actually used to build the image, by creating a new layer on top of the previous one which is committed.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> specifies a command that will always be executed when the container starts. The CMD, on the other hand, specifies the arguments that will be fed to the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Docker has a default <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> which is <code class="language-plaintext highlighter-rouge">/bin/sh -c</code> but does not have a default <code class="language-plaintext highlighter-rouge">CMD</code>.</li>
+  <li>Unlike the <code class="language-plaintext highlighter-rouge">CMD</code> parameters, the <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> command and parameters are not ignored when a Docker container runs with command-line parameters.</li>
+  <li>If there are more than one <code class="language-plaintext highlighter-rouge">CMD</code> instruction in a Dockerfile, only the last one will take effect.</li>
+  <li><code class="language-plaintext highlighter-rouge">EXPOSE</code> command followed by a port number allow incoming traffic to the container</li>
+  <li>The fundamental difference between <code class="language-plaintext highlighter-rouge">VOLUME</code> and <code class="language-plaintext highlighter-rouge">-v</code> is this: <code class="language-plaintext highlighter-rouge">-v</code> will mount existing files from your operating system inside your Docker container and <code class="language-plaintext highlighter-rouge">VOLUME</code> will create a new, empty volume on your host and mount it inside your container.</li>
+  <li>!! Each <code class="language-plaintext highlighter-rouge">LABEL</code> instruction creates a new layer. If your image has many labels, use the multiple form of the single <code class="language-plaintext highlighter-rouge">LABEL</code> instruction.</li>
 </ul>
 
 <h3 id="cheat-sheet">cheat sheet</h3>
@@ -122,6 +134,8 @@ SHELL <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <spa
 <h2 id="k8s">K8S</h2>
 
 <ul>
+  <li><a class="citation" href="#gupta2017kubernetes">(Gupta, 2017)</a></li>
+  <li><a class="citation" href="#noauthor0000oracle">(“Oracle Linux Container Services for use with Kubernetes User’s Guide,” n.d.)</a></li>
   <li>K*s manages jobs. It know how to delegates these jobs to the nodes.
     <ul>
       <li>Jobs run containers on nodes.</li>
@@ -161,7 +175,7 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
   <li>Scheduler: Schedules pods to worker nodes</li>
   <li>kubelet: Acts as a conduit between the API server and the node</li>
   <li>kube-proxy: Manages IP translation and routing</li>
-  <li><strong>[d2]</strong> kube-proxy knows only UDP and TCP, does not understand HTTP, provides load balancing, and is just used to reach services.</li>
+  <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> kube-proxy knows only UDP and TCP, does not understand HTTP, provides load balancing, and is just used to reach services.</li>
   <li>A Worker Node contains
     <ul>
       <li>Kubelet service to communicate with the Master Node</li>
@@ -176,9 +190,9 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
 <h3 id="kubectl">kubectl</h3>
 
 <ul>
-  <li><strong>[d3]</strong> kubectl + JSONPath to extract specific fields from objects (pod, daemonSet, deployment). As an example, this command will extract and print the IP address of the pod: <code class="language-plaintext highlighter-rouge">&gt; kubectl get pods my-pod -o jsonpath --template={.status.podIP}</code></li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> kubectl + JSONPath to extract specific fields from objects (pod, daemonSet, deployment). As an example, this command will extract and print the IP address of the pod: <code class="language-plaintext highlighter-rouge">&gt; kubectl get pods my-pod -o jsonpath --template={.status.podIP}</code></li>
   <li>
-    <p><strong>[d3]</strong> deploy an image with Docker vs Kubernetes:<br />
+    <p><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> deploy an image with Docker vs Kubernetes:<br />
 <code class="language-plaintext highlighter-rouge">&gt; docker run -d --name loanamort --publish 8080:8080 loanamort:v01</code><br />
 <code class="language-plaintext highlighter-rouge">&gt; kubectl apply -f loanamort-pod.yaml</code>
 <code class="language-plaintext highlighter-rouge">&gt; kubectl run {name} --image={image} --port={number}</code> , where the port is exposed within the cluster, not outside.<br />
@@ -190,14 +204,14 @@ example: http://localhost:8001/api/v1/proxy/namespaces/default/services/hello-wi
 <code class="language-plaintext highlighter-rouge">&gt; kubectl proxy --address 0.0.0.0 --accept-hosts '.*'</code><br />
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\</p>
   </li>
-  <li><strong>[d3]</strong> Using Port Forwarding Later in the book, we’ll show how to expose a service to the world or other containers using load balancers, but oftentimes you simply want to access a specific Pod, even if it’s not serving traffic on the internet. To achieve this, you can use the port-forwarding support built into the Kubernetes API and command-line tools. When you run: <code class="language-plaintext highlighter-rouge">&gt; kubectl port-forward loanamort 8080:8080</code> a secure tunnel is created from your local machine, through the Kubernetes master, to the instance of the Pod running on one of the worker nodes. As long as the port-forward command is still running, you can access the Pod (in this case the kuard web interface) on http://localhost:8080.</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Using Port Forwarding Later in the book, we’ll show how to expose a service to the world or other containers using load balancers, but oftentimes you simply want to access a specific Pod, even if it’s not serving traffic on the internet. To achieve this, you can use the port-forwarding support built into the Kubernetes API and command-line tools. When you run: <code class="language-plaintext highlighter-rouge">&gt; kubectl port-forward loanamort 8080:8080</code> a secure tunnel is created from your local machine, through the Kubernetes master, to the instance of the Pod running on one of the worker nodes. As long as the port-forward command is still running, you can access the Pod (in this case the kuard web interface) on http://localhost:8080.</li>
 </ul>
 
 <h3 id="pod---a-logical-collection-of-containers">POD - a logical collection of containers</h3>
 
 <ul>
   <li>smallest deployable unit that can be created, scheduled, managed</li>
-  <li><strong>[d3]</strong> Pods have a termination grace period. By default, this is 30 seconds.</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Pods have a termination grace period. By default, this is 30 seconds.</li>
   <li>created in namespace =&gt; containers inside share network namespace (ip and port), volume, networks stack, UTS namespace, and find each other on <code class="language-plaintext highlighter-rouge">localhost</code>.
     <ul>
       <li>have the same hostname (UTS namespace),</li>
@@ -255,8 +269,8 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 <h3 id="deployments---declarative-updates-for-pods-and-replica-sets">DEPLOYMENTS - declarative updates for PODs and REPLICA SETs</h3>
 
 <ul>
-  <li><strong>[d2]</strong> The Deployment is responsible for creating and updating instances of your application. It is a higher level of abstraction; it manages ReplicaSets when doing Pod orchestration, creation, deletion, and updates. A Deployment provides declarative updates for Pods and ReplicaSets. The Deployment allows for easy updating of a Replica Set as well as the ability to roll back to a previous deployment.</li>
-  <li><strong>[d2]</strong> When you want to update a Pod, you will need to modify the Deployment manifest. This modification will create a new ReplicaSet, which will be scaled up while the previous ReplicaSet will be scaled down, providing no down-time deployment of your application.</li>
+  <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> The Deployment is responsible for creating and updating instances of your application. It is a higher level of abstraction; it manages ReplicaSets when doing Pod orchestration, creation, deletion, and updates. A Deployment provides declarative updates for Pods and ReplicaSets. The Deployment allows for easy updating of a Replica Set as well as the ability to roll back to a previous deployment.</li>
+  <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> When you want to update a Pod, you will need to modify the Deployment manifest. This modification will create a new ReplicaSet, which will be scaled up while the previous ReplicaSet will be scaled down, providing no down-time deployment of your application.</li>
 </ul>
 
 <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span> <span class="c1"># not part of the `core` API</span>
@@ -298,7 +312,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 <h3 id="service---a-logical-collection-of-pods-and-access-policy">SERVICE - a logical collection of PODs, and access policy</h3>
 
 <ul>
-  <li><strong>[d2]</strong> Each service is given its own IP address and port which remains constant for the lifetime of the service. Services have an integrated load-balancer that will distribute network traffic to all Pods. While a Pod’s life can be fragile as they are being spun up or down depending on your application needs, the service is a more constant concept.</li>
+  <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> Each service is given its own IP address and port which remains constant for the lifetime of the service. Services have an integrated load-balancer that will distribute network traffic to all Pods. While a Pod’s life can be fragile as they are being spun up or down depending on your application needs, the service is a more constant concept.</li>
   <li>PODs inside are defined by a label</li>
 </ul>
 
@@ -481,7 +495,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 <h3 id="namespace">NAMESPACE</h3>
 
 <ul>
-  <li><strong>[d2]</strong> A namespace functions as a grouping mechanism inside of Kubernetes. Pods, Volumes, ReplicaSets, and services can easily cooperate within a namespace, but the namespace provides an isolation from the other parts of the cluster. What would be the possible use case for such isolation? Well, namespaces let you manage different environments within the same cluster. For example, you can have different test and staging environments in the same cluster of machines.</li>
+  <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> A namespace functions as a grouping mechanism inside of Kubernetes. Pods, Volumes, ReplicaSets, and services can easily cooperate within a namespace, but the namespace provides an isolation from the other parts of the cluster. What would be the possible use case for such isolation? Well, namespaces let you manage different environments within the same cluster. For example, you can have different test and staging environments in the same cluster of machines.</li>
   <li>Each namespace can be assigned a resource quota (cpu, memory …), see <code class="language-plaintext highlighter-rouge">type: ResourceQuota</code>.</li>
 </ul>
 
@@ -580,15 +594,6 @@ delete iam role</p>
   </li>
 </ul>
 
-<h2 id="sources">Sources</h2>
-
-<ul>
-  <li>Gupta - Kubernetes for Java Developers</li>
-  <li><strong>[d2]</strong> Krochmalski - Docker and Kubernetes for Java Developers</li>
-  <li><strong>[d3]</strong> Kubernetes: Up and Running - Hightower++</li>
-  <li>https://docs.oracle.com/cd/E52668_01/E88884/html/kube-components-controllers.html</li>
-</ul>
-
 <h3 id="aws-eks-example-1">aws eks example</h3>
 
 <p>https://eksworkshop.com<br />
@@ -598,6 +603,16 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html<br
 https://www.edureka.co/blog/amazon-eks/<br />
 https://www.oreilly.com/ideas/how-to-manage-docker-containers-in-kubernetes-with-java<br />
 https://www.youtube.com/watch?v=8OPkt93WyPA</p>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="noauthor0000oracle">Oracle Linux Container Services for use with Kubernetes User’s Guide. In <i>Oracle Help Center</i>. Retrieved January 31, 2021, from https://docs.oracle.com/en/operating-systems/oracle-linux/kubernetes/</span></li>
+<li><span id="burns2019kubernetes">Burns, B., Hightower, K., &amp; Beda, J. (2019). <i>Kubernetes: up and running</i>.</span></li>
+<li><span id="gupta2017kubernetes">Gupta, A. (2017). <i>Kubernetes for Java developers: orchestrate multicontainer applications with ease</i>.</span></li>
+<li><span id="krochmalski2017docker">Krochmalski, J. (2017). <i>Docker and Kubernetes for Java Developers</i>. Packt Publishing.</span></li></ul>
 
   </div>
 
@@ -630,7 +645,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

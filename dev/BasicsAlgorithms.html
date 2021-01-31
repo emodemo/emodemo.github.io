@@ -10,15 +10,25 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/dev/Basics_Algorithms.html" />
-<meta property="og:url" content="/dev/Basics_Algorithms.html" />
+<link rel="canonical" href="/dev/BasicsAlgorithms.html" />
+<meta property="og:url" content="/dev/BasicsAlgorithms.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Basic Algorithms" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Basics_Algorithms.html","headline":"Basic Algorithms","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/BasicsAlgorithms.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Basic Algorithms","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="the-very-basics">The Very Basics</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="the-very-basics">The Very Basics</h2>
 
 <ul>
   <li>rolling hash instead of rolling window of string as it is faster</li>
@@ -54,7 +65,7 @@
 
 <ul>
   <li>Similar to DFS, but with rejection criteria to continue in a given path or not.</li>
-  <li>Examples: Finding a subset of a set of positive integers S that sum to a particular number T, where S = {10, 7, 5, 18, 12, 20, 8} and T = 23.</li>
+  <li>Examples: Finding a subset of a set of positive integers S that sums up to a particular number T, where S = {10, 7, 5, 18, 12, 20, 8} and T = 23.</li>
 </ul>
 
 <h3 id="dynamic-programming">Dynamic programming</h3>
@@ -117,6 +128,12 @@
   </li>
 </ul>
 
+
+
+
+
+<ul class="bibliography"></ul>
+
   </div>
 
 </article>
@@ -148,7 +165,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

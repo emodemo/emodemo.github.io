@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Scala" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Scala.html","headline":"Scala","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Scala.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Scala","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,12 @@
   </header>
 
   <div class="post-content">
-    <h2 id="equality">Equality</h2>
+    <!-- default one if nothing else is mentioned -->
+<ul>
+  <li><a class="citation" href="#horstmann2017scala">(Horstmann, 2017)</a></li>
+</ul>
+
+<h2 id="equality">Equality</h2>
 
 <ul>
   <li>Any: <code class="language-plaintext highlighter-rouge">==</code> delegates to <code class="language-plaintext highlighter-rouge">equals</code></li>
@@ -62,13 +77,13 @@
   <li><code class="language-plaintext highlighter-rouge">map()</code> does not preserve associativity</li>
   <li><code class="language-plaintext highlighter-rouge">reduce()</code> must be associative</li>
   <li>floating point is not associative <code class="language-plaintext highlighter-rouge">(d1+d2)+d3 != d1+(d2+d3)</code></li>
-  <li><strong>[jetbrains]</strong> Write pure functions with no side effects. Otherwise, isolate side effects from code.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Write pure functions with no side effects. Otherwise, isolate side effects from code.</li>
 </ul>
 
 <h2 id="notes">Notes</h2>
 
 <ul>
-  <li><strong>[learning concurrent]</strong> As turning a single field case class into a value class is as trivial as extending the AnyVal trait, we recommend that you always use AnyVal wherever possible. The overhead is quite low, and it generate high benefits in terms of garbage collection’s performance. To learn more about value classes, their limitations, and use cases, you can find detailed descriptions at http://docs.scala-lang.org/overviews/core/value-classes.html</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> As turning a single field case class into a value class is as trivial as extending the AnyVal trait, we recommend that you always use AnyVal wherever possible. The overhead is quite low, and it generate high benefits in terms of garbage collection’s performance. To learn more about value classes, their limitations, and use cases, you can find detailed descriptions at http://docs.scala-lang.org/overviews/core/value-classes.html</li>
   <li>
     <p><strong>[other]</strong> functional literal syntax example</p>
 
@@ -86,7 +101,7 @@
 <h3 id="implicit-parameters">Implicit Parameters</h3>
 
 <ul>
-  <li><strong>[implicit]</strong> Implicit parameters are method parameters which do not have to be explicitly passed to the method when it is called. If they’re missing, the compiler will look in the surrounding scope for something that fits the bill.</li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* Implicit parameters are method parameters which do not have to be explicitly passed to the method when it is called. If they’re missing, the compiler will look in the surrounding scope for something that fits the bill.</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">multiply</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
@@ -105,7 +120,7 @@
 <h3 id="implicit-conversions">Implicit Conversions</h3>
 
 <ul>
-  <li><strong>[implicit]</strong> Scala compiler will look for opportunities to do an implicit conversion whenever there is a type mismatch.</li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* Scala compiler will look for opportunities to do an implicit conversion whenever there is a type mismatch.</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">alert</span><span class="o">(</span><span class="n">msg</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">println</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
@@ -119,7 +134,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[implicit]</strong> The compiler will also look for opportunities to implicitly convert types when code tries to access an object member which is not defined for that type.</li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* The compiler will also look for opportunities to implicitly convert types when code tries to access an object member which is not defined for that type.</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.</span><span class="n">chat</span> <span class="c1">// error: value chat is not a member of Int</span>
@@ -136,7 +151,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[implicit]</strong> Shorthand for the above - <strong>implicit class</strong> and <strong>type enrichment</strong></li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* Shorthand for the above - <strong>implicit class</strong> and <strong>type enrichment</strong></li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">class</span> <span class="nc">LoquaciousInt</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
@@ -149,7 +164,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[implicit]</strong> Life with <strong>type classes</strong>.</li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* Life with <strong>type classes</strong>.</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// INTERFACE OBJECT SYNTAX</span>
@@ -177,7 +192,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[implicit]</strong> … plus implicit conversion</li>
+  <li><a class="citation" href="#smith2016Implicit2016">(Smith, 2016)</a>* … plus implicit conversion</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// INTERFACE SYNTAX</span>
@@ -206,7 +221,7 @@
 <h2 id="functional">Functional</h2>
 
 <ul>
-  <li><strong>[realtime analytics]</strong> In a functional language, functions are treated the same way as data. They can be stored in objects the same way as integers or strings, returned from functions, and passed to other functions. (In Java) these two entities are separate and treated quite differently by the Java compiler.</li>
+  <li>In a functional language, functions are treated the same way as data. They can be stored in objects the same way as integers or strings, returned from functions, and passed to other functions. (In Java) these two entities are separate and treated quite differently by the Java compiler.</li>
   <li>View Bound - <code class="language-plaintext highlighter-rouge">T &lt;% V</code> requires the existence of an implicit conversion from <code class="language-plaintext highlighter-rouge">T</code> to <code class="language-plaintext highlighter-rouge">V</code>. A context bound has the form <code class="language-plaintext highlighter-rouge">T : M</code>, where <code class="language-plaintext highlighter-rouge">M</code> is another generic type. It requires that there is an “implicit value” of type <code class="language-plaintext highlighter-rouge">M[T]</code>.</li>
 </ul>
 
@@ -244,7 +259,7 @@
 <h2 id="partially-applied-function">Partially applied function</h2>
 
 <ul>
-  <li><strong>[louc]</strong> if we have a function that takes three parameters, x, y and z, we can only apply the first one and as a result get a function of two parameters. Or we can apply the first two and get a function of only one parameter. For example, having a function that takes two integers and adds them, we can apply only the first one, e.g. 42, and as a result we will get a function that adds the input number to 42:</li>
+  <li><a class="citation" href="#sinisaBlog">(Sinisa, n.d.)</a> if we have a function that takes three parameters, x, y and z, we can only apply the first one and as a result get a function of two parameters. Or we can apply the first two and get a function of only one parameter. For example, having a function that takes two integers and adds them, we can apply only the first one, e.g. 42, and as a result we will get a function that adds the input number to 42:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Note that if you don’t explicitly define add42 to be of type Int =&gt; Int, you will need to explicitly define the type of the unused parameter: add(42, _: Int).</span>
@@ -254,7 +269,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[louc]</strong> Currying is a similar principle. Main idea with currying is to separate a function of n parameters into n functions of one parameter… Note that if we curry a function, there’s no need for the underscore thingy; with partially applied functions it’s needed because otherwise compiler will rightfully complain that add() takes two parameters, but with currying we are simply providing only the first parameter, which is completely valid:</li>
+  <li><a class="citation" href="#sinisaBlog">(Sinisa, n.d.)</a> Currying is a similar principle. Main idea with currying is to separate a function of n parameters into n functions of one parameter… Note that if we curry a function, there’s no need for the underscore thingy; with partially applied functions it’s needed because otherwise compiler will rightfully complain that add() takes two parameters, but with currying we are simply providing only the first parameter, which is completely valid:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">add</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
@@ -265,19 +280,19 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[louc]</strong> There is a difference between methods with no parenthesis and methods with empty parenthesis: former are basically values, but re-evaluated upon every access, while latter are methods as we know them. Invoke them as they are defined (if there are empty parenthesis in definition, put them in invocation too; this way you don’t have to remember what happens if f is invoked as f() and vice versa).</li>
+  <li><a class="citation" href="#sinisaBlog">(Sinisa, n.d.)</a> There is a difference between methods with no parenthesis and methods with empty parenthesis: former are basically values, but re-evaluated upon every access, while latter are methods as we know them. Invoke them as they are defined (if there are empty parenthesis in definition, put them in invocation too; this way you don’t have to remember what happens if f is invoked as f() and vice versa).</li>
 </ul>
 
 <h2 id="stackable-trait">Stackable Trait</h2>
 
 <ul>
-  <li><strong>[pattern]</strong> Stackable traits decorate the core traits at compile time, similar to the way decorator objects modify core objects at run time in the decorator pattern.
+  <li><a class="citation" href="#venners2009Stackable">(Venners, 2009)</a> Stackable traits decorate the core traits at compile time, similar to the way decorator objects modify core objects at run time in the decorator pattern.
     <ul>
       <li>Order of applying is from rightmost to leftmost.</li>
       <li>The trait has a super call on a method declared <code class="language-plaintext highlighter-rouge">abstract</code>. Such calls are illegal for normal classes, because they will certainly fail at run time. For a trait, however, such a call can actually succeed. Since super calls in a trait are dynamically bound, the super call in trait <code class="language-plaintext highlighter-rouge">Filtering</code> will work so long as the trait is mixed in after another trait or class that gives a concrete definition to the method. This arrangement is frequently needed with traits that implement stackable modifications. To tell the compiler you are doing this on purpose, you must mark such methods as <code class="language-plaintext highlighter-rouge">abstract override</code>. This combination of modifiers is only allowed for members of traits, not classes, and it means that the trait must be mixed into some class that has a concrete definition of the method in question.</li>
     </ul>
   </li>
-  <li><strong>[pattern]</strong> example</li>
+  <li><a class="citation" href="#venners2009Stackable">(Venners, 2009)</a> example</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// BASE</span>
@@ -351,8 +366,8 @@
 
 <ul>
   <li>Loop: <code class="language-plaintext highlighter-rouge">for (i &lt;- (0 until 100).par) print(i + " ")</code> - the numbers are printed in the order they are produced by the threads working on the task. In a for/yield loop <code class="language-plaintext highlighter-rouge">for (i &lt;- (0 until 100).par) yield i + " "</code> the results are assembled in order.</li>
-  <li><strong>[scala high-performance]</strong> Operations on parallelizable collections are fast, as the newly created structure from <code class="language-plaintext highlighter-rouge">.par</code> shares the same underlying data set <code class="language-plaintext highlighter-rouge">Array, ArrayBuffer,</code> mutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet, Range, Vector,</code> immutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet,</code> and concurrent <code class="language-plaintext highlighter-rouge">TrieMap</code>.</li>
-  <li><strong>[scala high-performance]</strong> Other Scala collections need to be converted to their parallel counterparts upon calling <code class="language-plaintext highlighter-rouge">.par</code>. Calling <code class="language-plaintext highlighter-rouge">par</code> on non-parallelizable collections entails copying their elements into a new collection. <strong>Importantly</strong>, the conversion from a sequential collection to a parallel one is not itself parallelized, and is a possible sequential bottleneck.
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Operations on parallelizable collections are fast, as the newly created structure from <code class="language-plaintext highlighter-rouge">.par</code> shares the same underlying data set <code class="language-plaintext highlighter-rouge">Array, ArrayBuffer,</code> mutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet, Range, Vector,</code> immutable <code class="language-plaintext highlighter-rouge">HashMap</code> and <code class="language-plaintext highlighter-rouge">HashSet,</code> and concurrent <code class="language-plaintext highlighter-rouge">TrieMap</code>.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Other Scala collections need to be converted to their parallel counterparts upon calling <code class="language-plaintext highlighter-rouge">.par</code>. Calling <code class="language-plaintext highlighter-rouge">par</code> on non-parallelizable collections entails copying their elements into a new collection. <strong>Importantly</strong>, the conversion from a sequential collection to a parallel one is not itself parallelized, and is a possible sequential bottleneck.
     <ul>
       <li>For example, calling par on List takes 55 milliseconds on our machine, whereas calling par on Vector takes 0.025 milliseconds.</li>
     </ul>
@@ -367,11 +382,11 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[scala high-performance]</strong> Tip: Converting a non-parallelizable sequential collection to a parallel collection is not a parallel operation; it executes on the caller thread.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Tip: Converting a non-parallelizable sequential collection to a parallel collection is not a parallel operation; it executes on the caller thread.</li>
   <li>Tip Treat operations invoked on a generic collection type as if they are parallel.</li>
-  <li><strong>[scala high-performance]</strong> Note: Binary operators used in parallel operations do not need to be commutative.</li>
-  <li><strong>[scala high-performance]</strong> Tip: Make sure that binary operators used in parallel operations are associative.</li>
-  <li><strong>[cats]</strong> <code class="language-plaintext highlighter-rouge">|@|</code> for parallel computations</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Note: Binary operators used in parallel operations do not need to be commutative.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Tip: Make sure that binary operators used in parallel operations are associative.</li>
+  <li>in CATS <code class="language-plaintext highlighter-rouge">|@|</code> for parallel computations</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// sequential</span>
@@ -391,14 +406,14 @@
   <li>Use promises to bridge the gap between callback-based APIs and futures.</li>
   <li>Use promises to extend futures with additional functional combinators.</li>
   <li>Use promises to implement cancellation, or any other form of two-way communication between the client and the asynchronous computation.</li>
-  <li><strong>[scala high-performance]</strong> The lowest cost development option is to replace unnecessarily costly Future creation with the use of <code class="language-plaintext highlighter-rouge">Future.success</code> or <code class="language-plaintext highlighter-rouge">Future.failure</code>. The order submission web service took advantage of these factory methods to lift values into a <code class="language-plaintext highlighter-rouge">Future</code>. As the value is already computed, these factory methods avoid submitting any tasks to the Executor that are referenced by the provided <code class="language-plaintext highlighter-rouge">ExecutionContext</code>.
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> The lowest cost development option is to replace unnecessarily costly Future creation with the use of <code class="language-plaintext highlighter-rouge">Future.success</code> or <code class="language-plaintext highlighter-rouge">Future.failure</code>. The order submission web service took advantage of these factory methods to lift values into a <code class="language-plaintext highlighter-rouge">Future</code>. As the value is already computed, these factory methods avoid submitting any tasks to the Executor that are referenced by the provided <code class="language-plaintext highlighter-rouge">ExecutionContext</code>.
     <ul>
       <li>Replacing usages of <code class="language-plaintext highlighter-rouge">Future.apply</code> with either <code class="language-plaintext highlighter-rouge">Future.successful</code> or <code class="language-plaintext highlighter-rouge">Future.failure</code> when the value is already computed can yield cost savings.</li>
     </ul>
   </li>
-  <li><strong>[scala high-performance]</strong> All the callers are importing the global <code class="language-plaintext highlighter-rouge">ExecutionContext</code> to be implicitly used by the method. The default thread pool is backed by a <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and it is sized based on the available cores on the machine. As such, it is CPU-bound and designed to handle nonblocking, CPU intensive operations. This is a good choice for applications that do not perform blocking calls. However, if your application runs blocking calls asynchronously (that is, in a Future execution), relying on the default <code class="language-plaintext highlighter-rouge">ExecutionContext</code> will most likely quickly degrade performance.</li>
-  <li><strong>[scala high-performance]</strong> Iterators on most concurrent collections are weakly consistent. This means that they are not guaranteed to correctly traverse the data structure if some thread concurrently updates the collection during traversal.</li>
-  <li><strong>[learning concurrent]</strong> Unlike Java, Scala allows you to declare local fields volatile (in this case, local to the closure of the enclosing for loop). A heap object with a volatile field is created for each local volatile variable used in some closure or a nested class. We say the variable is lifted into an object.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> All the callers are importing the global <code class="language-plaintext highlighter-rouge">ExecutionContext</code> to be implicitly used by the method. The default thread pool is backed by a <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and it is sized based on the available cores on the machine. As such, it is CPU-bound and designed to handle nonblocking, CPU intensive operations. This is a good choice for applications that do not perform blocking calls. However, if your application runs blocking calls asynchronously (that is, in a Future execution), relying on the default <code class="language-plaintext highlighter-rouge">ExecutionContext</code> will most likely quickly degrade performance.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> Iterators on most concurrent collections are weakly consistent. This means that they are not guaranteed to correctly traverse the data structure if some thread concurrently updates the collection during traversal.</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> Unlike Java, Scala allows you to declare local fields volatile (in this case, local to the closure of the enclosing for loop). A heap object with a volatile field is created for each local volatile variable used in some closure or a nested class. We say the variable is lifted into an object.</li>
 </ul>
 
 <h2 id="ordering">Ordering</h2>
@@ -411,7 +426,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[jetbrains]</strong> Perform reverse sorting in one step, avoiding tmp collections and additional transformation steps:</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Perform reverse sorting in one step, avoiding tmp collections and additional transformation steps:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Before</span>
@@ -426,7 +441,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[jetbrains]</strong> Do not use sorting to find smallest/largest element, so a tmp collection is not created.:</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not use sorting to find smallest/largest element, so a tmp collection is not created.:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Before</span>
@@ -487,10 +502,10 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[learning concurrent]</strong> Avoid cyclic dependencies between lazy values, as they can cause deadlocks.</li>
-  <li><strong>[learning concurrent]</strong> Cyclic dependencies between lazy values are unsupported in both sequential and concurrent Scala programs. The difference is that they potentially manifest themselves as deadlocks instead of stack overflows in concurrent programming.</li>
-  <li><strong>[learning concurrent]</strong> Never invoke blocking operations inside lazy value initialization expressions or singleton object constructors.</li>
-  <li><strong>[learning concurrent]</strong> It is a good practice to initialize the lazy value with an expression that does not depend on the current state of the program.</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> Avoid cyclic dependencies between lazy values, as they can cause deadlocks.</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> Cyclic dependencies between lazy values are unsupported in both sequential and concurrent Scala programs. The difference is that they potentially manifest themselves as deadlocks instead of stack overflows in concurrent programming.</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> Never invoke blocking operations inside lazy value initialization expressions or singleton object constructors.</li>
+  <li><a class="citation" href="#prokopec2017learning">(Prokopec, 2017)</a> It is a good practice to initialize the lazy value with an expression that does not depend on the current state of the program.</li>
 </ul>
 
 <h2 id="streams">Streams</h2>
@@ -503,24 +518,24 @@
 
 <ul>
   <li>Stream methods are computed lazily, delivering results only when they are needed. You can get a similar effect with other collections by applying the <code class="language-plaintext highlighter-rouge">view</code> method. This method yields a collection on which methods are applied lazily. For example: <code class="language-plaintext highlighter-rouge">val powers = (0 until 1000).view.map(pow(10, _))</code> yields a collection that is unevaluated. (Unlike a stream, not even the first element is evaluated.) When you call <code class="language-plaintext highlighter-rouge">powers(100)</code> then <code class="language-plaintext highlighter-rouge">pow(10, 100)</code> is computed, but the other powers are not. Unlike streams, these views do not cache any values. If you call <code class="language-plaintext highlighter-rouge">powers(100)</code> again, <code class="language-plaintext highlighter-rouge">pow(10, 100)</code> is recomputed</li>
-  <li><strong>[scala high-performance]</strong> When a view applies transformations, it applies all transformations to each element rather than applying each transformation to all elements… By applying all transformations in one step, the view is able to return the first two elements without evaluating the entire collection. Here, we see the potential performance gains from view usage due to lazy evaluation.</li>
-  <li><strong>[scala high-performance]</strong> When transforming a large collection, 1,000,000 elements in our benchmark, a view is more efficient with an increasing differential as the number of transformations increases. For example, with 1,000,000 elements and two transformations, views deliver approximately triple the throughput of List. In the case of a medium size collection, such as 1,000 elements in this example, this is not as clear-cut. When performing a single transformation, an eager List performs better, while a view delivers better throughput when applying more than one transformation.</li>
-  <li><strong>[scala high-performance]</strong> A second axis of performance to consider is the nature of the transformation. Transformations that benefit from early termination (for example, find), benefit strongly from lazy evaluation. This benchmark illustrates that it is important to understand the size of your data and the transformations that you intend to perform.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> When a view applies transformations, it applies all transformations to each element rather than applying each transformation to all elements… By applying all transformations in one step, the view is able to return the first two elements without evaluating the entire collection. Here, we see the potential performance gains from view usage due to lazy evaluation.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> When transforming a large collection, 1,000,000 elements in our benchmark, a view is more efficient with an increasing differential as the number of transformations increases. For example, with 1,000,000 elements and two transformations, views deliver approximately triple the throughput of List. In the case of a medium size collection, such as 1,000 elements in this example, this is not as clear-cut. When performing a single transformation, an eager List performs better, while a view delivers better throughput when applying more than one transformation.</li>
+  <li><a class="citation" href="#theron2016scala">(Theron, 2016)</a> A second axis of performance to consider is the nature of the transformation. Transformations that benefit from early termination (for example, find), benefit strongly from lazy evaluation. This benchmark illustrates that it is important to understand the size of your data and the transformations that you intend to perform.</li>
 </ul>
 
 <h2 id="collections">Collections</h2>
 
 <ul>
-  <li><strong>[jetbrains]</strong> Prefer <code class="language-plaintext highlighter-rouge">length</code> to <code class="language-plaintext highlighter-rouge">size</code> for arrays. <code class="language-plaintext highlighter-rouge">Array.size</code> is implemented via implicit conversion and intermediate wrapper objects are created every call.</li>
-  <li><strong>[jetbrains]</strong> Do not compute length for empty check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code> and <code class="language-plaintext highlighter-rouge">seq.isEmpty</code> instead.</li>
-  <li><strong>[jetbrains]</strong> Do not compute full length for matching. Use <code class="language-plaintext highlighter-rouge">seq.lengthCompare(n) &gt; 0</code></li>
-  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">exists</code> for emptyness check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code>.</li>
-  <li><strong>[jetbrains]</strong> Do not rely on <code class="language-plaintext highlighter-rouge">==</code> for arrays compare. Use <code class="language-plaintext highlighter-rouge">array1.sameElements(array2)</code>. <code class="language-plaintext highlighter-rouge">==</code> is always false for different instances.</li>
-  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">sameElements</code> for collections compare. Use <code class="language-plaintext highlighter-rouge">seq1 == seq2</code>.</li>
-  <li><strong>[jetbrains]</strong> Retrieve first/last elements with <code class="language-plaintext highlighter-rouge">seq.head</code> and <code class="language-plaintext highlighter-rouge">seq.last</code>.</li>
-  <li><strong>[jetbrains]</strong> Prefer <code class="language-plaintext highlighter-rouge">exists</code> or <code class="language-plaintext highlighter-rouge">contains</code> for existence and absence.</li>
-  <li><strong>[jetbrains]</strong> Use <code class="language-plaintext highlighter-rouge">count(p)</code> instead of <code class="language-plaintext highlighter-rouge">filter(p).length</code>. The call to <code class="language-plaintext highlighter-rouge">filter</code> creates an intermediate collection (which is not really needed) that takes heap space and loads GC.</li>
-  <li><strong>[jetbrains]</strong> Merge consecutive <code class="language-plaintext highlighter-rouge">filter</code> calls, to avoid tmp collections:</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Prefer <code class="language-plaintext highlighter-rouge">length</code> to <code class="language-plaintext highlighter-rouge">size</code> for arrays. <code class="language-plaintext highlighter-rouge">Array.size</code> is implemented via implicit conversion and intermediate wrapper objects are created every call.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not compute length for empty check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code> and <code class="language-plaintext highlighter-rouge">seq.isEmpty</code> instead.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not compute full length for matching. Use <code class="language-plaintext highlighter-rouge">seq.lengthCompare(n) &gt; 0</code></li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not use <code class="language-plaintext highlighter-rouge">exists</code> for emptyness check. Use <code class="language-plaintext highlighter-rouge">seq.nonEmpty</code>.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not rely on <code class="language-plaintext highlighter-rouge">==</code> for arrays compare. Use <code class="language-plaintext highlighter-rouge">array1.sameElements(array2)</code>. <code class="language-plaintext highlighter-rouge">==</code> is always false for different instances.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not use <code class="language-plaintext highlighter-rouge">sameElements</code> for collections compare. Use <code class="language-plaintext highlighter-rouge">seq1 == seq2</code>.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Retrieve first/last elements with <code class="language-plaintext highlighter-rouge">seq.head</code> and <code class="language-plaintext highlighter-rouge">seq.last</code>.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Prefer <code class="language-plaintext highlighter-rouge">exists</code> or <code class="language-plaintext highlighter-rouge">contains</code> for existence and absence.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Use <code class="language-plaintext highlighter-rouge">count(p)</code> instead of <code class="language-plaintext highlighter-rouge">filter(p).length</code>. The call to <code class="language-plaintext highlighter-rouge">filter</code> creates an intermediate collection (which is not really needed) that takes heap space and loads GC.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Merge consecutive <code class="language-plaintext highlighter-rouge">filter</code> calls, to avoid tmp collections:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">seq</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">p1</span><span class="o">).</span><span class="py">filter</span><span class="o">(</span><span class="n">p2</span><span class="o">)</span> <span class="c1">// Before</span>
@@ -528,7 +543,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[jetbrains]</strong> Merge consecutive <code class="language-plaintext highlighter-rouge">map</code> calls, to avoid tmp collections:</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Merge consecutive <code class="language-plaintext highlighter-rouge">map</code> calls, to avoid tmp collections:</li>
 </ul>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">seq</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">f</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="n">g</span><span class="o">)</span> <span class="c1">// Before</span>
@@ -536,14 +551,14 @@
 </code></pre></div></div>
 
 <ul>
-  <li><strong>[jetbrains]</strong> !!! Do not create tmp collections…  my use <code class="language-plaintext highlighter-rouge">view</code> when a lot of transformations are to be done.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> !!! Do not create tmp collections…  my use <code class="language-plaintext highlighter-rouge">view</code> when a lot of transformations are to be done.</li>
 </ul>
 
 <h2 id="options">Options</h2>
 
 <ul>
-  <li><strong>[jetbrains]</strong> Do not use <code class="language-plaintext highlighter-rouge">None</code> and <code class="language-plaintext highlighter-rouge">Some</code> to compare. Prefer <code class="language-plaintext highlighter-rouge">isEmpty</code>, <code class="language-plaintext highlighter-rouge">isDefined</code> and <code class="language-plaintext highlighter-rouge">contains()</code>.</li>
-  <li><strong>[jetbrains]</strong> Do not compare value with <code class="language-plaintext highlighter-rouge">null</code>. Use <code class="language-plaintext highlighter-rouge">Option(v)</code> instead of <code class="language-plaintext highlighter-rouge">if(v != null) Some(v) else None</code>.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not use <code class="language-plaintext highlighter-rouge">None</code> and <code class="language-plaintext highlighter-rouge">Some</code> to compare. Prefer <code class="language-plaintext highlighter-rouge">isEmpty</code>, <code class="language-plaintext highlighter-rouge">isDefined</code> and <code class="language-plaintext highlighter-rouge">contains()</code>.</li>
+  <li><a class="citation" href="#pavel_collecions">(Fatin, n.d.)</a> Do not compare value with <code class="language-plaintext highlighter-rouge">null</code>. Use <code class="language-plaintext highlighter-rouge">Option(v)</code> instead of <code class="language-plaintext highlighter-rouge">if(v != null) Some(v) else None</code>.</li>
 </ul>
 
 <h2 id="data-science--math-apis">Data science &amp; Math APIs</h2>
@@ -575,19 +590,18 @@
   <li>Miniboxing - http://scala-miniboxing.org/</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>Horstmann - Scala for the Impatient</li>
-  <li><strong>[realtime analytics]</strong> Real-Time Analytics</li>
-  <li><strong>[learning concurrent]</strong> Learning Concurrent Programming in Scala</li>
-  <li><strong>[scala high-performance]</strong> Scala High Performance Programming</li>
-  <li><strong>[jetbrains]</strong>  https://pavelfatin.com/scala-collections-tips-and-tricks/</li>
-  <li><strong>[pattern]</strong>  http://www.artima.com/scalazine/articles/stackable_trait_pattern.html</li>
-  <li><strong>[implicit]</strong> https://www.theguardian.com/info/developer-blog/2016/dec/22/parental-advisory-implicit-content</li>
-  <li><strong>[louc]</strong> https://medium.com/@sinisalouc</li>
-  <li><strong>[cats]</strong> typesafe Cats API</li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="pavel_collecions">Fatin, P. <i>Scala Collections Tips and Tricks</i>. Retrieved January 21, 2021, from https://pavelfatin.com/scala-collections-tips-and-tricks/</span></li>
+<li><span id="horstmann2017scala">Horstmann, C. (2017). <i>Scala for the impatient</i>. Addison-Wesley.</span></li>
+<li><span id="prokopec2017learning">Prokopec, A. (2017). <i>Learning concurrent programming in Scala : learn the art of building intricate, modern, scalable and concurrent applications using Scala</i>. Packt Publishing.</span></li>
+<li><span id="sinisaBlog">Sinisa, L. Sinisa Blog. In <i>Medium</i>. https://medium.com/@sinisalouc</span></li>
+<li><span id="smith2016Implicit2016">Smith, J. (2016). Implicits and type classes in Scala. In <i>The Guardian</i>. https://www.theguardian.com/info/developer-blog/2016/dec/22/parental-advisory-implicit-content</span></li>
+<li><span id="theron2016scala">Theron, V. (2016). <i>Scala high performance programming : leverage Scala and the functional paradigm to build performant software</i>. Packt Publishing Limited.</span></li>
+<li><span id="venners2009Stackable">Venners, B. (2009). <i>Scala’s Stackable Trait Pattern</i>. https://www.artima.com/scalazine/articles/stackable_trait_pattern.html</span></li></ul>
 
   </div>
 
@@ -620,7 +634,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

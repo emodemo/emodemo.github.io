@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Security" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Security.html","headline":"Security","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Security.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Security","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="software">Software</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="software">Software</h2>
 
 <ul>
   <li>TLS and WWS, the S of https. TLS is newer and better than SSL</li>
@@ -60,12 +71,12 @@
 <h2 id="notes">Notes</h2>
 
 <ul>
-  <li><strong>[micro]</strong> Pefer SAML or OpenID Connect
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Pefer SAML or OpenID Connect
     <ul>
       <li>There are a couple of other downsides, though. First, just as with Basic Auth, we need to securely store our credentials: where do the username and password live? The client will need to find some secure way to store this data. The other problem is that some of the technology in this space to do the authentication is fairly tedious to code for. SAML, in particular, makes implementing a client a painful affair. OpenID Connect has a simpler workflow, but as we discussed earlier it isn’t that well supported yet.</li>
     </ul>
   </li>
-  <li><strong>[micro]</strong> HMAC over HTTP
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> HMAC over HTTP
     <ul>
       <li>With HMAC the body request along with a private key is hashed, and the resulting hash is sent along with the request. The server then uses its own copy of the private key and the request body to re-create the hash. If it matches, it allows the request. The nice thing here is that if a man in the middle messes with the request, then the hash won’t match and the server knows the request has been tampered with. And the private key is never sent in the request, so it cannot be compromised in transit! The added benefit is that this traffic can then more easily be cached, and the overhead of generating the hashes may well be lower than handling HTTPS traffic (although your mileage may vary).</li>
       <li>There are three downsides to this approach.
@@ -77,25 +88,25 @@
       </li>
     </ul>
   </li>
-  <li><strong>[micro]</strong> API Keys
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> API Keys
     <ul>
       <li>All public APIs from services like Twitter, Google, Flickr, and AWS make use of API keys. API keys allow a service to identify who is making a call, and place limits on what they can do. Often the limits go beyond simply giving access to a resource, and can extend to actions like rate-limiting specific callers to protect quality of service for other people. When it comes to using API keys to handle your own microservice-to-microservice approach, the exact mechanics of how it works will depend on the technology you use. Some systems use a single API key that is shared, and use an approach similar to HMAC as just described. A more common approach is to use a public and private key pair. Typically, you’ll manage keys centrally, just as we would manage identities of people centrally. The gateway model is very popular in this space.</li>
     </ul>
   </li>
-  <li><strong>[micro]</strong> Decrypt on Demand Encrypt data when you first see it. Only decrypt on demand, and ensure that data is never stored anywhere.</li>
-  <li><strong>[micro]</strong> Intrusion Detection (and Prevention) System Intrusion
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Decrypt on Demand Encrypt data when you first see it. Only decrypt on demand, and ensure that data is never stored anywhere.</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Intrusion Detection (and Prevention) System Intrusion
     <ul>
       <li>detection systems (IDS) can monitor networks or hosts for suspicious behavior, reporting problems when it sees them. Intrusion prevention systems (IPS), as well as monitoring for suspicious activity, can step in to stop it from happening. Unlike a firewall, which is primarily looking outward to stop bad things from getting in, IDS and IPS are actively looking inside the perimeter for suspect behavior. When you’re starting from scratch, IDS may make most sense. These systems are heuristic-based (as are many application firewalls), and it is possible that the generic starting set of rules will either be too lenient or not lenient enough for how your service behaves. Using a more passive IDS to alert you to problems is a good way to tune your rules before using it in a more active capacity.</li>
     </ul>
   </li>
-  <li><strong>[micro]</strong> OS Security modules
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> OS Security modules
     <ul>
       <li>Another thing to look at if you are using Linux is the emergence of security modules for the operating system itself. <strong>AppArmour</strong>, for example, allows you to define how your application is expected to behave, with the kernel keeping an eye on it. If it starts doing something it shouldn’t, the kernel steps in. <strong>AppArmour</strong> has been around for a while, as has <strong>SeLinux</strong>. Although technically either of them should work on any modern Linux system, in practice some distributions support one better than the other. <strong>AppArmour</strong> is used by default in Ubuntu and SuSE, for example, whereas <strong>SELinux</strong> has traditionally been well supported by RedHat. A newer option is <strong>GrSSecurity</strong>, which aims to be simpler to use than either AppArmour or GrSecurity while also trying to expand on their capabilities, but it requires a custom kernel to work. I’d suggest taking a look at all three to see which fits your use cases best, but I like the idea of having another layer of protection and prevention at work.</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="example-from-micro">Example from <strong>[micro]</strong></h2>
+<h2 id="example-from-newman-2015">Example from <a class="citation" href="#newman2015building">(Newman, 2015)</a></h2>
 
 <p><strong>//TODO: fix this paragraph</strong></p>
 
@@ -173,7 +184,7 @@ Network defences (IPS, etc.)
 <span class="na">callback URL</span><span class="pi">:</span> <span class="s">called by Google after user clicks "allow"</span>
 </code></pre></div></div>
 
-<h2 id="threat-models-mf_trainig">Threat models <strong>[mf_trainig]</strong></h2>
+<h2 id="threat-models-from-micro-focus-internal-training">Threat models (from Micro Focus Internal training)</h2>
 
 <ul>
   <li><a href="https://mavensecurity.com/resources/web-security-dojo">Maven Security Dojo Linux</a></li>
@@ -258,12 +269,12 @@ Network defences (IPS, etc.)
   </li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="resources">Resources</h2>
 
-<ul>
-  <li><strong>[micro]</strong> Newmann - Building Microservices</li>
-  <li><strong>[mf_trainig]</strong> Micro Focus Internal training</li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="newman2015building">Newman, S. (2015). <i>Building microservices : designing fine-grained systems</i>. O’Reilly Media.</span></li></ul>
 
   </div>
 
@@ -296,7 +307,7 @@ Network defences (IPS, etc.)
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

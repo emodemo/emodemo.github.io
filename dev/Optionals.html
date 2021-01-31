@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Optionals" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Optionals.html","headline":"Optionals","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Optionals.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Optionals","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="summary">Summary</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="summary-marks-nd">Summary <a class="citation" href="#marksOptionals">(Marks, n.d.)</a></h2>
 
 <p>Optional is intended to provide a LIMITED mechanism for library method RETURN TYPES where there is a clear need to represent “no result”, and where using null for that is OVERWHELMINGLY LIKELY TO CAUSE ERRORS.</p>
 
@@ -107,12 +118,12 @@
   <li><strong>Rule7</strong>: Avoid using identity-sensitive operations in Optionals</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><a href="https://www.youtube.com/watch?v=Ej0sss6cq14">Optional - The Mother of All Bikesheds by Stuart Marks</a></li>
-</ul>
 
+
+
+<ul class="bibliography"><li><span id="marksOptionals">Marks, S. <i>Optional - The Mother of All Bikesheds</i>. https://www.youtube.com/watch?v=Ej0sss6cq14</span></li></ul>
 
   </div>
 
@@ -145,7 +156,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

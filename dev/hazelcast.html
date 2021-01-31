@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Hazelcast" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/hazelcast.html","headline":"Hazelcast","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/hazelcast.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Hazelcast","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,9 +54,11 @@
   </header>
 
   <div class="post-content">
-    <h2 id="serialization-and-in-memory-formats-hz_docs">Serialization and In-Memory formats <strong>[hz_docs]</strong></h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="serialization-and-in-memory-formats">Serialization and In-Memory formats</h2>
 
 <ul>
+  <li><a class="citation" href="#hazelcatsDocs33">(<i>Hazelcast Custom Serialization</i>, n.d.; Kilden-Pedersen, 2016; Raol, 2019)</a></li>
   <li><a href="https://code.google.com/archive/p/thrift-protobuf-compare/wikis/BenchmarkingV2.wiki">another comparison</a></li>
   <li>comparison: <a href="https://hazelcast.com/blog/comparing-serialization-methods/">Comparing Hazelcast 3 Serialization methods with Kryo Serialization and Jackson Smile</a>
     <ul>
@@ -124,7 +136,7 @@
   </li>
 </ul>
 
-<h2 id="some-config-details-cap1">Some config details <strong>[cap1]</strong></h2>
+<h2 id="some-config-details">Some config details</h2>
 
 <ul>
   <li><strong>backup counts</strong> - Number of copies across machines</li>
@@ -162,7 +174,7 @@
   </li>
 </ul>
 
-<h2 id="caching-architectural-patterns-hz_ch">Caching Architectural Patterns <strong>[hz_ch]</strong></h2>
+<h2 id="caching-architectural-patterns-leszko-2019">Caching Architectural Patterns <a class="citation" href="#leszko2019Cache">(Leszko, 2019)</a></h2>
 
 <ul>
   <li>patterns:
@@ -177,19 +189,15 @@
   </li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[hz_ch]</strong> <a href="https://hazelcast.com/blog/architectural-patterns-for-caching-microservices/">Rafal Leszko - Where is my Cache?</a>
-    <ul>
-      <li><a href="https://github.com/leszko/caching-patterns">sources</a></li>
-    </ul>
-  </li>
-  <li><strong>[cap1]</strong> <a href="https://medium.com/capital-one-tech/building-resilient-imdgs-with-hazelcast-2301d778086">Raol - The ABCs of Building IMDGs</a></li>
-  <li><strong>[hz_docs]</strong> <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">Hazelcast Documentation</a></li>
-  <li><strong>[hz_blog]</strong> <a href="https://hazelcast.com/blog/in-memory-format/">Hazelcast Blog - In-Memory formats</a></li>
-  <li><strong>[hz_dzone]</strong> <a href="https://dzone.com/articles/enumerable-ways-to-serialize-1">Enumerable Ways to Serialize in Hazelcast</a></li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="hazelcatsDocs33"><i>Hazelcast Custom Serialization</i>. Retrieved January 31, 2021, from https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html</span></li>
+<li><span id="pedersen2016Serialize">Kilden-Pedersen, N. (2016). Enumerable Ways to Serialize in Hazelcast. In <i>dzone.com</i>. https://dzone.com/articles/enumerable-ways-to-serialize-1</span></li>
+<li><span id="leszko2019Cache">Leszko, R. (2019). Where Is My Cache? Architectural Patterns for Caching Microservices. In <i>Hazelcast</i>. https://hazelcast.com/blog/architectural-patterns-for-caching-microservices/</span></li>
+<li><span id="raol2019BuildIMDG">Raol, R. (2019). The ABCs of Building IMDGs. In <i>Medium</i>. https://medium.com/capital-one-tech/building-resilient-imdgs-with-hazelcast-23014d778086</span></li></ul>
 
   </div>
 
@@ -222,7 +230,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

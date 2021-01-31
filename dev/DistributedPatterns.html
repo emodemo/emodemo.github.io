@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Distributed Systems Patterns" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/DistributedPatterns.html","headline":"Distributed Systems Patterns","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/DistributedPatterns.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Distributed Systems Patterns","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,14 +54,15 @@
   </header>
 
   <div class="post-content">
-    <h2 id="distributed-patterns">Distributed Patterns</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="distributed-patterns">Distributed Patterns</h2>
 
 <ul>
-  <li>see in <strong>[dist]</strong></li>
+  <li>see in <a class="citation" href="#microsoftCloudDP">(<i>Cloud Design Patterns</i>, n.d.)</a></li>
   <li><img src="pics/distributed_patterns_1.jpg" alt="distributed_patterns_1" /></li>
   <li><img src="pics/distributed_patterns_2.jpg" alt="distributed_patterns_2" /></li>
-  <li>see in <strong>[micropat]</strong></li>
-  <li><strong>[micropat]</strong> saga + aggregates + domain event (state changes) per aggregate
+  <li>see in <a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a></li>
+  <li><a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a> saga + aggregates + domain event (state changes) per aggregate
     <ul>
       <li>This is a way to manage data consistency across microservices in distributed transaction scenarios. A saga is a sequence of transactions that updates each service and publishes a message or event to trigger the next transaction step. If a step fails, the saga executes compensating transactions that counteract the preceding transactions.</li>
       <li>semantic lock (transaction step is in PENDING state and is not yet committed) telling other transactions to wait.</li>
@@ -59,14 +70,14 @@
       <li>reread value</li>
     </ul>
   </li>
-  <li><strong>[micropat]</strong> events and snapshot of events</li>
-  <li><strong>[micropat]</strong> API composition or Command Query Responsibility Segregation (CQRS)
+  <li><a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a> events and snapshot of events</li>
+  <li><a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a> API composition or Command Query Responsibility Segregation (CQRS)
     <ul>
       <li>CQRS - Instead of DB and a separate search log that is periodically updated =&gt; Implement a query that needs data from several services by using events to maintain a read-only view that replicates data from the services
         <ul>
           <li>separate the write and read model and maintain the read with events from services</li>
           <li>The command side modules and data model implement create, update, and delete operations (abbreviated CUD—for example, HTTP POSTs, PUTs, and DELETEs). The query-side modules and data model implement queries (such as HTTP GETs). The query side keeps its data model synchronized with the command-side data model by subscribing to the events published by the command side.</li>
-          <li>see <strong>[bael-cqrs]</strong>
+          <li>see (missing reference)
             <ul>
               <li>commands (writes) are aggregated <code class="language-plaintext highlighter-rouge">Aggregator.handleCommand()</code></li>
               <li>queries (reads)</li>
@@ -79,7 +90,7 @@
       </li>
     </ul>
   </li>
-  <li><strong>[micropat]</strong> API Gateways
+  <li><a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a> API Gateways
     <ul>
       <li>Examples of reactive abstractions for the JVM include the following:
         <ul>
@@ -92,13 +103,13 @@
       <li>Another option is using GraphQL or with Netflix Falcor</li>
     </ul>
   </li>
-  <li><strong>[micropat]</strong> Service mesh + sidecar</li>
+  <li><a class="citation" href="#richardson2019microservices">(Richardson, 2019)</a> Service mesh + sidecar</li>
 </ul>
 
 <h3 id="additional">Additional</h3>
 
 <ul>
-  <li>see in <strong>[spring]</strong> + <strong>[piotr]</strong></li>
+  <li><a class="citation" href="#minkowskiBlog">(Minkowski, n.d.)</a></li>
   <li>Service Discovery - Clients need to find micro-services instances.
     <ul>
       <li>register/un-register services and their instances</li>
@@ -174,15 +185,15 @@
   <li>Itsio (combination of several tools, grafana, prometheus, Jaeger, kiali etc), as a separate container in the pod.</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[dist]</strong> <a href="https://docs.microsoft.com/en_us/azure/architecture/patterns">Distributed Patterns - Microsoft</a></li>
-  <li><strong>[spring]</strong> Larsson - Hands on Microservices with Spring</li>
-  <li><strong>[piotr]</strong> <a href="https://piotrminkowski.wordpress.com/">Spring + Elasticsearch, Hazelcast, etc..</a></li>
-  <li><strong>[micropat]</strong> Chris Richardson - MicroServices Patterns</li>
-  <li><strong>[bael-cqrs]</strong> <a href="https://www.baeldung.com/cqrs-event-sourcing-java">Baledung - CQRS and Event Sourcing in Java</a></li>
-</ul>
+
+
+
+
+<ul class="bibliography"><li><span id="microsoftCloudDP"><i>Cloud Design Patterns</i>. https://docs.microsoft.com/en-us/azure/architecture/patterns/</span></li>
+<li><span id="minkowskiBlog">Minkowski, P. Piotr’s TechBlog. In <i>Piotr’s TechBlog</i>. Retrieved January 31, 2021, from https://piotrminkowski.com//</span></li>
+<li><span id="richardson2019microservices">Richardson, C. (2019). <i>Microservices patterns: with examples in Java</i>. Manning Publications.</span></li></ul>
 
   </div>
 
@@ -215,7 +226,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

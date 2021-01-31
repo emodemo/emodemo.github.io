@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Multithreading and Concurrency" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/MultiThreading.html","headline":"Multithreading and Concurrency","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/MultiThreading.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Multithreading and Concurrency","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,14 +54,15 @@
   </header>
 
   <div class="post-content">
-    <h2 id="tools">Tools</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="tools">Tools</h2>
 
 <ul>
-  <li><strong>[conc_j8]</strong> http://openjdk.java.net/projects/code-tools/jmh/</li>
-  <li><strong>[conc_j8]</strong> Java Path Finder (JPF) from NASA</li>
-  <li><strong>[well]</strong> jmap; jhat</li>
-  <li><strong>[conc]</strong> Unix (vmstat) Windows (perfmon)</li>
-  <li><strong>[jrebel]</strong> Collections
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> http://openjdk.java.net/projects/code-tools/jmh/</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Java Path Finder (JPF) from NASA</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> jmap; jhat</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Unix (vmstat) Windows (perfmon)</li>
+  <li>Collections
     <ul>
       <li>Fastutil http://fastutil.di.unimi.it/ Great default choice for collections of primitive types, like int or long. Also handles big collections with more than 231 elements well.</li>
       <li>Guava https://github.com/google/guava</li>
@@ -81,10 +92,10 @@
 <h2 id="general">General</h2>
 
 <ul>
-  <li><strong>[conc_j8]</strong> Avoid deadlocks by ordering the locks.</li>
-  <li><strong>[conc_j8]</strong> Avoid executing inside the critical section the code you don’t control.</li>
-  <li><strong>[conc_j8]</strong> Avoid the use of blocking operations inside a critical section.</li>
-  <li><strong>[conc_jvm]</strong> Division of labour - Generally speaking there two types of programs that may profit from multi-threading: with intensive computations, and with intensive I/O.
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid deadlocks by ordering the locks.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid executing inside the critical section the code you don’t control.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid the use of blocking operations inside a critical section.</li>
+  <li><a class="citation" href="#subramaniam2011programming">(Subramaniam, 2011)</a> Division of labour - Generally speaking there two types of programs that may profit from multi-threading: with intensive computations, and with intensive I/O.
     <ul>
       <li>for computations we can use the min N of available cores (+ see pp31-32)</li>
       <li>for I/O there should be more threads
@@ -99,10 +110,10 @@
       </li>
     </ul>
   </li>
-  <li><strong>[conc]</strong> Division of labour (another formula): <code class="language-plaintext highlighter-rouge">N of threads = N of CPUs * target CPU utilization * (1 + Wait time/Compile time)</code>, where Target CPU utilization must be between 0 and 1.</li>
-  <li><strong>[conc]</strong> Unless a field should be mutable make it final.</li>
-  <li><strong>[conc]</strong> ThreadPool Saturation Policies (TBD see ch 6.4)</li>
-  <li><strong>[conc_j9]</strong> on volatile: When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too. Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Division of labour (another formula): <code class="language-plaintext highlighter-rouge">N of threads = N of CPUs * target CPU utilization * (1 + Wait time/Compile time)</code>, where Target CPU utilization must be between 0 and 1.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Unless a field should be mutable make it final.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> ThreadPool Saturation Policies (TBD see ch 6.4)</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> on volatile: When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too. Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
   <li><strong>me</strong> summary:
     <ul>
       <li>1 volatile - read/write from memory directly,  not the CPU cache =&gt; slower. Happens before on the usage. Volatile code cannot be optimized for performance. Code before it is always before it, and code after it is always after it. Occasionally may be good for many reads / few writes.</li>
@@ -173,7 +184,7 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h2 id="semaphores-jenkov">Semaphores <strong>[jenkov]</strong></h2>
+<h2 id="semaphores-jenkov-2014">Semaphores <a class="citation" href="#jenkov2014semaphores">(Jenkov, 2014)</a></h2>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// avoids missed signals in case take() happens before release()</span>
 <span class="kd">class</span> <span class="nc">SignalSemaphore</span> <span class="o">{</span>
@@ -233,8 +244,8 @@
 <h2 id="collections">Collections</h2>
 
 <ul>
-  <li><strong>[conc_j9]</strong> <strong>Blocking collections</strong>: This kind of collection includes operations to add and remove data. If the operation can’t be done immediately, because the collection is either full or empty, the thread that makes the call will be blocked until the operation could be carried out.</li>
-  <li><strong>[conc_j9]</strong> <strong>Non-blocking collections</strong>: This kind of collection also includes operations to add and remove data. But in this case, if the operation can’t be done immediately, it returns a null value or throws an exception; the thread that makes the call won’t be blocked here.</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> <strong>Blocking collections</strong>: This kind of collection includes operations to add and remove data. If the operation can’t be done immediately, because the collection is either full or empty, the thread that makes the call will be blocked until the operation could be carried out.</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> <strong>Non-blocking collections</strong>: This kind of collection also includes operations to add and remove data. But in this case, if the operation can’t be done immediately, it returns a null value or throws an exception; the thread that makes the call won’t be blocked here.</li>
   <li><strong>[jrebel] + [conc_j9]</strong>
 |  collection   | thread-safe            |
 | :———— | :——————— |
@@ -252,16 +263,16 @@
 <h2 id="mutable-or-immutable">Mutable or Immutable</h2>
 
 <ul>
-  <li><strong>[conc_j8]</strong> If you have a simple object without internal data structures, it’s usually not a problem to make it immutable. However, making immutable complex objects that incorporate collections of other objects usually leads to serious performance problems.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> If you have a simple object without internal data structures, it’s usually not a problem to make it immutable. However, making immutable complex objects that incorporate collections of other objects usually leads to serious performance problems.</li>
 </ul>
 
 <h2 id="atomic">Atomic</h2>
 
 <ul>
-  <li><strong>[conc_j8]</strong> Prefer using atomic variables instead of synchronization</li>
-  <li><strong>[conc_j9]</strong> API: <code class="language-plaintext highlighter-rouge">AtomicLong</code>, <code class="language-plaintext highlighter-rouge">LongAdder</code>, <code class="language-plaintext highlighter-rouge">DoubleAccumulator</code>, <code class="language-plaintext highlighter-rouge">AtomicIntegerArray</code> …</li>
-  <li><strong>[conc_j9]</strong> The individual <code class="language-plaintext highlighter-rouge">AtomicInteger</code> objects are thread-safe, but the array as a data structure <code class="language-plaintext highlighter-rouge">AtomicInteger[]</code> is not.</li>
-  <li><strong>[conc]</strong> CAS (compare-and-swap; compare-and-set): When multiple threads attempt to update the same variable simultaneously using CAS, one wins and updates the variable’s value, and the rest lose. But the losers are not punished by suspension, as they could be if they failed to acquire a lock; instead, they are told that they didn’t win the race this time but can try again. Because a thread that loses a CAS is not blocked, it can decide whether it wants to try again, take some other recovery action, or do nothing (a failed CAS means that someone else already did the work you were planning to do).
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Prefer using atomic variables instead of synchronization</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> API: <code class="language-plaintext highlighter-rouge">AtomicLong</code>, <code class="language-plaintext highlighter-rouge">LongAdder</code>, <code class="language-plaintext highlighter-rouge">DoubleAccumulator</code>, <code class="language-plaintext highlighter-rouge">AtomicIntegerArray</code> …</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> The individual <code class="language-plaintext highlighter-rouge">AtomicInteger</code> objects are thread-safe, but the array as a data structure <code class="language-plaintext highlighter-rouge">AtomicInteger[]</code> is not.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> CAS (compare-and-swap; compare-and-set): When multiple threads attempt to update the same variable simultaneously using CAS, one wins and updates the variable’s value, and the rest lose. But the losers are not punished by suspension, as they could be if they failed to acquire a lock; instead, they are told that they didn’t win the race this time but can try again. Because a thread that loses a CAS is not blocked, it can decide whether it wants to try again, take some other recovery action, or do nothing (a failed CAS means that someone else already did the work you were planning to do).
     <ul>
       <li>typical pattern: CAS atomically updates V(memory) to the new value B, but only if the value in V matches the expected old value A; otherwise it does nothing.</li>
       <li>CAS outperform lock-based counters when small contention, and often when no contention</li>
@@ -275,18 +286,18 @@
 <h2 id="volatile">Volatile</h2>
 
 <ul>
-  <li><strong>[conc_j9]</strong> The <code class="language-plaintext highlighter-rouge">volatile</code> keyword only works well when the value of the shared variable is only modified by one thread. If the variable is modified by multiple threads, the <code class="language-plaintext highlighter-rouge">volatile</code> keyword doesn’t protect you from possible data-race conditions. It also doesn’t make operations, such as + or -, atomic. For example, the ++ operator over a volatile variable is not thread-safe.</li>
-  <li><strong>[conc_j8]</strong> The volatile keyword ensures that when the stopped variable is set to true by another thread, this change will be visible in the main method. Without the volatile keyword, the change cannot be visible due to CPU caching or compiler optimizations.</li>
-  <li><strong>[conc_j9]</strong> Since Java 5, Java Memory Model has a happens-before guarantee established with the volatile keyword. This fact has two implications:
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> The <code class="language-plaintext highlighter-rouge">volatile</code> keyword only works well when the value of the shared variable is only modified by one thread. If the variable is modified by multiple threads, the <code class="language-plaintext highlighter-rouge">volatile</code> keyword doesn’t protect you from possible data-race conditions. It also doesn’t make operations, such as + or -, atomic. For example, the ++ operator over a volatile variable is not thread-safe.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> The volatile keyword ensures that when the stopped variable is set to true by another thread, this change will be visible in the main method. Without the volatile keyword, the change cannot be visible due to CPU caching or compiler optimizations.</li>
+  <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> Since Java 5, Java Memory Model has a happens-before guarantee established with the volatile keyword. This fact has two implications:
     <ul>
       <li>When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too.</li>
       <li>Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
     </ul>
   </li>
-  <li><strong>[conc_j8]</strong> Under some circumstances, you can use the volatile keyword and not use a synchronization mechanism. If only one of the tasks modifies the data and the rest of the tasks read it, you can use the volatile keyword without any synchronization or data inconsistency problem. In other scenarios, you need to use a lock, the synchronized keyword, or any other synchronization method.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Under some circumstances, you can use the volatile keyword and not use a synchronization mechanism. If only one of the tasks modifies the data and the rest of the tasks read it, you can use the volatile keyword without any synchronization or data inconsistency problem. In other scenarios, you need to use a lock, the synchronized keyword, or any other synchronization method.</li>
 </ul>
 
-<h2 id="barriers-barrier">Barriers <strong>[barrier]</strong></h2>
+<h2 id="barriers-thompson-2011">Barriers <a class="citation" href="#thompson2011memory">(Thompson, 2011)</a></h2>
 
 <ul>
   <li><strong>Store Barrier</strong>: <code class="language-plaintext highlighter-rouge">sfence</code> instruction on x86, waits for all store instructions prior to the barrier to be written from the store buffer to the L1 cache for the CPU on which it is issued.  This will make the program state visible to other CPUs so they can act on it if necessary.</li>
@@ -305,17 +316,17 @@
 <h2 id="future">Future</h2>
 
 <ul>
-  <li><strong>[conc_j8]</strong> You can cancel the execution of the task using the <code class="language-plaintext highlighter-rouge">cancel()</code> method. This method has a boolean parameter to specify whether you want to interrupt the task if it’s running or not.</li>
-  <li><strong>[conc_j8]</strong> You can check whether the task has been cancelled (with the <code class="language-plaintext highlighter-rouge">isCancelled()</code> method) or it has finished (with the <code class="language-plaintext highlighter-rouge">isDone()</code> method).</li>
-  <li><strong>[conc_j8]</strong> You can get the value returned by the task using the <code class="language-plaintext highlighter-rouge">get()</code> method.</li>
-  <li><strong>[conc_j8]</strong> One possible option is to create other tasks to process the <code class="language-plaintext highlighter-rouge">Future</code> objects associated with every task, and the Java concurrency API provides us with an elegant solution to implement this solution with the <code class="language-plaintext highlighter-rouge">CompletionService</code> interface and its implementation, the <code class="language-plaintext highlighter-rouge">ExecutorCompletionService</code> class.</li>
-  <li><strong>[conc_j8]</strong> A <code class="language-plaintext highlighter-rouge">CompletionService</code> object is a mechanism that has an executor and allows you to decouple the production of tasks and the consumption of the results of those tasks. You can send tasks to the executor using the <code class="language-plaintext highlighter-rouge">submit()</code> method and get the results of the tasks when they finish using the <code class="language-plaintext highlighter-rouge">poll()</code> or <code class="language-plaintext highlighter-rouge">take()</code> methods.</li>
-  <li><strong>[conc_j8]</strong> <code class="language-plaintext highlighter-rouge">CompletableFuture</code>, a new feature of Java 8, extends the <code class="language-plaintext highlighter-rouge">Future</code> mechanism of the executor tasks to generate the result of a task in an asynchronous way. You can specify tasks to be executed after the result is generated, so you can control the order of the execution of the tasks. It allows you to implement an event-driving model linking tasks that will only be executed when others have finished.
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can cancel the execution of the task using the <code class="language-plaintext highlighter-rouge">cancel()</code> method. This method has a boolean parameter to specify whether you want to interrupt the task if it’s running or not.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can check whether the task has been cancelled (with the <code class="language-plaintext highlighter-rouge">isCancelled()</code> method) or it has finished (with the <code class="language-plaintext highlighter-rouge">isDone()</code> method).</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can get the value returned by the task using the <code class="language-plaintext highlighter-rouge">get()</code> method.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> One possible option is to create other tasks to process the <code class="language-plaintext highlighter-rouge">Future</code> objects associated with every task, and the Java concurrency API provides us with an elegant solution to implement this solution with the <code class="language-plaintext highlighter-rouge">CompletionService</code> interface and its implementation, the <code class="language-plaintext highlighter-rouge">ExecutorCompletionService</code> class.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> A <code class="language-plaintext highlighter-rouge">CompletionService</code> object is a mechanism that has an executor and allows you to decouple the production of tasks and the consumption of the results of those tasks. You can send tasks to the executor using the <code class="language-plaintext highlighter-rouge">submit()</code> method and get the results of the tasks when they finish using the <code class="language-plaintext highlighter-rouge">poll()</code> or <code class="language-plaintext highlighter-rouge">take()</code> methods.</li>
+  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> <code class="language-plaintext highlighter-rouge">CompletableFuture</code>, a new feature of Java 8, extends the <code class="language-plaintext highlighter-rouge">Future</code> mechanism of the executor tasks to generate the result of a task in an asynchronous way. You can specify tasks to be executed after the result is generated, so you can control the order of the execution of the tasks. It allows you to implement an event-driving model linking tasks that will only be executed when others have finished.
     <ul>
       <li>As with the <code class="language-plaintext highlighter-rouge">Future</code> interface, <code class="language-plaintext highlighter-rouge">CompletableFuture</code> must be parameterized with the type of the result that will be returned by the operation. As with a Future object, the <code class="language-plaintext highlighter-rouge">CompletableFuture</code> class represents a result of an asynchronous computation, but the result of <code class="language-plaintext highlighter-rouge">CompletableFuture</code> can be established by any thread.</li>
     </ul>
   </li>
-  <li><strong>[action8]</strong> a bit more complex example sync and async with <code class="language-plaintext highlighter-rouge">Future</code></li>
+  <li><a class="citation" href="#urma2015java">(Urma et al., 2015)</a> a bit more complex example sync and async with <code class="language-plaintext highlighter-rouge">Future</code></li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// synced Example</span>
@@ -348,41 +359,41 @@
 <h2 id="measurement">Measurement</h2>
 
 <ul>
-  <li><strong>[well]</strong> latency - end-to-end time to process a single work-unit for a given workflow (Y-axis response time, X-axis load)</li>
-  <li><strong>[well]</strong> throughput - is the number of units of work that a system can perform in some time period with given resources (e.g number of transactions per second)</li>
-  <li><strong>[well]</strong> utilization - represents the percentage of available resources that are being used to handle work units, instead of housekeeping tasks</li>
-  <li><strong>[well]</strong> efficiency - is equal to the throughput divided by the resources used. A system that requires more resources to produce the same throughput is less efficient.</li>
-  <li><strong>[well]</strong> capacity - the number of work units (such as transactions) that can be in flight through the system at any time. That is, it’s the amount of simultaneous processing available at specified latency or throughput.</li>
-  <li><strong>[well]</strong> scalability - As resources are added to a system, the throughput (or latency) will change. This change in throughput or latency is the scalability of the system. If solution A doubles its throughput when the available servers in a pool are doubled, it’s scaling in a perfectly linear fashion. Perfect linear scaling is very, very difficult to achieve under most circumstances.</li>
-  <li><strong>[conc]</strong> measure don’t guess (the actual cost varies across platforms, but a good rule of thumb is that a context switch costs the equivalent of 5000 to 10000 clock cycles (several milliseconds).</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> latency - end-to-end time to process a single work-unit for a given workflow (Y-axis response time, X-axis load)</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> throughput - is the number of units of work that a system can perform in some time period with given resources (e.g number of transactions per second)</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> utilization - represents the percentage of available resources that are being used to handle work units, instead of housekeeping tasks</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> efficiency - is equal to the throughput divided by the resources used. A system that requires more resources to produce the same throughput is less efficient.</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> capacity - the number of work units (such as transactions) that can be in flight through the system at any time. That is, it’s the amount of simultaneous processing available at specified latency or throughput.</li>
+  <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> scalability - As resources are added to a system, the throughput (or latency) will change. This change in throughput or latency is the scalability of the system. If solution A doubles its throughput when the available servers in a pool are doubled, it’s scaling in a perfectly linear fashion. Perfect linear scaling is very, very difficult to achieve under most circumstances.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> measure don’t guess (the actual cost varies across platforms, but a good rule of thumb is that a context switch costs the equivalent of 5000 to 10000 clock cycles (several milliseconds).</li>
 </ul>
 
 <h2 id="basic-synchronization-and-locks">Basic synchronization and Locks</h2>
 
 <ul>
-  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">join()</code>: allows one thread to wait for the completion of another. <code class="language-plaintext highlighter-rouge">t.join();</code> causes the current thread to pause execution until <code class="language-plaintext highlighter-rouge">t</code>’s thread terminates.</li>
-  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">t.sleep()</code>: don’t affect t but the calling thread (same for <code class="language-plaintext highlighter-rouge">yield()</code>). Better use <code class="language-plaintext highlighter-rouge">Thread.sleep(time)</code></li>
-  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">yield()</code>: Don’t rely on thread priorities when designing your multithreaded application. Because thread-scheduling priority behavior is not guaranteed, use thread priorities as a way to improve the efficiency of your program, but just be sure your program doesn’t depend on that behavior for correctness.
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> <code class="language-plaintext highlighter-rouge">join()</code>: allows one thread to wait for the completion of another. <code class="language-plaintext highlighter-rouge">t.join();</code> causes the current thread to pause execution until <code class="language-plaintext highlighter-rouge">t</code>’s thread terminates.</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> <code class="language-plaintext highlighter-rouge">t.sleep()</code>: don’t affect t but the calling thread (same for <code class="language-plaintext highlighter-rouge">yield()</code>). Better use <code class="language-plaintext highlighter-rouge">Thread.sleep(time)</code></li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> <code class="language-plaintext highlighter-rouge">yield()</code>: Don’t rely on thread priorities when designing your multithreaded application. Because thread-scheduling priority behavior is not guaranteed, use thread priorities as a way to improve the efficiency of your program, but just be sure your program doesn’t depend on that behavior for correctness.
     <ul>
       <li>What <code class="language-plaintext highlighter-rouge">yield()</code> is supposed to do is make the currently running thread head back to runnable to allow other threads of the same priority to get their turn (from running to runnable state).</li>
       <li>there’s no guarantee the yielding thread won’t just be chosen again over all the others!</li>
     </ul>
   </li>
-  <li><strong>[conc]</strong> Static methods/fields are controlled by a lock that’s distinct from lock for any other instance of the class, because they are associated with the class, not with the object</li>
-  <li><strong>[conc]</strong> Contended (lock contention, more heavy and slow threads) vs. non-contended (sync. or volatile) synchronization
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Static methods/fields are controlled by a lock that’s distinct from lock for any other instance of the class, because they are associated with the class, not with the object</li>
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Contended (lock contention, more heavy and slow threads) vs. non-contended (sync. or volatile) synchronization
     <ul>
       <li>Synchronization by one thread can also affect the performance of other threads. Synchronization creates traffic on the shared memory bus; this bus has a limited bandwidth and is shared across all processors. If threads must compete for synchronization bandwidth, all threads using synchronization will suffer. This aspect is sometimes used to argue against the use of non-blocking algorithms without some sort of back-off, because under heavy contention, non-blocking algorithms generate more synchronization traffic than lock-based ones.</li>
       <li>Suspending a thread because it could not get a lock, or because it blocked on a condition wait or blocking I/O operation, entails two additional context switches and all the attendant OS and cache activity.</li>
     </ul>
   </li>
-  <li><strong>[conc]</strong> Fairness vs Bargaining (ch 10.2)
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Fairness vs Bargaining (ch 10.2)
     <ul>
       <li>fairness has a significant performance cost</li>
       <li><code class="language-plaintext highlighter-rouge">ReentrantLock</code> has a non-fair(default) permit bargaining: if in time of request the lock is free it takes it without waiting.</li>
       <li><code class="language-plaintext highlighter-rouge">tryLock</code> – always bargains even for fair lock</li>
     </ul>
   </li>
-  <li><strong>[conc]</strong> <code class="language-plaintext highlighter-rouge">ReentrantReadWriteLock</code> + <code class="language-plaintext highlighter-rouge">ReadWriteMap.java</code> (example)
+  <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> <code class="language-plaintext highlighter-rouge">ReentrantReadWriteLock</code> + <code class="language-plaintext highlighter-rouge">ReadWriteMap.java</code> (example)
     <ul>
       <li>In reality, <code class="language-plaintext highlighter-rouge">ConcurrentHashMap</code>’s performance is so good that you would probably use it rather than this approach if all you needed was a concurrent hash-based map, but this technique would be useful if you want to provide more concurrent access to an alternate Map implementation such as <code class="language-plaintext highlighter-rouge">LinkedHashMap.</code></li>
     </ul>
@@ -392,9 +403,9 @@
 <h2 id="forkjoin-notes">Fork/Join Notes</h2>
 
 <ul>
-  <li><strong>[action8]</strong> Work stealing: Each thread holds a doubly linked queue of the tasks assigned to it, and as soon as it computes a task it pulls another from the head of the queue and starts executing it. When its tasks are finished, instead of becoming idle, the thread randomly choose a queue of a different thread and steals a task from its tail.</li>
-  <li><strong>[action8]</strong> Call <code class="language-plaintext highlighter-rouge">join()</code> only after related tasks has been started, as it blocks the caller until result is produced.</li>
-  <li><strong>[action8]</strong> When splitting on computation on two tasks call <code class="language-plaintext highlighter-rouge">fork()</code> on one of them, which will use another thread from the <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and <code class="language-plaintext highlighter-rouge">compute()</code> on the other in order to use the same thread. It is more efficient.</li>
+  <li><a class="citation" href="#urma2015java">(Urma et al., 2015)</a> Work stealing: Each thread holds a doubly linked queue of the tasks assigned to it, and as soon as it computes a task it pulls another from the head of the queue and starts executing it. When its tasks are finished, instead of becoming idle, the thread randomly choose a queue of a different thread and steals a task from its tail.</li>
+  <li><a class="citation" href="#urma2015java">(Urma et al., 2015)</a> Call <code class="language-plaintext highlighter-rouge">join()</code> only after related tasks has been started, as it blocks the caller until result is produced.</li>
+  <li><a class="citation" href="#urma2015java">(Urma et al., 2015)</a> When splitting on computation on two tasks call <code class="language-plaintext highlighter-rouge">fork()</code> on one of them, which will use another thread from the <code class="language-plaintext highlighter-rouge">ForkJoinPool</code>, and <code class="language-plaintext highlighter-rouge">compute()</code> on the other in order to use the same thread. It is more efficient.</li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">MyRecursiveTask</span> <span class="kd">extends</span> <span class="nc">RecursiveTask</span><span class="o">&lt;</span><span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
@@ -415,19 +426,19 @@
   <span class="o">}</span>
 </code></pre></div></div>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[conc_j8]</strong> Gonzalez - Mastering Concurrency programming with Java 8</li>
-  <li><strong>[conc_j9]</strong> Gonzalez - Java 9 Concurrency Cookbook</li>
-  <li><strong>[conc_jvm]</strong> Subramaniam - Programming Concurrency on the JVM</li>
-  <li><strong>[conc]</strong> Goetz &amp; Peierls - Java Concurrency in Practice</li>
-  <li><strong>[well]</strong> Evans - The Well-Grounded Java Developer</li>
-  <li><strong>[action8]</strong> Urma &amp; Fusco - Java 8 in Action</li>
-  <li><strong>[jrebel]</strong> JRebel Cheat Sheet</li>
-  <li><strong>[jenkov]</strong> <a href="http://tutorials.jenkov.com/java-concurrency/semaphores.html">Jenkov blog - Semaphores</a></li>
-  <li><strong>[barrier]</strong> <a href="https://mechanical-sympathy.blogspot.com/2011/07/memory-barriersfences.html">Martin Thompson - Memory Barriers</a></li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer : vital techniques of Java 7 and polyglot programming</i>. Manning.</span></li>
+<li><span id="goetz2006java">Goetz, B. (2006). <i>Java concurrency in practice</i>. Addison-Wesley.</span></li>
+<li><span id="gonzalez2017java">Gonzalez, J. (2017). <i>Java 9 concurrency cookbook</i>. Packt Publishing.</span></li>
+<li><span id="gonzaslez2016mastering">Gonzaslez, J. (2016). <i>Mastering concurrency programming with Java 8</i>. Packt Publishing.</span></li>
+<li><span id="jenkov2014semaphores">Jenkov, J. (2014). <i>Semaphores</i>. http://tutorials.jenkov.com/java-concurrency/semaphores.html</span></li>
+<li><span id="subramaniam2011programming">Subramaniam, V. (2011). <i>Programming concurrency on the JVM : mastering synchronization, STM, and actors</i>. Pragmatic Bookshelf.</span></li>
+<li><span id="thompson2011memory">Thompson, M. (2011). Mechanical Sympathy: Memory Barriers/Fences. In <i>Mechanical Sympathy</i>. https://mechanical-sympathy.blogspot.com/2011/07/memory-barriersfences.html</span></li>
+<li><span id="urma2015java">Urma, R.-G., Fusco, M., &amp; Mycroft, A. (2015). <i>Java 8 in action : lambdas, streams, and functional-style programming</i>. Manning.</span></li></ul>
 
   </div>
 
@@ -460,7 +471,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

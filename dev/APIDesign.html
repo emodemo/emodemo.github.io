@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="API Design" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/APIDesign.html","headline":"API Design","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/APIDesign.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"API Design","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,20 +54,21 @@
   </header>
 
   <div class="post-content">
-    <ul>
+    <!-- default one if nothing else is mentioned -->
+<ul>
   <li>Fred Brooks (The Mythical Man-Month): the communication overhead of a team of size $N$ is $O(N^2)$</li>
 </ul>
 
 <h2 id="event-sourcing">Event Sourcing</h2>
 
 <ul>
-  <li><strong>[events]</strong></li>
+  <li><a class="citation" href="#FolwerEventSourcing">(Fowler, n.d.)</a></li>
 </ul>
 
 <h2 id="requirements">REQUIREMENTS</h2>
 
 <ul>
-  <li><strong>[code_complete]</strong> A problem definition defines what the problem is without any reference to possible solutions. It’s a simple statement, maybe one or two pages, and it should sound like a problem. The statement “We can’t keep up with orders for the Gigatron” sounds like a problem and is a good problem definition. The statement “We need to optimize our automated data-entry system to keep up with orders for the Gigatron” is a poor problem definition. It doesn’t sound like a problem; it sounds like a solution.
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> A problem definition defines what the problem is without any reference to possible solutions. It’s a simple statement, maybe one or two pages, and it should sound like a problem. The statement “We can’t keep up with orders for the Gigatron” sounds like a problem and is a good problem definition. The statement “We need to optimize our automated data-entry system to keep up with orders for the Gigatron” is a poor problem definition. It doesn’t sound like a problem; it sounds like a solution.
     <ul>
       <li>Are acceptable tradeoffs between competing attributes specified - for example, between robustness and correctness?</li>
       <li>Are all the inputs to the system specified, including their source, accuracy, range of values, and frequency?</li>
@@ -65,9 +76,9 @@
       <li>Acceptance Criteria</li>
     </ul>
   </li>
-  <li><strong>[idesign]</strong> Field research, to find out what the intended users are like and what they already do</li>
-  <li><strong>[idesign]</strong> Goal and task analysis, to describe and clarify what users will do with what you’re building</li>
-  <li><strong>[idesign]</strong> Enough time to iterate over several versions of the design, because you won’t get it right the first time. Specifically, you’ll want to learn:
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> Field research, to find out what the intended users are like and what they already do</li>
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> Goal and task analysis, to describe and clarify what users will do with what you’re building</li>
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> Enough time to iterate over several versions of the design, because you won’t get it right the first time. Specifically, you’ll want to learn:
     <ul>
       <li>Their goals in using the software you design</li>
       <li>The specific tasks they undertake in pursuit of those goals</li>
@@ -76,8 +87,8 @@
       <li>Their attitudes toward the kind of thing you’re designing, and how different designs might affect those attitudes</li>
     </ul>
   </li>
-  <li><strong>[idesign]</strong> In other words, how much openness is there in the interface? Too little, and your users feel trapped and unsatisfied; too much, and they stand there paralyzed, not knowing what to do next, unprepared for that level of interaction. Therefore, you need to choose how much freedom your users have to act arbitrarily.</li>
-  <li><strong>[bloch]</strong> API is a cover story
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> In other words, how much openness is there in the interface? Too little, and your users feel trapped and unsatisfied; too much, and they stand there paralyzed, not knowing what to do next, unprepared for that level of interaction. Therefore, you need to choose how much freedom your users have to act arbitrarily.</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> API is a cover story
     <ul>
       <li>hide impl, info, internal data formats</li>
       <li>think of concepts rather than code</li>
@@ -98,16 +109,16 @@
 <h2 id="planning--spike--tries">PLANNING / SPIKE / TRIES</h2>
 
 <ul>
-  <li><strong>[code_complete]</strong> The overarching goal of preparation is risk reduction: a good project planner clears major risks out of the way as early as possible so that the bulk of the project can proceed as smoothly as possible. By far the most common project risks in software development are poor requirements and poor project planning, thus preparation tends to focus on improving requirements and project plans.</li>
-  <li><strong>[code_complete]</strong> If the “box” is the boundary of constraints and conditions, then the trick is to find the box…. Don’t think outside the box—find the box. —Andy Hunt and Dave Thomas</li>
-  <li><strong>[hf_soft_dev]</strong> The goal during estimation is to eliminate as many assumptions as possible. So that an assumption becomes a requirement (task).</li>
-  <li><strong>[hf_soft_dev]</strong> A BIG user story estimate is a BAD user story estimate!!
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> The overarching goal of preparation is risk reduction: a good project planner clears major risks out of the way as early as possible so that the bulk of the project can proceed as smoothly as possible. By far the most common project risks in software development are poor requirements and poor project planning, thus preparation tends to focus on improving requirements and project plans.</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> If the “box” is the boundary of constraints and conditions, then the trick is to find the box…. Don’t think outside the box—find the box. —Andy Hunt and Dave Thomas</li>
+  <li><a class="citation" href="#pilone2008head">(Pilone, 2008)</a> The goal during estimation is to eliminate as many assumptions as possible. So that an assumption becomes a requirement (task).</li>
+  <li><a class="citation" href="#pilone2008head">(Pilone, 2008)</a> A BIG user story estimate is a BAD user story estimate!!
     <ul>
       <li>RULE OF THUMB: Estimates greater than 15 days par user story allow too much room for error =&gt; break it into smaller meaningful pieces.</li>
     </ul>
   </li>
-  <li><strong>[hf_soft_dev]</strong> Estimates are all about confidence.</li>
-  <li><strong>[pragmatic]</strong> Prototype to learn and diminish risk - What sorts of things might you choose to investigate with a prototype? Anything that carries risk. Anything that hasn’t been tried before, or that is absolutely critical to the final system. Anything unproven, experimental, or doubtful. Anything you aren’t comfortable with. You can prototype.
+  <li><a class="citation" href="#pilone2008head">(Pilone, 2008)</a> Estimates are all about confidence.</li>
+  <li><a class="citation" href="#hunt2000the">(Hunt, 2000)</a> Prototype to learn and diminish risk - What sorts of things might you choose to investigate with a prototype? Anything that carries risk. Anything that hasn’t been tried before, or that is absolutely critical to the final system. Anything unproven, experimental, or doubtful. Anything you aren’t comfortable with. You can prototype.
     <ul>
       <li>Architecture</li>
       <li>New functionality in an existing system</li>
@@ -123,7 +134,7 @@
 <h2 id="system-design">SYSTEM DESIGN</h2>
 
 <ul>
-  <li><strong>[code_complete]</strong> Error handling
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Error handling
     <ul>
       <li>where in the system</li>
       <li>how they will be propagated/ or handled.</li>
@@ -131,9 +142,9 @@
       <li>fault tolerance (think of CAP)</li>
     </ul>
   </li>
-  <li><strong>[code_complete]</strong> Scalability</li>
-  <li><strong>[code_complete]</strong> Interoperability</li>
-  <li><strong>[code_complete]</strong> Look for:
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Scalability</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Interoperability</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Look for:
     <ul>
       <li>Minimize the amount of essential complexity that anyone’s brain has to deal with at any one time</li>
       <li>Keep accidental complexity from needlessly proliferating</li>
@@ -141,40 +152,40 @@
       <li>Stratification - it means trying to keep the levels of decomposition stratified so that you can view the system at any single level and get a consistent view. Design the system so that you can view it at one level without dipping into other levels. (e.g. if you’re writing a modern system that has to use a lot of older, poorly designed code, write a layer of the new system that’s responsible for interfacing with the old code).</li>
     </ul>
   </li>
-  <li><strong>[pragmatic]</strong> NOTE: The problem with most binary formats is that the context necessary to understand the data is separate from the data itself. You are artificially divorcing the data from its meaning. The data may as well be encrypted; it is absolutely meaningless without the application logic to parse it. With plain text, however, you can achieve a self-describing data stream that is independent of the application that created it.</li>
-  <li><strong>[micro]</strong> Melvin Conway’s paper How Do Committees Invent, published in Datamation magazine in April 1968, observed that: <em>Any organization that designs a system (defined more broadly here than just information systems) will inevitably produce a design whose structure is a copy of the organization’s communication structure.</em> This statement is often quoted, in various forms, as Conway’s law. Eric S. Raymond summarized this phenomenon in The New Hacker’s Dictionary (MIT Press) by stating “If you have four groups working on a compiler, you’ll get a 4-pass compiler.”</li>
+  <li><a class="citation" href="#hunt2000the">(Hunt, 2000)</a> NOTE: The problem with most binary formats is that the context necessary to understand the data is separate from the data itself. You are artificially divorcing the data from its meaning. The data may as well be encrypted; it is absolutely meaningless without the application logic to parse it. With plain text, however, you can achieve a self-describing data stream that is independent of the application that created it.</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Melvin Conway’s paper How Do Committees Invent, published in Datamation magazine in April 1968, observed that: <em>Any organization that designs a system (defined more broadly here than just information systems) will inevitably produce a design whose structure is a copy of the organization’s communication structure.</em> This statement is often quoted, in various forms, as Conway’s law. Eric S. Raymond summarized this phenomenon in The New Hacker’s Dictionary (MIT Press) by stating “If you have four groups working on a compiler, you’ll get a 4-pass compiler.”</li>
 </ul>
 
 <h2 id="api-design--implementation">API DESIGN / IMPLEMENTATION</h2>
 
 <ul>
-  <li><strong>[api_design]</strong> The best API is no API</li>
-  <li><strong>[api_design]</strong> Everything you leave in an API can be misused.</li>
-  <li><strong>[api_design]</strong> The less you need to understand the API’s details to use it, the better.</li>
-  <li><strong>[api_design]</strong> A Factory is better than a Constructor.
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> The best API is no API</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Everything you leave in an API can be misused.</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> The less you need to understand the API’s details to use it, the better.</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> A Factory is better than a Constructor.
     <ul>
       <li>No need to return the exact class</li>
     </ul>
   </li>
-  <li><strong>[api_design]</strong> Do not expose deep hierarchies</li>
-  <li><strong>[api_design]</strong> Code Against Interfaces (abstract definitions), not implementations.
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Do not expose deep hierarchies</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Code Against Interfaces (abstract definitions), not implementations.
     <ul>
       <li>“Is there actually any reason to use abstract classes?” The short answer is “No.” Abstract classes in an API are suspicious and often indicate an unwillingness to invest more time in the proper API design. The longer answer is, “Well, there might be reasons to use abstract classes in APIs after all.”</li>
     </ul>
   </li>
-  <li><strong>[api_design]</strong> Separate APIs for Clients (api that people call) and Providers (api that people implement)
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Separate APIs for Clients (api that people call) and Providers (api that people implement)
     <ul>
       <li>API evolution is different from SPI (service provider interface) evolution.</li>
       <li>The path of evolution depends on the type of interface: additions to an API are acceptable, while removing functionality is not. In SPIs removals are allowed, while additions are not.</li>
     </ul>
   </li>
-  <li><strong>[api_design]</strong> Prefer immutability.</li>
-  <li><strong>[bloch]</strong> if there must be a state, keep it small and known, adn document it</li>
-  <li><strong>[clean_code]</strong> checked expectations (as the one in Java where they are declared) broke encapsulation, because if a method in a class at low level throws a new exception all calls of this modified function must be rewritten also.</li>
-  <li><strong>[clean_code]</strong> define expectations in terms of caller’s needs</li>
-  <li><strong>[clean_code]</strong> wrap third-party apis, so they can be easily changed.</li>
-  <li><strong>[pragmatic]</strong> Avoid global data.</li>
-  <li><strong>[bloch]</strong> API implementation
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Prefer immutability.</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> if there must be a state, keep it small and known, adn document it</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> checked expectations (as the one in Java where they are declared) broke encapsulation, because if a method in a class at low level throws a new exception all calls of this modified function must be rewritten also.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> define expectations in terms of caller’s needs</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> wrap third-party apis, so they can be easily changed.</li>
+  <li><a class="citation" href="#hunt2000the">(Hunt, 2000)</a> Avoid global data.</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> API implementation
     <ul>
       <li>Fail fast. The sooner you report a bug, the less damage it will do. Compile-time is best. If you must fail at run-time, do it as soon as possible.</li>
       <li>Provide programmatic access to all data available in string form.</li>
@@ -189,7 +200,7 @@
 <h2 id="user-interface-design">(USER) INTERFACE DESIGN</h2>
 
 <ul>
-  <li><strong>[idesign]</strong> Here’s an even more fundamental question: how much effort are your users willing to spend to learn your interface?
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> Here’s an even more fundamental question: how much effort are your users willing to spend to learn your interface?
     <ol>
       <li><strong>safe exploration</strong> “Let me explore without getting lost or getting into trouble.” Good software allows people to try something unfamiliar, back out   and try something else, all without stress.</li>
       <li><strong>instant gratification</strong> “I want to accomplish something now, not later.”</li>
@@ -205,92 +216,93 @@ Sometimes you can separate the few important questions or options  from others t
       <li><strong>keyboard only</strong> “Please don’t make me use the mouse.”</li>
     </ol>
   </li>
-  <li><strong>[idesign]</strong> Rather than thinking in terms of windows, tree views, and links, you might think abstractly about how to organize the actions and objects in your application in the way truest to your subject matter. You can postpone the decisions about using specific windows and widgets.</li>
+  <li><a class="citation" href="#tidwell2011designing">(Tidwell, 2011)</a> Rather than thinking in terms of windows, tree views, and links, you might think abstractly about how to organize the actions and objects in your application in the way truest to your subject matter. You can postpone the decisions about using specific windows and widgets.</li>
 </ul>
 
 <h2 id="concurrency">CONCURRENCY</h2>
 
 <ul>
-  <li><strong>[api_design]</strong> The basic advice for a programmer using a language with threads and locks, such as Java, is do not hold a lock while calling foreign code. If you follow this rule, you eliminate the fourth condition.</li>
-  <li><strong>[api_design]</strong> In classes that allow subclassing, you should never call a method that can be overridden while holding a lock. Alternatively, you should replace subclassable classes with more interfaces and you should replace delegation with a clear separation of concerns.</li>
-  <li><strong>[clean_code]</strong> Objects are abstractions of processing. Threads are abstractions of schedule.</li>
-  <li><strong>[clean_code]</strong> Concurrency is decoupling WHAT from WHEN</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> The basic advice for a programmer using a language with threads and locks, such as Java, is do not hold a lock while calling foreign code. If you follow this rule, you eliminate the fourth condition.</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> In classes that allow subclassing, you should never call a method that can be overridden while holding a lock. Alternatively, you should replace subclassable classes with more interfaces and you should replace delegation with a clear separation of concerns.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Objects are abstractions of processing. Threads are abstractions of schedule.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Concurrency is decoupling WHAT from WHEN</li>
 </ul>
 
 <h2 id="classes">CLASSES</h2>
 
 <ul>
-  <li><strong>[code_complete]</strong> Hiding more is better than hiding less.</li>
-  <li><strong>[code_complete]</strong> It ain’t abstract if you have to look at the underlying implementation to understand what’s going on.</li>
-  <li><strong>[code_complete]</strong> Joshua Bloch - “Inheritance breaks encapsulation”.</li>
-  <li><strong>[code_complete]</strong> class’s methods not more than 7
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Hiding more is better than hiding less.</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> It ain’t abstract if you have to look at the underlying implementation to understand what’s going on.</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Joshua Bloch - “Inheritance breaks encapsulation”.</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> class’s methods not more than 7
     <ul>
       <li>STM 7+/-2</li>
     </ul>
   </li>
-  <li><strong>[code_complete]</strong> loose coupling/high cohesion</li>
-  <li><strong>[clean_code]</strong> One class - one responsibility - one reason to change</li>
-  <li><strong>[code_complete]</strong> Use enumerated types as an alternative to boolean variables
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> loose coupling/high cohesion</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> One class - one responsibility - one reason to change</li>
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Use enumerated types as an alternative to boolean variables
     <ul>
       <li>Reserve the first entry in the enumerated type as invalid (i.e. 0)</li>
     </ul>
   </li>
-  <li><strong>[code_complete]</strong> Use boolean variables to simplify complicated tests</li>
-  <li><strong>[api_design]</strong> The only real difference between a soft reference and a weak reference is that the garbage collector uses algorithms to decide whether or not to reclaim a softly reachable object, but always reclaims a weakly reachable object.</li>
-  <li><strong>[clean_code]</strong> Data structures / Objects
+  <li><a class="citation" href="#mcconnell2004code">(McConnell, 2004)</a> Use boolean variables to simplify complicated tests</li>
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> The only real difference between a soft reference and a weak reference is that the garbage collector uses algorithms to decide whether or not to reclaim a softly reachable object, but always reclaims a weakly reachable object.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Data structures / Objects
     <ul>
       <li>Data structures only expose their information and have no  behaviour. Other classes control the behviour or business rules</li>
       <li>The data structure contains information to be used</li>
       <li>Objects have behaviour to be used, and should not be asked for  its internals.</li>
     </ul>
   </li>
-  <li><strong>[bloch]</strong> Subclass only if you can say with a straight face that every instance of the subclass is an instance of the superclass. Exposed classes should never subclass just to reuse implementation code.</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> Subclass only if you can say with a straight face that every instance of the subclass is an instance of the superclass. Exposed classes should never subclass just to reuse implementation code.</li>
 </ul>
 
 <h2 id="methodsfunctions">METHODS/FUNCTIONS</h2>
 
 <ul>
-  <li><strong>[api_design]</strong> Method Design : exceptions for exceptional conditions
+  <li><a class="citation" href="#tulach2012practical">(Tulach, 2012)</a> Method Design : exceptions for exceptional conditions
     <ul>
       <li>Don’t force client to use exceptions for control flow</li>
       <li>Conversely, don’t fail silently</li>
       <li>Favor unchecked over checked exceptions (Avoid unnecessary use  of checked exceptions)</li>
     </ul>
   </li>
-  <li><strong>[clean_code]</strong> one function - one responsibility</li>
-  <li><strong>[clean_code]</strong> Functions should either do something or answer something, but not both.</li>
-  <li><strong>[clean_code]</strong> Try/catch blocks are ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of the try and catch blocks out into functions of their own.</li>
-  <li><strong>[clean_code]</strong> Functions should do one thing. Error handing is one thing. Thus, a function that handles errors should do nothing else.</li>
-  <li><strong>[bloch]</strong> do not use exceptions for control flow</li>
-  <li><strong>[bloch]</strong> do not throw the client into exception handling, use them only when the client must be alerted</li>
-  <li><strong>[bloch]</strong> do not return collections</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> one function - one responsibility</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Functions should either do something or answer something, but not both.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Try/catch blocks are ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of the try and catch blocks out into functions of their own.</li>
+  <li><a class="citation" href="#martin2009clean">(Martin, 2009)</a> Functions should do one thing. Error handing is one thing. Thus, a function that handles errors should do nothing else.</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> do not use exceptions for control flow</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> do not throw the client into exception handling, use them only when the client must be alerted</li>
+  <li><a class="citation" href="#blochGoodAPI">(Bloch, n.d.)</a> do not return collections</li>
 </ul>
 
 <h2 id="test">TEST</h2>
 
 <ul>
-  <li><strong>[hf_soft_dev]</strong> test driven development - when you write tests before any code, and then lets those test drive your code you are using TDD
+  <li><a class="citation" href="#pilone2008head">(Pilone, 2008)</a> test driven development - when you write tests before any code, and then lets those test drive your code you are using TDD
     <ul>
       <li>Rule 1: Your test should always FAIL before you implement any code.</li>
       <li>Rule 2: Implement the SIMPLEST CODE POSSIBLE to make your tests pass</li>
     </ul>
   </li>
-  <li><strong>[hf_soft_dev]</strong> Each test should do just one thing</li>
+  <li><a class="citation" href="#pilone2008head">(Pilone, 2008)</a> Each test should do just one thing</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[clean_code]</strong> Martin - Clean Code</li>
-  <li><strong>[api_design]</strong> Tulach - Practical API Design</li>
-  <li><strong>[hf_soft_dev]</strong> Pilone &amp; Miles - HF Software development</li>
-  <li><strong>[code_complete]</strong> McConnell - Code Complete 2nd ed</li>
-  <li><strong>[bloch]</strong> <a href="https://www.youtube.com/watch?v=heh4OeB9A-c">Joshua Bloch - How To Design A Good API and Why it Matters</a></li>
-  <li><strong>[idesign]</strong> Tidwell - Designing interfaces</li>
-  <li><strong>[pragmatic]</strong> Hunt &amp; Thomas - The Pragmatic Programer</li>
-  <li><strong>[micro]</strong> Newman - Building Microservices</li>
-  <li><strong>[events]</strong> <a href="https://martinfowler.com/eaaDev/EventSourcing.html">Event Sourcing - Martin Fowler</a></li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="blochGoodAPI">Bloch, J. <i>How To Design A Good API and Why it Matters</i>. https://www.youtube.com/watch?v=heh4OeB9A-c</span></li>
+<li><span id="FolwerEventSourcing">Fowler, M. Event Sourcing. In <i>martinfowler.com</i>. https://martinfowler.com/eaaDev/EventSourcing.html</span></li>
+<li><span id="hunt2000the">Hunt, A. (2000). <i>The pragmatic programmer : from journeyman to master</i>. Addison-Wesley.</span></li>
+<li><span id="martin2009clean">Martin, R. (2009). <i>Clean code : a handbook of agile software craftsmanship</i>. Prentice Hall.</span></li>
+<li><span id="mcconnell2004code">McConnell, S. (2004). <i>Code complete</i>. Microsoft Press.</span></li>
+<li><span id="newman2015building">Newman, S. (2015). <i>Building microservices : designing fine-grained systems</i>. O’Reilly Media.</span></li>
+<li><span id="pilone2008head">Pilone, D. (2008). <i>Head first software development</i>. O’Reilly.</span></li>
+<li><span id="tidwell2011designing">Tidwell, J. (2011). <i>Designing interfaces</i>. O’Reilly.</span></li>
+<li><span id="tulach2012practical">Tulach, J. (2012). <i>Practical API design : confessions of a Java framework architect</i>. Apress Distributed to the Book trade worldwide by Springer Science+Business Media New York.</span></li></ul>
 
   </div>
 
@@ -323,7 +335,7 @@ Sometimes you can separate the few important questions or options  from others t
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

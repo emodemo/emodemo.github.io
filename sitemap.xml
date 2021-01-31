@@ -4,10 +4,7 @@
 <loc>/dev/APIDesign.html</loc>
 </url>
 <url>
-<loc>/dev/ApacheKafka.html</loc>
-</url>
-<url>
-<loc>/dev/Basics_Algorithms.html</loc>
+<loc>/dev/BasicsAlgorithms.html</loc>
 </url>
 <url>
 <loc>/dev/Categories.html</loc>
@@ -38,6 +35,9 @@
 </url>
 <url>
 <loc>/dev/Java.html</loc>
+</url>
+<url>
+<loc>/dev/Kafka.html</loc>
 </url>
 <url>
 <loc>/others/Katerene.html</loc>

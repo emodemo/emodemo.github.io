@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Design Patterns" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/DesignPatterns.html","headline":"Design Patterns","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/DesignPatterns.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Design Patterns","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,11 +54,12 @@
   </header>
 
   <div class="post-content">
-    <ul>
+    <!-- default one if nothing else is mentioned -->
+<ul>
   <li>A closure wraps up a function along with the state available to it when it was created. This means that a function can reference any variable that was in scope when the function was created at the time it’s called. The programmer doesn’t have to do anything special to create a closure; the compiler and runtime take care of it, and the closure simply captures all the state that it needs automatically.</li>
 </ul>
 
-<h2 id="oo-patterns">OO Patterns</h2>
+<h2 id="oo-patterns-linn-2014">OO Patterns <a class="citation" href="#linn2014functional">(Linn, 2014)</a></h2>
 
 <h3 id="functional-interface---named-function">Functional Interface -&gt; Named Function</h3>
 
@@ -170,7 +181,7 @@ Make it a bit hared now …</p>
 
 <h3 id="di">DI</h3>
 
-<h3 id="dp_scala-adapter-scala-has-built-in-concept-of-interface-adapters-expressed-as-implicit-classes"><strong>[dp_scala]</strong> Adapter Scala has built-in concept of interface adapters, expressed as <code class="language-plaintext highlighter-rouge">implicit</code> classes</h3>
+<h3 id="fatin-nd-adapter-scala-has-built-in-concept-of-interface-adapters-expressed-as-implicit-classes"><a class="citation" href="#pavel_scala">(Fatin, n.d.)</a> Adapter Scala has built-in concept of interface adapters, expressed as <code class="language-plaintext highlighter-rouge">implicit</code> classes</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Log</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">);</span> <span class="o">}</span>
 <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Logger</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">log</span><span class="o">(</span><span class="nc">Level</span> <span class="n">level</span><span class="o">,</span> <span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span> <span class="cm">/* ... */</span> <span class="o">}</span> <span class="o">}</span>
@@ -224,12 +235,13 @@ isOddTrampoline(100001).result // res4: Boolean = true, but it is O(n) (linear)
 
 <h3 id="focused-mutabilty---good-for-holding-a-collection-for-indexing-as-it-is-faster-than-with-immutable-objects">Focused mutabilty - Good for holding a collection for indexing as it is faster than with immutable objects</h3>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>Linn - Functional Programming Patterns in Scala and Clojure</li>
-  <li><strong>[dp_scala]</strong> https://pavelfatin.com/design-patterns-in-scala</li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="pavel_scala">Fatin, P. <i>Design Patterns in Scala</i>. Retrieved January 21, 2021, from https://pavelfatin.com/design-patterns-in-scala/</span></li>
+<li><span id="linn2014functional">Linn, M. (2014). <i>Functional programming patterns in Scala and Clojure</i>. Pragmatic Programmers.</span></li></ul>
 
   </div>
 
@@ -262,7 +274,7 @@ isOddTrampoline(100001).result // res4: Boolean = true, but it is O(n) (linear)
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Distributed Systems" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/Distributed.html","headline":"Distributed Systems","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/Distributed.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Distributed Systems","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,15 +54,17 @@
   </header>
 
   <div class="post-content">
-    <ul>
+    <!-- default one if nothing else is mentioned -->
+<ul>
   <li>Rancher  + Rancher  OS for Docker and Kubernetes</li>
   <li>CoreOS designed with Docker in mind - well optimized Linux for Docker</li>
   <li>Hystrix, Suro, Riemann, Prometheus + , Kibana</li>
   <li>Raft Consensus Algorithm, see http://thesecretlivesofdata.com/raft</li>
   <li>jepsen.io distributed system testing. see also hazelcast github with it.</li>
+  <li><a class="citation" href="#kleppmann2017designing">(Kleppmann, 2017; Rivers, 2017)</a></li>
 </ul>
 
-<h2 id="cap-chsh">CAP <strong>[chsh]</strong></h2>
+<h2 id="cap-fedosov-nd">CAP <a class="citation" href="#fedosovDistChetaSheet">(Fedosov, n.d.)</a></h2>
 
 <ul>
   <li>Only 2 of these can be chosen (in practice either AP or CP)
@@ -71,17 +83,17 @@
   <li>latency: wait to process time (e.g. request is latent, awaiting service)</li>
   <li>response time: time to process + network delay + queueing delay + etc.</li>
   <li>read/write ration: think of where most work will be done</li>
-  <li><strong>[micro]</strong> Underlying OS</li>
-  <li><strong>[micro]</strong> CPU per service, per Application, per Node (if more than 1)</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Underlying OS</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> CPU per service, per Application, per Node (if more than 1)</li>
 </ul>
 
 <h3 id="logging">Logging</h3>
 
 <ul>
   <li><strong>[me]</strong> External and Centralized</li>
-  <li><strong>[micro]</strong> Standardize: how, where and output format of logging.</li>
-  <li><strong>[micro]</strong> Use correlation IDs to track the request in all services</li>
-  <li><strong>[micro]</strong> Use a query tool, add alerts</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Standardize: how, where and output format of logging.</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Use correlation IDs to track the request in all services</li>
+  <li><a class="citation" href="#newman2015building">(Newman, 2015)</a> Use a query tool, add alerts</li>
   <li><strong>[me]</strong> Timestamps for in/out</li>
   <li><strong>[me]</strong> Dynamically changeable logging level (e.g. with settings file)</li>
 </ul>
@@ -108,7 +120,7 @@
 <h2 id="time-order-and-causality">Time, Order and Causality</h2>
 
 <ul>
-  <li><strong>[chsh]</strong> Logical clocks are not about actual time, it’s about an order of events (about partial order?), where events are connected by a happens-before relation.
+  <li><a class="citation" href="#fedosovDistChetaSheet">(Fedosov, n.d.)</a> Logical clocks are not about actual time, it’s about an order of events (about partial order?), where events are connected by a happens-before relation.
     <ul>
       <li>Lamport timestamps</li>
       <li>Vector Clocks</li>
@@ -183,9 +195,9 @@
 <h2 id="replication">Replication</h2>
 
 <ul>
-  <li><strong>[bb]</strong> Replica: each replica has all data (useful for stateless services)</li>
-  <li><strong>[bb]</strong> Sharding: each shard is only capable of serving a subset of all requests. (useful for stateful services)</li>
-  <li><strong>[bb]</strong> Scatter/Gather: Each replica does a small amount of processing and then returns a fraction of the result to the root. The root server then combines the various partial results together to form a single complete response to the request and then sends this request back out to the client.
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Replica: each replica has all data (useful for stateless services)</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Sharding: each shard is only capable of serving a subset of all requests. (useful for stateful services)</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Scatter/Gather: Each replica does a small amount of processing and then returns a fraction of the result to the root. The root server then combines the various partial results together to form a single complete response to the request and then sends this request back out to the client.
     <ul>
       <li>Scatter/gather can be seen as sharding the computation necessary to service the request, rather than sharding the data (although data sharding may be part of it as well).</li>
     </ul>
@@ -241,15 +253,16 @@
   </li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>Kleppmann - Design Data-Intensive Apps</li>
-  <li><strong>[micro]</strong> Newman - Building Microservices</li>
-  <li><strong>[bb]</strong> Brendan Burns - Designing Distributed Systems</li>
-  <li><strong>[debug]</strong> <a href="https://dzone.com/articles/best-practices-for-tracing-and-debugging-microserv">Best Practices for Tracing and Debugging Microservices</a></li>
-  <li><strong>[chsh]</strong> <a href="http://dimafeng.com/2016/12/04/distributed-systems/">Distributed systems cheat sheet</a></li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="burns2019kubernetes">Burns, B., Hightower, K., &amp; Beda, J. (2019). <i>Kubernetes: up and running</i>.</span></li>
+<li><span id="fedosovDistChetaSheet">Fedosov, D. <i>Distributed systems cheat sheet</i>. Retrieved January 31, 2021, from http://dimafeng.com/2016/12/04/distributed-systems/</span></li>
+<li><span id="kleppmann2017designing">Kleppmann, M. (2017). <i>Designing data-intensive applications : the big ideas behind reliable, scalable, and maintainable systems</i>. O’Reilly Media.</span></li>
+<li><span id="newman2015building">Newman, S. (2015). <i>Building microservices : designing fine-grained systems</i>. O’Reilly Media.</span></li>
+<li><span id="rivers2017best">Rivers, A. (2017). <i>Best Practices for Tracing and Debugging Microservices</i>. https://dzone.com/articles/best-practices-for-tracing-and-debugging-microserv</span></li></ul>
 
   </div>
 
@@ -282,7 +295,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

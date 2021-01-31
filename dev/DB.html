@@ -16,9 +16,19 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Database" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/DB.html","headline":"Database","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"url":"/dev/DB.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Database","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 <body><header class="site-header">
 
@@ -44,7 +54,8 @@
   </header>
 
   <div class="post-content">
-    <h2 id="normalization">Normalization</h2>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="normalization">Normalization</h2>
 
 <ul>
   <li>Normalization requires queries to be based on the index (in order to be fast).</li>
@@ -62,22 +73,17 @@
   <li>B tree has key-value nodes</li>
   <li>B+ tree has key nodes as roots and internals, and values are contained in leaf(external) nodes only. Therefore internal nodes keys, are repeated in leafs too.</li>
   <li>can use binary search on keys in current node.</li>
-  <li>example implementations at Sedgewick and jxlilin.blogspot.com</li>
+  <li>example implementations at Sedgewick</li>
+  <li><a class="citation" href="#sedgewick2011algorithms">(Sedgewick, 2011)</a></li>
 </ul>
 
-<p><img src="pics\DB_B_BPlus_Trees.png" alt="BTree4" /></p>
+<p><img src="pics\BTree_1.jpg" alt="BTree1" height="50%" width="50%" />
+<img src="pics\BTree_2.jpg" alt="BTree2" height="50%" width="50%" /></p>
+
+<h2 id="bloom-filter">Bloom Filter</h2>
 
 <ul>
-  <li><strong>[algs4]</strong></li>
-</ul>
-
-<p><img src="pics\Sedgewick_BTree_1.png" alt="BTree1" />
-<img src="pics\Sedgewick_BTree_2.png" alt="BTree2" />
-<img src="pics\Sedgewick_BTree_3.png" alt="BTree3" /></p>
-
-<h2 id="bloom-filter-bloom">Bloom Filter <strong>[bloom]</strong></h2>
-
-<ul>
+  <li><a class="citation" href="#talbot_what_2015">(Talbot, 2015)</a></li>
   <li>Hashing filter, can have false positive, but not true negatives.</li>
   <li>Contains a bit array and several hashing functions each of which maps an element to an element in the array, generating random uniform distribution.</li>
   <li>No removal from the filer, as this can generate false negatives.</li>
@@ -94,9 +100,10 @@
   <li><code class="language-plaintext highlighter-rouge">FALSE POSITIVE</code> rate can be controlled with the number of buckets (e.g. filter size)</li>
 </ul>
 
-<h2 id="lsm---log-structured-merge-tree-internal">LSM - Log Structured Merge Tree <strong>[internal]</strong></h2>
+<h2 id="lsm---log-structured-merge-tree">LSM - Log Structured Merge Tree</h2>
 
 <ul>
+  <li><a class="citation" href="#petrov2019database">(Petrov, 2019)</a></li>
   <li>keeping a cascade of SSTables that are merged in the background</li>
   <li>Similar to B-tree, but optimized for sequential disk access + full <strong>occupancy</strong></li>
   <li>(SSTables) Sorted String Tables - persistent ordered immutable map. (TODO: check if mapping with The HBase files is 1:1)
@@ -125,9 +132,10 @@
 
 <h2 id="r-tree---for-multidimensional-indexes">R-Tree - for multidimensional indexes</h2>
 
-<h2 id="db-data-structures-in-general-internal">DB Data structures in general <strong>[internal]</strong></h2>
+<h2 id="db-data-structures-in-general">DB Data structures in general</h2>
 
 <ul>
+  <li><a class="citation" href="#petrov2019database">(Petrov, 2019)</a></li>
   <li>Keeping the data structure immutable favors the sequential writes: data is written on disk in a single pass, append-only.</li>
   <li>Also data can be read from the disk without any segment locking between operations, which significantly simplifies concurrent access.
     <ul>
@@ -138,7 +146,11 @@
   <li>On the other hand, mutable files may have to be rewritten partially or completely to decrease fragmentation, merge overflow areas and reclaim space occupied by updated or deleted records (as their new contents were written elsewhere).</li>
 </ul>
 
-<h2 id="hbase-hbase">HBase <strong>[hbase]</strong></h2>
+<h2 id="hbase">HBase</h2>
+
+<ul>
+  <li><a class="citation" href="#george2011hbase">(George, 2011)</a></li>
+</ul>
 
 <h3 id="basic-units">Basic Units</h3>
 
@@ -252,14 +264,14 @@
 <h3 id="others">Others</h3>
 
 <ul>
-  <li><strong>[hbase_b]</strong> Accordion: Uses <code class="language-plaintext highlighter-rouge">CompactionMemStore</code> that performs in-memory compaction (with <code class="language-plaintext highlighter-rouge">CellArrayMap</code>), instead of the default MemStore (with <code class="language-plaintext highlighter-rouge">ConcurrentSkipListMap</code>).</li>
-  <li><strong>[hbase_b_2]</strong> HBase maintains 2 cache structures: <code class="language-plaintext highlighter-rouge">MemStore</code> and <code class="language-plaintext highlighter-rouge">BlockCache</code>
+  <li><a class="citation" href="#braginsky_accordion">(Braginsky et al., n.d.)</a> Accordion: Uses <code class="language-plaintext highlighter-rouge">CompactionMemStore</code> that performs in-memory compaction (with <code class="language-plaintext highlighter-rouge">CellArrayMap</code>), instead of the default MemStore (with <code class="language-plaintext highlighter-rouge">ConcurrentSkipListMap</code>).</li>
+  <li><a class="citation" href="#dimiduk_hbase_2014">(Dimiduk, 2014)</a> HBase maintains 2 cache structures: <code class="language-plaintext highlighter-rouge">MemStore</code> and <code class="language-plaintext highlighter-rouge">BlockCache</code>
     <ul>
       <li><code class="language-plaintext highlighter-rouge">MemStore</code> (SkipList structure) accumulates data edits as they’re received, buffering them in memory. Useful for accessing recent edits.</li>
       <li><code class="language-plaintext highlighter-rouge">BlockCache</code> keeps data blocks resident in memory after they’re read. Useful for serving random access data.</li>
     </ul>
   </li>
-  <li><strong>[hbase_b_2]</strong> * HBase BlockCache.
+  <li><a class="citation" href="#dimiduk_hbase_2014">(Dimiduk, 2014)</a> HBase BlockCache.
     <ul>
       <li>The smallest I/O component that HBase can read from HFile</li>
       <li>4 varieties: DATA (user data), META(info about the HFile itself), INDEX(speed up read, with index over cells in DATA blocks), BLOOM(speed up read, with Bloom filter)</li>
@@ -273,20 +285,21 @@
 <h2 id="cache">Cache</h2>
 
 <ul>
-  <li><strong>[cache]</strong> Cache replacement policies - see reference</li>
+  <li><a class="citation" href="#wiki_cache_2021">(“Cache replacement policies,” n.d.)</a> Cache replacement policies - see reference</li>
 </ul>
 
-<h2 id="sources">Sources</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li><strong>[hbase]</strong> HBase the definitive Guide</li>
-  <li><strong>[algs4]</strong> Sedgewick - Algorithms 4th edition.</li>
-  <li><strong>[bloom]</strong> <a href="https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff">Jamie Talbot - What are Bloom filters?</a></li>
-  <li><strong>[internal]</strong> Alex Petrov - Database Internals</li>
-  <li><strong>[hbase_b]</strong> <a href="https://blogs.apache.org/hbase/entry/accordion-hbase-breathes-with-in">Braginsky (HBase Committer) &amp; Bortnikov - Accordion: HBAse Breathes with In-Memory Compaction</a></li>
-  <li><strong>[hbase_b_2]</strong> <a href="https://blog.cloudera.com/hbase-blockcache-101">Dimiduk - HBase BlockCache 101</a></li>
-  <li><strong>[cache]</strong> <a href="https//wikipedia.org/wiki/Cache_replacement_policies">Cache Replacement Policies</a></li>
-</ul>
+
+
+
+<ul class="bibliography"><li><span id="wiki_cache_2021">Cache replacement policies. In <i>Wikipedia</i>. Retrieved January 21, 2021, from https://en.wikipedia.org/w/index.php?title=Cache_replacement_policies</span></li>
+<li><span id="braginsky_accordion">Braginsky, A., Hillel, E., &amp; Bortnikov, E. <i>Accordion: HBase Breathes with In-Memory Compaction</i>. https://blogs.apache.org/hbase/entry/accordion-hbase-breathes-with-in</span></li>
+<li><span id="dimiduk_hbase_2014">Dimiduk, N. (2014). HBase BlockCache 101. In <i>Cloudera Blog</i>. https://blog.cloudera.com/hbase-blockcache-101/</span></li>
+<li><span id="george2011hbase">George, L. (2011). <i>HBase : the definitive guide</i>. O’Reilly.</span></li>
+<li><span id="petrov2019database">Petrov, A. (2019). <i>Database internals : a deep dive into how distributed data systems work</i>. O’Reilly Media.</span></li>
+<li><span id="sedgewick2011algorithms">Sedgewick, R. (2011). <i>Algorithms</i>. Addison-Wesley.</span></li>
+<li><span id="talbot_what_2015">Talbot, J. (2015). What are Bloom filters? In <i>Medium</i>. https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff</span></li></ul>
 
   </div>
 
@@ -319,7 +332,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>
