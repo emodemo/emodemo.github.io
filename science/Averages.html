@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Graal VM | emodemo’s notes</title>
+<title>Averages | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Graal VM" />
+<meta property="og:title" content="Averages" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/dev/GraalVM.html" />
-<meta property="og:url" content="/dev/GraalVM.html" />
+<link rel="canonical" href="/science/Averages.html" />
+<meta property="og:url" content="/science/Averages.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Graal VM" />
+<meta property="twitter:title" content="Averages" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"/dev/GraalVM.html","author":{"@type":"Person","name":"emodemo"},"headline":"Graal VM","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/science/Averages.html","author":{"@type":"Person","name":"emodemo"},"headline":"Averages","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -50,52 +50,62 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Graal VM</h1>
+    <h1 class="post-title">Averages</h1>
   </header>
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<h2 id="tools">Tools</h2>
+<h2 id="pythagorean-means">Pythagorean means</h2>
 
 <ul>
-  <li><a href="https://Renaissance.dev">Renaissance.dev -  benchmark suite</a></li>
+  <li><strong>arithmetic</strong> - good for data with linear relationship</li>
+  <li><strong>geometric</strong> - good for data with multiplicative relationship $\sqrt<a href="x_1 * x_2 * x_{...} * x_n">n</a>$
+    <ul>
+      <li>Data is of different scales, but then we no longer have an interpretative scale. Geometrical mean is unit-less.</li>
+      <li>The above formulae cannot accommodate with inputs $\leq 0$, due to the multiplication part.</li>
+    </ul>
+  </li>
+  <li><strong>harmonic</strong> - good for ratios $[(i_1^{-1} + i_{…}^{-1} + i_n^{-1})/n]^{-1}$, that is to say the the harmonic mean is the reciprocal of the arithmetic mean of reciprocals.
+    <ul>
+      <li>The above formulae cannot accommodate with inputs $\leq 0$, due to the division part.</li>
+      <li>remember from primary school that the reciprocal of $n$ is $1/n$, and for $y/x$ it is $x/y$ (i.e. $1 - y/x = x/y$). Anther way to think of reciprocal is about two numbers that equal 1 when multiplied together.</li>
+      <li>$5 \div 3/7 = 5/1 * 7/3 = 35/3$</li>
+      <li>Example: trip from $A$ to $B$ and back: $A\to B\ 30\ km/h$, $B\to A\ 10\ km/h$</li>
+      <li>Solution with <strong>arithmetic</strong> mean requires to use the time spent:
+        <ol>
+          <li>$A\to B\ : 30\ km\ per\ 60\ min =&gt; 1/2\ km\ per\ min =&gt; 5\ km\ at\ 1/2\ speed = 10\ mins$</li>
+          <li>$B\to A\ : 10\ km\ per\ 60\ min =&gt; 1/6\ km\ per\ min =&gt; 5\ km\ at\ 1/6\ speed = 30\ mins$</li>
+          <li>Total time = $10 + 30 = 40\ mins$, so $A\to B$ accounts for $25\%$ of the total time and $B\to A$ accounts for $75\%$ of total time.</li>
+          <li>Weighted arithmetic mean = $(30\ km/h * 0.25) + (10\ km/h * 0.75) = 15km/h$</li>
+        </ol>
+      </li>
+      <li>Solution with <strong>harmonic</strong> mean:
+        <ul>
+          <li>arithmetic mean of reciprocals = $1/30 + 1/10 = (2/15) / 2 =  1/15$</li>
+          <li>reciprocal of the arithmetic mean = $1 \div 1/15 = 1/1 * 15/1 = 15$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="advanced-optimizations">Advanced Optimizations</h2>
+<h2 id="descriptive">Descriptive</h2>
 
 <ul>
-  <li>Partial Escape Analysis</li>
-  <li>Path Duplication</li>
-  <li>Priority Inlining</li>
+  <li><strong>median</strong></li>
+  <li><strong>mode</strong></li>
+  <li><strong>skewness</strong></li>
+  <li><strong>kurtosis</strong></li>
 </ul>
 
-<h2 id="check">check</h2>
+<h2 id="generalized">Generalized</h2>
+
+<h2 id="with-specific-distributions">With specific distributions</h2>
+
+<h2 id="with-specific-geometries">With specific geometries</h2>
 
 <ul>
-  <li>libgraal vs gaal.jar - seems like the first is better??</li>
-  <li>graalvm + bloop or bloop only</li>
-  <li>scala native image (AOT??) GraalVM Native</li>
-</ul>
-
-<h2 id="options">options</h2>
-
-<ul>
-  <li>JDK 8: use graalvm_ce in JAVA_HOME and PATH</li>
-  <li>JDK 11: -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler</li>
-</ul>
-
-<h2 id="native--profile-guided-optimizations-pgo">Native + Profile-Guided Optimizations (PGO)</h2>
-
-<h2 id="metrics">metrics</h2>
-
-<ul>
-  <li>startup time, memory footprint</li>
-</ul>
-
-<h2 id="others">Others</h2>
-
-<ul>
-  <li>GraalVM Native images (Scala + JavaFX extensions for Mobile + GluonTools)</li>
+  <li><strong>Freshet mean</strong></li>
 </ul>
 
 

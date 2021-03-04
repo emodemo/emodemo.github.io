@@ -4,7 +4,13 @@
 <loc>/dev/APIDesign.html</loc>
 </url>
 <url>
+<loc>/science/Averages.html</loc>
+</url>
+<url>
 <loc>/dev/BasicsAlgorithms.html</loc>
+</url>
+<url>
+<loc>/science/Calculus.html</loc>
 </url>
 <url>
 <loc>/dev/Categories.html</loc>
@@ -43,6 +49,9 @@
 <loc>/others/Katerene.html</loc>
 </url>
 <url>
+<loc>/others/KellyCriterion.html</loc>
+</url>
+<url>
 <loc>/others/Lodka.html</loc>
 </url>
 <url>
@@ -50,6 +59,9 @@
 </url>
 <url>
 <loc>/dev/Optionals.html</loc>
+</url>
+<url>
+<loc>/dev/PlacesToVisit.html</loc>
 </url>
 <url>
 <loc>/dev/RunUnit.html</loc>

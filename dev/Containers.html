@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Containers" />
 <script type="application/ld+json">
-{"url":"/dev/Containers.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Containers","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/Containers.html","author":{"@type":"Person","name":"emodemo"},"headline":"Containers","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -191,8 +191,7 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
 
 <ul>
   <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> kubectl + JSONPath to extract specific fields from objects (pod, daemonSet, deployment). As an example, this command will extract and print the IP address of the pod: <code class="language-plaintext highlighter-rouge">&gt; kubectl get pods my-pod -o jsonpath --template={.status.podIP}</code></li>
-  <li>
-    <p><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> deploy an image with Docker vs Kubernetes:<br />
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> deploy an image with Docker vs Kubernetes:<br />
 <code class="language-plaintext highlighter-rouge">&gt; docker run -d --name loanamort --publish 8080:8080 loanamort:v01</code><br />
 <code class="language-plaintext highlighter-rouge">&gt; kubectl apply -f loanamort-pod.yaml</code>
 <code class="language-plaintext highlighter-rouge">&gt; kubectl run {name} --image={image} --port={number}</code> , where the port is exposed within the cluster, not outside.<br />
@@ -202,8 +201,17 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
 <code class="language-plaintext highlighter-rouge">&gt; kubectl proxy</code>, default access URL is: http://localhost:8001/api/v1/proxy/namespaces/default/{resource-type}/{resource-name}<br />
 example: http://localhost:8001/api/v1/proxy/namespaces/default/services/hello-wildfly-service/index.html<br />
 <code class="language-plaintext highlighter-rouge">&gt; kubectl proxy --address 0.0.0.0 --accept-hosts '.*'</code><br />
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\</p>
-  </li>
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\</li>
+  <li><code class="language-plaintext highlighter-rouge">kubectl port-forward {pod name} {port}:{port}</code></li>
+  <li>required for some debugging cases either with <code class="language-plaintext highlighter-rouge">docker run ... --cap-add=SYS_PTRACE ...</code> or with k8s:</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">capabilities</span><span class="pi">:</span>
+     <span class="na">add</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">SYS_PTRACE</span>
+</code></pre></div></div>
+
+<ul>
   <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Using Port Forwarding Later in the book, we’ll show how to expose a service to the world or other containers using load balancers, but oftentimes you simply want to access a specific Pod, even if it’s not serving traffic on the internet. To achieve this, you can use the port-forwarding support built into the Kubernetes API and command-line tools. When you run: <code class="language-plaintext highlighter-rouge">&gt; kubectl port-forward loanamort 8080:8080</code> a secure tunnel is created from your local machine, through the Kubernetes master, to the instance of the Pod running on one of the worker nodes. As long as the port-forward command is still running, you can access the Pod (in this case the kuard web interface) on http://localhost:8080.</li>
 </ul>
 
@@ -611,7 +619,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
 
 <ul class="bibliography"><li><span id="noauthor0000oracle">Oracle Linux Container Services for use with Kubernetes User’s Guide. In <i>Oracle Help Center</i>. Retrieved January 31, 2021, from https://docs.oracle.com/en/operating-systems/oracle-linux/kubernetes/</span></li>
 <li><span id="burns2019kubernetes">Burns, B., Hightower, K., &amp; Beda, J. (2019). <i>Kubernetes: up and running</i>.</span></li>
-<li><span id="gupta2017kubernetes">Gupta, A. (2017). <i>Kubernetes for Java developers: orchestrate multicontainer applications with ease</i>.</span></li>
+<li><span id="gupta2017kubernetes">Gupta, A. (2017). <i>Kubernetes for Java developers</i>.</span></li>
 <li><span id="krochmalski2017docker">Krochmalski, J. (2017). <i>Docker and Kubernetes for Java Developers</i>. Packt Publishing.</span></li></ul>
 
   </div>
@@ -645,7 +653,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

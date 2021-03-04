@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Basic Algorithms" />
 <script type="application/ld+json">
-{"url":"/dev/BasicsAlgorithms.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Basic Algorithms","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/BasicsAlgorithms.html","author":{"@type":"Person","name":"emodemo"},"headline":"Basic Algorithms","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -87,7 +87,12 @@
   <li>Some number theory: You can multiply the residues of numbers, instead of the numbers themselves. But you cannot divide by residues, or divide the residues unless you have certain guarantees about divisibility.</li>
   <li><code class="language-plaintext highlighter-rouge">(a + b + c ) % m</code> is the same as <code class="language-plaintext highlighter-rouge">(a % m + b % m + c % m) % m</code></li>
   <li><code class="language-plaintext highlighter-rouge">(a * b) % m</code> is the same as <code class="language-plaintext highlighter-rouge">((a % m) * (b % m)) % m</code></li>
+  <li>get each digit from a number <code class="language-plaintext highlighter-rouge">while(number &gt; 0) {number &amp; 10; number /= 10;}</code></li>
 </ul>
+
+<h3 id="tree-remove">Tree remove</h3>
+
+<p><img src="pics\bst_deletion.jpg" alt="BTree1" height="50%" width="50%" /></p>
 
 <h3 id="graphs">Graphs</h3>
 
@@ -165,7 +170,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

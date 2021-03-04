@@ -15,6 +15,7 @@
 **.m
 # folders
 in_progress
+**/pics_realsize/
 # exclude from ignore list
 !robots.txt
 !*/pics/**.jpg

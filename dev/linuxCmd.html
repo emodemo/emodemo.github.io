@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Linux command line cheat sheet" />
 <script type="application/ld+json">
-{"url":"/dev/linuxCmd.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Linux command line cheat sheet","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/linuxCmd.html","author":{"@type":"Person","name":"emodemo"},"headline":"Linux command line cheat sheet","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -83,11 +83,13 @@
   <li><code class="language-plaintext highlighter-rouge">cd -</code> changes the directory to the previous one</li>
   <li><code class="language-plaintext highlighter-rouge">cd</code> go to $HOME</li>
   <li><code class="language-plaintext highlighter-rouge">sudo !!</code> runs previous command with sudo</li>
-  <li><code class="language-plaintext highlighter-rouge">![command]</code> runs previous command that starts with <code class="language-plaintext highlighter-rouge">[command]</code></li>
-  <li><code class="language-plaintext highlighter-rouge">[cmd1] ; [cmd2]</code> - executes both commands ignoring result of <code class="language-plaintext highlighter-rouge">[cmd1]</code></li>
-  <li><code class="language-plaintext highlighter-rouge">[cmd1] &amp;&amp; [cmd2]</code> executes <code class="language-plaintext highlighter-rouge">[cmd2]</code> if <code class="language-plaintext highlighter-rouge">[cmd1]</code> is executed without errors</li>
-  <li><code class="language-plaintext highlighter-rouge">[cmd1] || [cmd2]</code> executes <code class="language-plaintext highlighter-rouge">[cmd2]</code> if <code class="language-plaintext highlighter-rouge">[cmd1]</code> is executed with errors</li>
+  <li><code class="language-plaintext highlighter-rouge">!command</code> runs previous command that starts with <code class="language-plaintext highlighter-rouge">command</code></li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 ; cmd2</code> - executes both commands ignoring result of <code class="language-plaintext highlighter-rouge">cmd1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 &amp;&amp; cmd2</code> executes <code class="language-plaintext highlighter-rouge">cmd2</code> if <code class="language-plaintext highlighter-rouge">cmd1</code> is executed without errors</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 || cmd2</code> executes <code class="language-plaintext highlighter-rouge">cmd2</code> if <code class="language-plaintext highlighter-rouge">cmd1</code> is executed with errors</li>
   <li><code class="language-plaintext highlighter-rouge">$(cmd1)</code> the command is executed in a subshell and the output is placed in the original command</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 | cmd2</code> out of cmd1 to cmd2 - a pipe</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 |&amp; cmd2</code> err of cmd1 to cmd2 - a pipe</li>
 </ul>
 
 <h2 id="processes">processes</h2>
@@ -102,6 +104,20 @@
   <li><code class="language-plaintext highlighter-rouge">lsof</code> list of files opened by processes.</li>
 </ul>
 
+<h2 id="io-redirection">io redirection</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">cmd &lt; file</code> input from file</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1 &lt;(cmd2)</code> output of command 2 as input to command 1</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd &gt; file</code> output to file</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd &gt; /dev/null</code> discard output</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd &gt;&gt; file</code> append output</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd 2&gt; file</code> error to file</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd 2&gt;&amp;1</code> error to the same place as output</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd 1&gt;&amp;2</code> output to the same place as error</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd &amp;&gt; file</code> all output to file</li>
+</ul>
+
 <h2 id="manipulations">manipulations</h2>
 
 <ul>
@@ -109,11 +125,19 @@
     <ul>
       <li><code class="language-plaintext highlighter-rouge">grep [pattern][file_name]</code></li>
       <li><code class="language-plaintext highlighter-rouge">grep -r [pattern][folder_name]</code></li>
+      <li><code class="language-plaintext highlighter-rouge">-l</code> case insensitive <code class="language-plaintext highlighter-rouge">-v</code> inverted search, <code class="language-plaintext highlighter-rouge">-o</code> show matched part of file only</li>
     </ul>
   </li>
   <li><code class="language-plaintext highlighter-rouge">locate [name]</code> find all files/folder with name</li>
-  <li><code class="language-plaintext highlighter-rouge">find [/folder/location] -name [start_letters]</code> list names starting with name inside folder</li>
-  <li><code class="language-plaintext highlighter-rouge">find [/folder/location] -size [+100M]</code> list names larger than 100M inside folder</li>
+  <li><code class="language-plaintext highlighter-rouge">find [/folder/location] -name [start_letters]</code> list files starting with name inside folder</li>
+  <li><code class="language-plaintext highlighter-rouge">find [/folder/location] -size [+100M]</code> list files larger than 100M inside folder
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-user [username]</code> owned by username</li>
+      <li><code class="language-plaintext highlighter-rouge">-mmin [num]</code> modified less than num</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">whereis [command]</code> find binary/source of a command</li>
+  <li><code class="language-plaintext highlighter-rouge">locate file</code> quick search in the index</li>
   <li><code class="language-plaintext highlighter-rouge">awk '{print $1}'</code> prints the first column of the output</li>
   <li><code class="language-plaintext highlighter-rouge">awk '{[program]}'</code> executes Perl-like script</li>
   <li><code class="language-plaintext highlighter-rouge">sort -bf</code> sorts output line by line.
@@ -131,6 +155,11 @@
     </ul>
   </li>
   <li><code class="language-plaintext highlighter-rouge">head</code> - opposite to <code class="language-plaintext highlighter-rouge">tail</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ls</code> show all
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-a</code> include hidden, <code class="language-plaintext highlighter-rouge">-R</code> recursive, <code class="language-plaintext highlighter-rouge">-r</code> reverse order, <code class="language-plaintext highlighter-rouge">-t</code> sort by last modified, <code class="language-plaintext highlighter-rouge">-S</code> sort by size, <code class="language-plaintext highlighter-rouge">-l</code> long listing format, <code class="language-plaintext highlighter-rouge">-1</code> one file per line, <code class="language-plaintext highlighter-rouge">-m</code> comma separated, <code class="language-plaintext highlighter-rouge">-Q</code> quoted output</li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="hardware-info">hardware info</h2>
@@ -170,6 +199,23 @@
   </li>
 </ul>
 
+<h2 id="miscellaneous">miscellaneous</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">export LD_DEBUG=libs prog</code> locate any dependency of <code class="language-plaintext highlighter-rouge">prog</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">export LD_DEBUG=bindings,symbols prog</code> symbol relocation process, locate any dependency of <code class="language-plaintext highlighter-rouge">prog</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">*. program.sh</code> run a program and let the set environment stays in the terminal</li>
+  <li><code class="language-plaintext highlighter-rouge">*./program.sh</code> run a program without letting the set environment to stay in the terminal. May require executable permissions</li>
+</ul>
+
+<h2 id="ubuntu-on-hyperv">Ubuntu on HyperV</h2>
+
+<ul>
+  <li>Set-VM -VMName “Ubuntu 20.04.1 LTS”  -EnhancedSessionTransportType HvSocket</li>
+  <li>https://stackoverflow.com/questions/33027204/how-can-i-get-hyper-v-to-detect-my-ubuntu-vms-ip-address</li>
+  <li>https://linuxize.com/post/how-to-enable-ssh-on-ubuntu-20-04/</li>
+</ul>
+
 
 
 
@@ -206,7 +252,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

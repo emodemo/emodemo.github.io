@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Multithreading and Concurrency" />
 <script type="application/ld+json">
-{"url":"/dev/MultiThreading.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Multithreading and Concurrency","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/MultiThreading.html","author":{"@type":"Person","name":"emodemo"},"headline":"Multithreading and Concurrency","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -58,8 +58,8 @@
 <h2 id="tools">Tools</h2>
 
 <ul>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> http://openjdk.java.net/projects/code-tools/jmh/</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Java Path Finder (JPF) from NASA</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> http://openjdk.java.net/projects/code-tools/jmh/</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Java Path Finder (JPF) from NASA</li>
   <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> jmap; jhat</li>
   <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> Unix (vmstat) Windows (perfmon)</li>
   <li>Collections
@@ -92,9 +92,9 @@
 <h2 id="general">General</h2>
 
 <ul>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid deadlocks by ordering the locks.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid executing inside the critical section the code you don’t control.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Avoid the use of blocking operations inside a critical section.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Avoid deadlocks by ordering the locks.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Avoid executing inside the critical section the code you don’t control.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Avoid the use of blocking operations inside a critical section.</li>
   <li><a class="citation" href="#subramaniam2011programming">(Subramaniam, 2011)</a> Division of labour - Generally speaking there two types of programs that may profit from multi-threading: with intensive computations, and with intensive I/O.
     <ul>
       <li>for computations we can use the min N of available cores (+ see pp31-32)</li>
@@ -184,7 +184,9 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h2 id="semaphores-jenkov-2014">Semaphores <a class="citation" href="#jenkov2014semaphores">(Jenkov, 2014)</a></h2>
+<h2 id="semaphores">Semaphores</h2>
+
+<p><a class="citation" href="#jenkov2014semaphores">(Jenkov, 2014)</a></p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// avoids missed signals in case take() happens before release()</span>
 <span class="kd">class</span> <span class="nc">SignalSemaphore</span> <span class="o">{</span>
@@ -263,13 +265,13 @@
 <h2 id="mutable-or-immutable">Mutable or Immutable</h2>
 
 <ul>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> If you have a simple object without internal data structures, it’s usually not a problem to make it immutable. However, making immutable complex objects that incorporate collections of other objects usually leads to serious performance problems.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> If you have a simple object without internal data structures, it’s usually not a problem to make it immutable. However, making immutable complex objects that incorporate collections of other objects usually leads to serious performance problems.</li>
 </ul>
 
 <h2 id="atomic">Atomic</h2>
 
 <ul>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Prefer using atomic variables instead of synchronization</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Prefer using atomic variables instead of synchronization</li>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> API: <code class="language-plaintext highlighter-rouge">AtomicLong</code>, <code class="language-plaintext highlighter-rouge">LongAdder</code>, <code class="language-plaintext highlighter-rouge">DoubleAccumulator</code>, <code class="language-plaintext highlighter-rouge">AtomicIntegerArray</code> …</li>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> The individual <code class="language-plaintext highlighter-rouge">AtomicInteger</code> objects are thread-safe, but the array as a data structure <code class="language-plaintext highlighter-rouge">AtomicInteger[]</code> is not.</li>
   <li><a class="citation" href="#goetz2006java">(Goetz, 2006)</a> CAS (compare-and-swap; compare-and-set): When multiple threads attempt to update the same variable simultaneously using CAS, one wins and updates the variable’s value, and the rest lose. But the losers are not punished by suspension, as they could be if they failed to acquire a lock; instead, they are told that they didn’t win the race this time but can try again. Because a thread that loses a CAS is not blocked, it can decide whether it wants to try again, take some other recovery action, or do nothing (a failed CAS means that someone else already did the work you were planning to do).
@@ -287,17 +289,19 @@
 
 <ul>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> The <code class="language-plaintext highlighter-rouge">volatile</code> keyword only works well when the value of the shared variable is only modified by one thread. If the variable is modified by multiple threads, the <code class="language-plaintext highlighter-rouge">volatile</code> keyword doesn’t protect you from possible data-race conditions. It also doesn’t make operations, such as + or -, atomic. For example, the ++ operator over a volatile variable is not thread-safe.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> The volatile keyword ensures that when the stopped variable is set to true by another thread, this change will be visible in the main method. Without the volatile keyword, the change cannot be visible due to CPU caching or compiler optimizations.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> The volatile keyword ensures that when the stopped variable is set to true by another thread, this change will be visible in the main method. Without the volatile keyword, the change cannot be visible due to CPU caching or compiler optimizations.</li>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> Since Java 5, Java Memory Model has a happens-before guarantee established with the volatile keyword. This fact has two implications:
     <ul>
       <li>When you modify a volatile variable, its value is sent to the main memory. The value of all the variables modified previously by the same thread are sent too.</li>
       <li>Compilers can’t reorder sentences that modify a volatile variable for an optimization purpose. It can reorder the previous operations and the later ones, but not the modifications of a volatile variable. The changes that happen before these modifications will be visible to those instructions.</li>
     </ul>
   </li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> Under some circumstances, you can use the volatile keyword and not use a synchronization mechanism. If only one of the tasks modifies the data and the rest of the tasks read it, you can use the volatile keyword without any synchronization or data inconsistency problem. In other scenarios, you need to use a lock, the synchronized keyword, or any other synchronization method.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> Under some circumstances, you can use the volatile keyword and not use a synchronization mechanism. If only one of the tasks modifies the data and the rest of the tasks read it, you can use the volatile keyword without any synchronization or data inconsistency problem. In other scenarios, you need to use a lock, the synchronized keyword, or any other synchronization method.</li>
 </ul>
 
-<h2 id="barriers-thompson-2011">Barriers <a class="citation" href="#thompson2011memory">(Thompson, 2011)</a></h2>
+<h2 id="barriers">Barriers</h2>
+
+<p><a class="citation" href="#thompson2011memory">(Thompson, 2011)</a></p>
 
 <ul>
   <li><strong>Store Barrier</strong>: <code class="language-plaintext highlighter-rouge">sfence</code> instruction on x86, waits for all store instructions prior to the barrier to be written from the store buffer to the L1 cache for the CPU on which it is issued.  This will make the program state visible to other CPUs so they can act on it if necessary.</li>
@@ -316,12 +320,12 @@
 <h2 id="future">Future</h2>
 
 <ul>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can cancel the execution of the task using the <code class="language-plaintext highlighter-rouge">cancel()</code> method. This method has a boolean parameter to specify whether you want to interrupt the task if it’s running or not.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can check whether the task has been cancelled (with the <code class="language-plaintext highlighter-rouge">isCancelled()</code> method) or it has finished (with the <code class="language-plaintext highlighter-rouge">isDone()</code> method).</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> You can get the value returned by the task using the <code class="language-plaintext highlighter-rouge">get()</code> method.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> One possible option is to create other tasks to process the <code class="language-plaintext highlighter-rouge">Future</code> objects associated with every task, and the Java concurrency API provides us with an elegant solution to implement this solution with the <code class="language-plaintext highlighter-rouge">CompletionService</code> interface and its implementation, the <code class="language-plaintext highlighter-rouge">ExecutorCompletionService</code> class.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> A <code class="language-plaintext highlighter-rouge">CompletionService</code> object is a mechanism that has an executor and allows you to decouple the production of tasks and the consumption of the results of those tasks. You can send tasks to the executor using the <code class="language-plaintext highlighter-rouge">submit()</code> method and get the results of the tasks when they finish using the <code class="language-plaintext highlighter-rouge">poll()</code> or <code class="language-plaintext highlighter-rouge">take()</code> methods.</li>
-  <li><a class="citation" href="#gonzaslez2016mastering">(Gonzaslez, 2016)</a> <code class="language-plaintext highlighter-rouge">CompletableFuture</code>, a new feature of Java 8, extends the <code class="language-plaintext highlighter-rouge">Future</code> mechanism of the executor tasks to generate the result of a task in an asynchronous way. You can specify tasks to be executed after the result is generated, so you can control the order of the execution of the tasks. It allows you to implement an event-driving model linking tasks that will only be executed when others have finished.
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> You can cancel the execution of the task using the <code class="language-plaintext highlighter-rouge">cancel()</code> method. This method has a boolean parameter to specify whether you want to interrupt the task if it’s running or not.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> You can check whether the task has been cancelled (with the <code class="language-plaintext highlighter-rouge">isCancelled()</code> method) or it has finished (with the <code class="language-plaintext highlighter-rouge">isDone()</code> method).</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> You can get the value returned by the task using the <code class="language-plaintext highlighter-rouge">get()</code> method.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> One possible option is to create other tasks to process the <code class="language-plaintext highlighter-rouge">Future</code> objects associated with every task, and the Java concurrency API provides us with an elegant solution to implement this solution with the <code class="language-plaintext highlighter-rouge">CompletionService</code> interface and its implementation, the <code class="language-plaintext highlighter-rouge">ExecutorCompletionService</code> class.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> A <code class="language-plaintext highlighter-rouge">CompletionService</code> object is a mechanism that has an executor and allows you to decouple the production of tasks and the consumption of the results of those tasks. You can send tasks to the executor using the <code class="language-plaintext highlighter-rouge">submit()</code> method and get the results of the tasks when they finish using the <code class="language-plaintext highlighter-rouge">poll()</code> or <code class="language-plaintext highlighter-rouge">take()</code> methods.</li>
+  <li><a class="citation" href="#gonzalez2016mastering">(Gonzalez, 2016)</a> <code class="language-plaintext highlighter-rouge">CompletableFuture</code>, a new feature of Java 8, extends the <code class="language-plaintext highlighter-rouge">Future</code> mechanism of the executor tasks to generate the result of a task in an asynchronous way. You can specify tasks to be executed after the result is generated, so you can control the order of the execution of the tasks. It allows you to implement an event-driving model linking tasks that will only be executed when others have finished.
     <ul>
       <li>As with the <code class="language-plaintext highlighter-rouge">Future</code> interface, <code class="language-plaintext highlighter-rouge">CompletableFuture</code> must be parameterized with the type of the result that will be returned by the operation. As with a Future object, the <code class="language-plaintext highlighter-rouge">CompletableFuture</code> class represents a result of an asynchronous computation, but the result of <code class="language-plaintext highlighter-rouge">CompletableFuture</code> can be established by any thread.</li>
     </ul>
@@ -431,12 +435,12 @@
 
 
 
-<ul class="bibliography"><li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer : vital techniques of Java 7 and polyglot programming</i>. Manning.</span></li>
+<ul class="bibliography"><li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer</i>. Manning.</span></li>
 <li><span id="goetz2006java">Goetz, B. (2006). <i>Java concurrency in practice</i>. Addison-Wesley.</span></li>
 <li><span id="gonzalez2017java">Gonzalez, J. (2017). <i>Java 9 concurrency cookbook</i>. Packt Publishing.</span></li>
-<li><span id="gonzaslez2016mastering">Gonzaslez, J. (2016). <i>Mastering concurrency programming with Java 8</i>. Packt Publishing.</span></li>
+<li><span id="gonzalez2016mastering">Gonzalez, J. (2016). <i>Mastering concurrency programming with Java 8</i>. Packt Publishing.</span></li>
 <li><span id="jenkov2014semaphores">Jenkov, J. (2014). <i>Semaphores</i>. http://tutorials.jenkov.com/java-concurrency/semaphores.html</span></li>
-<li><span id="subramaniam2011programming">Subramaniam, V. (2011). <i>Programming concurrency on the JVM : mastering synchronization, STM, and actors</i>. Pragmatic Bookshelf.</span></li>
+<li><span id="subramaniam2011programming">Subramaniam, V. (2011). <i>Programming concurrency on the JVM</i>. Pragmatic Bookshelf.</span></li>
 <li><span id="thompson2011memory">Thompson, M. (2011). Mechanical Sympathy: Memory Barriers/Fences. In <i>Mechanical Sympathy</i>. https://mechanical-sympathy.blogspot.com/2011/07/memory-barriersfences.html</span></li>
 <li><span id="urma2015java">Urma, R.-G., Fusco, M., &amp; Mycroft, A. (2015). <i>Java 8 in action : lambdas, streams, and functional-style programming</i>. Manning.</span></li></ul>
 
@@ -471,7 +475,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

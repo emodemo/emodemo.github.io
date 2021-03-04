@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Calculus | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Calculus" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/science/Calculus.html" />
+<meta property="og:url" content="/science/Calculus.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Calculus" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/science/Calculus.html","author":{"@type":"Person","name":"emodemo"},"headline":"Calculus","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Calculus</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<ul>
+  <li>Break the complicated problem (shape) into small pieces (slices), solve them separately and put them back together.
+    <ul>
+      <li>slope measures rate of change</li>
+      <li>are measures accumulation of change</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>Take a shape and direction to cut</li>
+  <li>Find pattern of slices</li>
+</ol>
+
+<ul>
+  <li>Indefinite integral - the original shape</li>
+  <li>Definite integral - the running total</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>division (average step) -&gt; $y/x$ -&gt; split the whole into equal parts</li>
+  <li>differentiation (actual step) -&gt; $\frac{d}{dx} y$ -&gt; split the whole into possibly different parts</li>
+  <li>multiplication -&gt; $z * x$ -&gt; accumulate average steps.</li>
+  <li>integration -&gt; $\int z * dx$ -&gt; accumulate possibly different steps
+    <ul>
+      <li>$\int_a^b step(x)\ \mathrm{d}x$, where $x$ is in the range of interpretation from $a$ to $b$.</li>
+      <li>$\int_a^b step(x)\ \mathrm{d}x$ = $Original(b) - Original(a)$ where the former is $f(x)$ and the latter $F(x)$</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>derivatives with respect to radius -&gt; rings : $\frac{d}{dr} Area$ -&gt; $\int_0^r 2\pi r\ \mathrm{d}r$</li>
+  <li>derivatives with respect to perimeter -&gt; pizza slice : $\frac{d}{dp} Area$ -&gt; $\int_{p_{min}}^{p_{max}} (pizza\ slice)\ \mathrm{d}p$</li>
+  <li>derivatives with respect to x-axis -&gt; boards : $\frac{d}{dx} Area$ -&gt; $\int_{x_{min}}^{x_{max}} (board)\ \mathrm{d}x$</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>Integrals ore often written as unspecified slices, and only then we worry about the exact slice formula.</li>
+  <li>Often, when there is only 1 variable, it is skipped: $\int_0^r 2\pi r\ \mathrm{d}r$ is the same as $\int_0^r 2\pi r$</li>
+  <li>$\mathrm{d}r$ implies moving along $r$.
+    <ul>
+      <li>$\int_0^r 2\pi r\ \mathrm{d}r$ -&gt; in the $2\pi r$ part $r$ changes with each step, ranging from $r_{min}$ to $r_{max}$</li>
+    </ul>
+  </li>
+  <li>$f`(x)$, $\dot f$, $\frac{d}{dx}f$, and $\frac{\mathrm{d}f}{\mathrm{d}x}$ are all the same. For the first three think about step by step patterns, for the last one think about actual ratio of change</li>
+</ul>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Algebra</th>
+      <th style="text-align: left">Calculus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">$speed = distance / time$</td>
+      <td style="text-align: left">$\frac{d}{dt} distance$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$distance = speed * time$</td>
+      <td style="text-align: left">$\int speed\ \mathrm{d}t$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$area = height * width$</td>
+      <td style="text-align: left">$\int height\ \mathrm{d}w$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$weight = density * length * width * height$</td>
+      <td style="text-align: left">$\iiint density\ \mathrm{d}l\ \mathrm{d}w\ \mathrm{d}h$</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Algebra only</th>
+      <th style="text-align: left">logic</th>
+      <th style="text-align: left">Algebra + Calculus</th>
+      <th style="text-align: left">logic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">$Area\ of\ square = ?$</td>
+      <td style="text-align: left">Area is unknown</td>
+      <td style="text-align: left">$Area\ of\ circle = ?$</td>
+      <td style="text-align: left">Area is unknown</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$\sqrt{area} = 13.3$</td>
+      <td style="text-align: left">but I now the sqrt</td>
+      <td style="text-align: left">$\frac{d}{dr} Area = 2\pi r$</td>
+      <td style="text-align: left">but I know it splits into rings</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$(\sqrt{area})^2 = (13.3)^2$</td>
+      <td style="text-align: left">square both sides</td>
+      <td style="text-align: left">$\int \frac{d}{dr} Area = \int 2\pi r$</td>
+      <td style="text-align: left">Integrate both sides</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$Area\ of\ square = 176.89$</td>
+      <td style="text-align: left">and receive the area</td>
+      <td style="text-align: left">$Area = \pi\ r^2$</td>
+      <td style="text-align: left">and receive the area</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>$\int \frac{d}{dr} Area = \int 2\pi r$ is short for $\int_0^r (\frac{d}{dr} Area)\ \mathrm{d}r = \int_0^r 2\pi r\ \mathrm{d}r$</li>
+</ul>
+
+<hr />
+
+<p><strong>derivative simple example 1</strong><br />
+$f(x) = 4x$, derivative of a pattern: $\frac{d}{dx}f(x)$ =&gt; find the derivative!</p>
+
+<ol>
+  <li>current output : $f(1) = 4$</li>
+  <li>step forward by $\mathrm{d}x$ (here 1 step) and find the new amount =&gt; $f(x + \mathrm{d}x) = f(1+1) = f(2) = 8$</li>
+  <li>change in output $\mathrm{d}f = f(x + \mathrm{d}x) - f(x)$ : $4(x+ \mathrm{d}x) - 4(x) = 4\mathrm{d}x$ <br />
+  =&gt; increasing the length by $\mathrm{d}x$ increases the cost by $4\mathrm{d}x$ (e.g. total change)</li>
+  <li>find $\frac{\mathrm{d}f}{\mathrm{d}x}$ ratio of change in output ot change in input : $\frac{\mathrm{d}f}{\mathrm{d}x} = \frac{4dx}{dx} = 4$ (e.g. cost per step, actual ratio of change)</li>
+</ol>
+
+<hr />
+
+<p><strong>derivative simple example 2</strong><br />
+derivative of a pattern: $\frac{d}{dx}x^2$ =&gt; find the derivative!</p>
+
+<ol>
+  <li>current output : $f(x) = x^2$</li>
+  <li>step forward by $\mathrm{d}x$ =&gt; $f(x + \mathrm{d}x) = (x + \mathrm{d}x)^2 = x^2 + 2x\ \mathrm{d}x + \mathrm{d}x^2$</li>
+  <li>find change in output $\mathrm{d}f = f(x + \mathrm{d}x) - f(x) = 2x\ \mathrm{d}x + \mathrm{d}x^2$</li>
+  <li>find the ratio $\frac{\mathrm{d}f}{\mathrm{d}x} = \frac{2x\ \mathrm{d}x + \mathrm{d}x^2}{\mathrm{d}x} = 2x + \mathrm{d}x$</li>
+  <li>throw away the measurement artifact ($\mathrm{d}x = 0$) =&gt; result is $2x$</li>
+</ol>
+
+<hr />
+
+<p><strong>integral simple example</strong><br />
+$2+2+2=6$, which has 3 steps 0-1, 1-2, 2-3 =&gt; $\int_0^3 2\ \mathrm{d}x= 6$</p>
+
+
+
+
+<ul class="bibliography"></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

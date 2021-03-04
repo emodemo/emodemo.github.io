@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Java" />
 <script type="application/ld+json">
-{"url":"/dev/Java.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Java","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"/dev/Java.html","author":{"@type":"Person","name":"emodemo"},"headline":"Java","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -95,7 +95,9 @@
   <li><a class="citation" href="#evans2013the">(Evans, 2013)</a> GC strategies - pp 182</li>
 </ul>
 
-<h2 id="aspects-comparing-spring-aop-and-aspectj-2017">Aspects <a class="citation" href="#baeldung2020aspects">(<i>Comparing Spring AOP and AspectJ</i>, 2017)</a></h2>
+<h2 id="aspects">Aspects</h2>
+
+<p><a class="citation" href="#baeldung2020aspects">(<i>Comparing Spring AOP and AspectJ</i>, 2017)</a></p>
 
 <h3 id="weaving">Weaving</h3>
 
@@ -169,6 +171,17 @@
   </tbody>
 </table>
 
+<h3 id="additional-java-options-example-with-aspects">additional java options (example with aspects)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">set _JAVA_OPTIONS=-Daj.weaving.verbose=true -Dorg.aspectj.weaver.showWeaveInfo=true -Dorg.aspectj.osgi.verbose=true -Dorg.aspectj.tracing.factory=default -Dorg.aspectj.tracing.enabled=true -Dorg.aspectj.tracing.messages=true</code></p>
+
+<h2 id="simple-performance-framework-for-java-spf4j">Simple Performance Framework for Java (SPF4J)</h2>
+
+<ul>
+  <li><a class="citation" href="#baeldung2019spf4j">(Sundararaju, 2019)</a> can be added as aspect too</li>
+  <li>see aoping project</li>
+</ul>
+
 <h2 id="matrix-apis">Matrix APIs</h2>
 
 <table>
@@ -228,7 +241,8 @@
 
 
 <ul class="bibliography"><li><span id="baeldung2020aspects"><i>Comparing Spring AOP and AspectJ</i>. (2017). https://www.baeldung.com/spring-aop-vs-aspectj/</span></li>
-<li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer : vital techniques of Java 7 and polyglot programming</i>. Manning.</span></li></ul>
+<li><span id="evans2013the">Evans, B. (2013). <i>The well-grounded Java developer</i>. Manning.</span></li>
+<li><span id="baeldung2019spf4j">Sundararaju, M. (2019). <i>Introduction to SPF4J</i>. https://www.baeldung.com/spf4j/</span></li></ul>
 
   </div>
 
@@ -261,7 +275,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/emodemo15" title="emodemo15"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>
