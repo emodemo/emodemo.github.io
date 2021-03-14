@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Kelly Criterion" />
 <script type="application/ld+json">
-{"url":"/others/KellyCriterion.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Kelly Criterion","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/others/KellyCriterion.html","headline":"Kelly Criterion","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -61,9 +61,11 @@
 
 <hr />
 
-<p>\(G_{\infty} = \frac{X_{\infty}}{X_o} = \prod_{t=0}^{\infty}\frac{X_{t+1}}{X_t} = \prod_{t=1}^{\infty} g_t\)<br />
-or equivalently<br />
-\(\log G_{\infty} = \log (\prod_{t=1}^{\infty} g_t) = \sum_{t=1}^{\infty}\log g_t\)</p>
+\[G_{\infty} = \frac{X_{\infty}}{X_o} = \prod_{t=0}^{\infty}\frac{X_{t+1}}{X_t} = \prod_{t=1}^{\infty} g_t\]
+
+<p>or equivalently</p>
+
+\[\log G_{\infty} = \log (\prod_{t=1}^{\infty} g_t) = \sum_{t=1}^{\infty}\log g_t\]
 
 <p>$G_{\infty}$ is the compound gain at the end of the sequence<br />
 $X_0$ is the initial capital, or the present capital<br />
@@ -76,12 +78,16 @@ $g_t = X_t/X_{t-1}$ is the gain obtained after the $t^{th}$ trial</p>
 
 <hr />
 
-<p><strong>binary case</strong><br />
-\(E \log g = E[\log\frac{X_n}{X_0}]^{1/n} = p \log(1+cf) + q \log(1-f)\)<br />
-where $f$ is the portion to invest, $n$ is the number of trials, $c$ is the gain in terms of % on each trial, $-1$ is the loss, $q = 1-p$, and $t$ is removed as it is the same for each repetition in this example.<br />
-An optimal fraction is the one that makes the derivative null.<br />
-\(g'(f) = \frac{p}{1+f}-\frac{q}{1-f} = \frac{p-q-f}{(1+f)(1-f)}=0\ \mathrm{when}\ f=f^*=p-q\)<br />
-$f^* =(cp-q)/c$</p>
+<p><strong>binary case</strong></p>
+
+\[E \log g = E[\log\frac{X_n}{X_0}]^{1/n} = p \log(1+cf) + q \log(1-f)\]
+
+<p>where $f$ is the portion to invest, $n$ is the number of trials, $c$ is the gain in terms of % on each trial, $-1$ is the loss, $q = 1-p$, and $t$ is removed as it is the same for each repetition in this example.<br />
+An optimal fraction is the one that makes the derivative null.</p>
+
+<p>\(g'(f) = \frac{p}{1+f}-\frac{q}{1-f} = \frac{p-q-f}{(1+f)(1-f)}=0\)
+\(\mathrm{when}\ f=f^*=p-q\)
+\(f^* =(cp-q)/c\)</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="c1"># For a symbolic verification with Python and SymPy one would set the derivative y'(x) 
@@ -93,14 +99,14 @@ $f^* =(cp-q)/c$</p>
 <span class="c1"># [(b*p + p - 1)/b]
 </span></code></pre></div></div>
 
-<p>example: $p=53, 1=47$, expected win is $2:1$, or $100$% =&gt; $f^<em>=(1</em>0.53 - 0.47)/1 = 0.06$</p>
+<p>example: $p=53, 1=47$, expected win is $2:1$, or $100$ % =&gt; $f^{\ast}=(1*0.53 - 0.47)/1 = 0.06$</p>
 
-<p>example: $p=53, 1=47$, expected win is $3:1$, or $200$% =&gt; $f^<em>=(2</em>0.53 - 0.47)/2 = 0.295$</p>
+<p>example: $p=53, 1=47$, expected win is $3:1$, or $200$ % =&gt; $f^{\ast}=(2*0.53 - 0.47)/2 = 0.295$</p>
 
 <hr />
 
 <p><strong>2 independent binary cases</strong><br />
-$g(f_1, f_2) = p_1p_2 \log(1+f_1+f_2) + p_1q_2 \log(1+f_1-f_2) + q_1p_2 \log(1-f_1+f_2)+ q_1q_2 \log(1-f_1-f_2)$</p>
+$g(f_1, f_2) = p_1p_2 \log(1+f_1+f_2)$ + $p_1q_2 \log(1+f_1-f_2)$ + $q_1p_2 \log(1-f_1+f_2)$ + $q_1q_2 \log(1-f_1-f_2)$</p>
 
 <hr />
 
@@ -109,7 +115,7 @@ $g(f_1, f_2) = p_1p_2 \log(1+f_1+f_2) + p_1q_2 \log(1+f_1-f_2) + q_1p_2 \log(1-f
 <hr />
 
 <p><strong>more than 2 outcomes</strong><br />
-Example from  “mathexchange/Kelly criterion with more than two outcomes” $f(x)=0.7log(1−x)+0.2log(1+10x)+0.1log(1+30x)$, where optimum occurs at $x=0.248$, with $f(0.248)=0.263$.<br />
+Example from  “mathexchange/Kelly criterion with more than two outcomes” $f(x)=0.7log(1−x)$ + $0.2log(1+10x)$ + $0.1log(1+30x)$, where optimum occurs at $x=0.248$, with $f(0.248)=0.263$.<br />
 “In other words, if you bet a little under a quarter of your bankroll, you should expect your bankroll to grow on average by $e^{0.263}=1.30$ for every bet.”</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
@@ -127,12 +133,15 @@ Example from  “mathexchange/Kelly criterion with more than two outcomes” $f(
 
 <hr />
 
-<p><strong>continuous case</strong><br />
-\(E \log g =  \int \log(1+fr) P(r)\ \mathrm{d}r\)<br />
+<p><strong>continuous case</strong></p>
+
+<p>\(E \log g =  \int \log(1+fr) P(r)\ \mathrm{d}r\)
 where $r$ is the excess return of the asset to invest in (i.e. return minus a risk-free reference).<br />
-Again, an optimal fraction is the one that makes the derivative null.<br />
-\(\frac{d}{df}E \log g  = \int_{-\infty}^{+\infty}\frac{r}{1+fr} P(r)\ \mathrm{d}r = 0\)<br />
-Two options for solving here with Python:</p>
+Again, an optimal fraction is the one that makes the derivative null.</p>
+
+\[\frac{d}{df}E \log g  = \int_{-\infty}^{+\infty}\frac{r}{1+fr} P(r)\ \mathrm{d}r = 0\]
+
+<p>Two options for solving here with Python:</p>
 
 <ul>
   <li>compute the integral in the 1st equation and maximize the $f^* \operatorname{arg max}_f E \log g$</li>
@@ -175,14 +184,18 @@ Example from <a href="http://wduwant.com/kelly">wduwant</a>, with known expected
   <li>Example is with $\log (\prod g)$ instead of $\sum(\log g)$</li>
 </ul>
 
-<p>We have 2 assets $a$, $b$ and $c$, their weights in the portfolio $w_a + w_b  + w_c= 1$ and their expected returns are $r_a$, $r_b$ and $r_c$.
-\(\log g = \log(\frac{future\ value}{present\ value}) = \log(\frac{X_t}{X_{t-1}}) = \log (\prod_{t=1}^n (1 + w_a r_a + w_b r_b + w_c r_c))\)</p>
+<p>We have 2 assets $a$, $b$ and $c$, their weights in the portfolio $w_a + w_b  + w_c= 1$ and their expected returns are $r_a$, $r_b$ and $r_c$.</p>
+
+<p>\(\log g = \log(\frac{future\ value}{present\ value}) = \log(\frac{X_t}{X_{t-1}}) =\)
+\(= \log (\prod_{t=1}^n (1 + w_a r_a + w_b r_b + w_c r_c))\)</p>
 
 <p>assuming asset returns are:<br />
 $R_a = [t_1=0.3, t_2=-0.15]$<br />
 $R_b = [t_1=-0.05, t_2=0.2]$<br />
-$R_c = [t_1=0.05, t_2=0.1]$
-\(\log g = log[(1 + 0.3w_a -0.05w_b + 0.05w_c)(1 -0.015w_a 0.2w_b + 0.1w_c)]\)</p>
+$R_c = [t_1=0.05, t_2=0.1]$</p>
+
+<p>\(\log g = log[(1 + 0.3w_a -0.05w_b + 0.05w_c)\)
+\((1 -0.015w_a 0.2w_b + 0.1w_c)]\)</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sign</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="n">w1</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>

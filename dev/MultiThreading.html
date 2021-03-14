@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Multithreading and Concurrency" />
 <script type="application/ld+json">
-{"url":"/dev/MultiThreading.html","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"headline":"Multithreading and Concurrency","description":"emodemo’s notes on development, fiction, science and other stuff.","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/MultiThreading.html","headline":"Multithreading and Concurrency","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -248,18 +248,54 @@
 <ul>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> <strong>Blocking collections</strong>: This kind of collection includes operations to add and remove data. If the operation can’t be done immediately, because the collection is either full or empty, the thread that makes the call will be blocked until the operation could be carried out.</li>
   <li><a class="citation" href="#gonzalez2017java">(Gonzalez, 2017)</a> <strong>Non-blocking collections</strong>: This kind of collection also includes operations to add and remove data. But in this case, if the operation can’t be done immediately, it returns a null value or throws an exception; the thread that makes the call won’t be blocked here.</li>
-  <li><strong>[jrebel] + [conc_j9]</strong>
-|  collection   | thread-safe            |
-| :———— | :——————— |
-|ArrayList      |CopyOnWriteArrayList    |
-|HashMap/Set    |ConcurrentHashMap       |
-|TreeMap        |ConcurrentSkipListMap   |
-|LinkedHashMap  | <strong>TODO check</strong>         |
-|PriorityQueue  |PriorityBlockingQueue*  |
-|ArrayDeque     |ArrayBlockingQueue*     |
-|Deque          |ConcurrentLinkedDeque   |
-|Queue          |LinkedTransferQueue* ** |
-*blocking **good for producer/consumer</li>
+  <li>
+    <p><strong>[jrebel] + [conc_j9]</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>collection</th>
+          <th>thread-safe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ArrayList</td>
+          <td>CopyOnWriteArrayList</td>
+        </tr>
+        <tr>
+          <td>HashMap/Set</td>
+          <td>ConcurrentHashMap</td>
+        </tr>
+        <tr>
+          <td>TreeMap</td>
+          <td>ConcurrentSkipListMap</td>
+        </tr>
+        <tr>
+          <td>LinkedHashMap</td>
+          <td><strong>TODO check</strong></td>
+        </tr>
+        <tr>
+          <td>PriorityQueue</td>
+          <td>PriorityBlockingQueue*</td>
+        </tr>
+        <tr>
+          <td>ArrayDeque</td>
+          <td>ArrayBlockingQueue*</td>
+        </tr>
+        <tr>
+          <td>Deque</td>
+          <td>ConcurrentLinkedDeque</td>
+        </tr>
+        <tr>
+          <td>Queue</td>
+          <td>LinkedTransferQueue* **</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>*blocking **good for producer/consumer</p>
+  </li>
 </ul>
 
 <h2 id="mutable-or-immutable">Mutable or Immutable</h2>
