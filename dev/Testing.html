@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Science | emodemo’s notes</title>
+<title>Java Testing Frmeworks | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Science" />
+<meta property="og:title" content="Java Testing Frmeworks" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/pages/science.html" />
-<meta property="og:url" content="/pages/science.html" />
+<link rel="canonical" href="/dev/Testing.html" />
+<meta property="og:url" content="/dev/Testing.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Science" />
+<meta property="twitter:title" content="Java Testing Frmeworks" />
 <script type="application/ld+json">
-{"headline":"Science","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/pages/science.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+{"headline":"Java Testing Frmeworks","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/Testing.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -50,244 +50,57 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Science</h1>
+    <h1 class="post-title">Java Testing Frmeworks</h1>
   </header>
 
   <div class="post-content">
-    <!-- used in /pages folder-->
-<!--  -->
-<!-- <h1>tags: []</h1> -->
-<div>
+    <!-- default one if nothing else is mentioned -->
+<h2 id="mockito">Mockito</h2>
+
+<ul>
+  <li>When the <code class="language-plaintext highlighter-rouge">MockitoJUnitRunner</code> executes a test, in the before phase, Mockito creates mocks and spies instances for all <code class="language-plaintext highlighter-rouge">@Mock</code> or <code class="language-plaintext highlighter-rouge">@Spy</code> fields, and injects them into the <code class="language-plaintext highlighter-rouge">@InjectMocks</code> field.</li>
+  <li>The order of DI attempts is <em>constructor</em>, <em>setter</em>, <em>fields</em>.</li>
+  <li><code class="language-plaintext highlighter-rouge">final</code> or <code class="language-plaintext highlighter-rouge">static</code> fields are not supported, but <code class="language-plaintext highlighter-rouge">private</code> are.</li>
+  <li>Uses refelction internally.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// v1: POJO, v2: @Named("example"), v3: Component("example")</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="c1">// v2: @Inject, v3: @Autowired</span>
+    <span class="kd">private</span> <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Example</span><span class="o">(</span><span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">delegate</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// testing any of these 3 versions:</span>
+<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">MockitoJUnitRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nc">ExampleTest</span> <span class="o">{</span>
+    <span class="nd">@Mock</span>
+    <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
+
+    <span class="nd">@InjectMocks</span>
+    <span class="nc">Example</span> <span class="n">example</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSometingTest</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">example</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+        <span class="n">verify</span><span class="o">(</span><span class="n">delegate</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
 
 
 
 
-    
-    
+<ul class="bibliography"></ul>
 
-    
-    
-        
-    
-
-    
-    
-         
-        <li><a href="/science/Averages.html">Averages</a></li>
-        <!-- <h1>tags: [statistics]</h1> -->
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-         
-        <li><a href="/science/Calculus.html">Calculus</a></li>
-        <!-- <h1>tags: [math]</h1> -->
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-        
-    
-
-    
-    
-
-    
-    
-
-    
-    
-
-    
-    
-
-
-</div>
   </div>
 
 </article>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>SQL Optimizations | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="SQL Optimizations" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DBSQL.html" />
+<meta property="og:url" content="/dev/DBSQL.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SQL Optimizations" />
+<script type="application/ld+json">
+{"headline":"SQL Optimizations","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/DBSQL.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">SQL Optimizations</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="other-sources">Other sources</h2>
+<p><a href="https://www.depesz.com/2013/04/16/explaining-the-unexplainable/">a few postgres specific configurations</a></p>
+
+<p>Most part comes from <a class="citation" href="#willems2019sql">(Willems, 2019)</a></p>
+
+<h2 id="time-coomplexity">Time Coomplexity</h2>
+
+<ul>
+  <li>Search on indexed column is <code class="language-plaintext highlighter-rouge">O[log(N)]</code> (e.g. index [a.k.a table, or full index] or cluster index scan) and search on non-indexed column is <code class="language-plaintext highlighter-rouge">O[N]</code> (e.g. seq [a.k.a. full table] scan).
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT COUNT(*) FROM TABLE</code> is full search.</li>
+    </ul>
+  </li>
+  <li>A hash join is <code class="language-plaintext highlighter-rouge">O[M+N]</code>.
+    <ul>
+      <li>The classical hash join for an inner join of two tables prepares a hash table of the smaller table, where an entry consist of the join attribut and its row. Then the larger table is scanned and the relevant rows from the smaller are found looking at the hash table.</li>
+    </ul>
+  </li>
+  <li>Merge join is <code class="language-plaintext highlighter-rouge">O[M+N]</code> in the general case, but depends heavily on the indexes on the join column, or, in case of non-indexed column, wheter rows are sorted according to the join keys.
+    <ul>
+      <li>If both tables are sorted according to the join keys, then <code class="language-plaintext highlighter-rouge">O[M+N]</code>.</li>
+      <li>If both tables have indexed join columns, then no need of sorting, so <code class="language-plaintext highlighter-rouge">O[M+N]</code>.</li>
+      <li>If neither table has an index on the join column, then sorting must be performed in advance, so <code class="language-plaintext highlighter-rouge">O[M log(M) + N log(N)]</code>.</li>
+      <li>If only one of the tables has an indexed join column, then <code class="language-plaintext highlighter-rouge">O[M + N log(N)]</code>.</li>
+    </ul>
+  </li>
+  <li>Nested join is <code class="language-plaintext highlighter-rouge">O[MN]</code> in the general case. It compares every record in one table to every record in the other. It is efficient when one of the tables is extremely small (e.g. 10 rows). This is common situation as some subqueries are written to return one or few rows only.</li>
+  <li><strong>!!</strong> When performing a join, occasionally, when a table does not fit into memory, the first full table scan does not pose a problem, but then there are a lot of randomreads to fetch indexes that are generally order of magnitudes slower than sequential reads. In these cases a full table scan is indeed faster than a full index scan.</li>
+</ul>
+
+<h2 id="operators">Operators</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">LIKE</code> + pattern starting with % or _ : prevents the DB from using indexes.</li>
+  <li><code class="language-plaintext highlighter-rouge">OR</code> : it is likely a non-index c olumn is used. Can be replace with <code class="language-plaintext highlighter-rouge">IN</code>.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE license = 123 OR license = 234 OR license = 345</code></li>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE license IN (123, 234, 345)</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">NOT</code> : it is likely that the index is not used. Consider replacing it with comparison operators <code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&lt;&gt;</code>, <code class="language-plaintext highlighter-rouge">!&gt;</code> …
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE NOT (year &gt; 1980)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE year &lt;= 1980</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">AND</code> : another operator that doesn’t make use of the indexes. Consider using <code class="language-plaintext highlighter-rouge">BETWEEN</code>.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE year &gt;= 1960 AND year &lt;= 1980</code></li>
+      <li><code class="language-plaintext highlighter-rouge">SELECT license, name FROM Drivers WHERE year BETWEEN 1960 AND 1980</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ANY</code>, <code class="language-plaintext highlighter-rouge">ALL</code> : another two operators that do not use indexes. Consider <code class="language-plaintext highlighter-rouge">MIN</code> and <code class="language-plaintext highlighter-rouge">MAX</code>. However, note taht all agregator operatos <code class="language-plaintext highlighter-rouge">SUM</code>, <code class="language-plaintext highlighter-rouge">AVG</code>, <code class="language-plaintext highlighter-rouge">MIN</code>, <code class="language-plaintext highlighter-rouge">MAX</code> can result in a long-running operations.</li>
+  <li><code class="language-plaintext highlighter-rouge">UNION</code> : it is likely that you go thru the same table mulitple times. Consider updating the query with one <code class="language-plaintext highlighter-rouge">SELECT</code> containing all conditions, or replacing the <code class="language-plaintext highlighter-rouge">UNION</code> with <code class="language-plaintext highlighter-rouge">OUTER JOIN</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">HAVING</code> : no indexes. It was introduced in SQL as <code class="language-plaintext highlighter-rouge">WHERE</code> is not working on GROUPS. The difference between them is that <code class="language-plaintext highlighter-rouge">WHERE</code> introduces a condition on individual rows, while <code class="language-plaintext highlighter-rouge">HAVING</code> do so on aggregated ones.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT state, COUNT(*) FROM Drivers GROUP BY state HAVING state IN ('GA', 'TX') ORDER BY state</code></li>
+      <li><code class="language-plaintext highlighter-rouge">SELECT state, COUNT(*) FROM Drivers WHERE state IN ('GA', 'TX') GROUP BY state ORDER BY state</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="good-practices">Good Practices</h2>
+
+<ul>
+  <li>Limit your results: <code class="language-plaintext highlighter-rouge">TOP</code>, <code class="language-plaintext highlighter-rouge">LIMIT</code>, and <code class="language-plaintext highlighter-rouge">ROWNUM</code>.</li>
+  <li>When using joins, put the bigger table last in the join.</li>
+  <li>Cache small table full table scans</li>
+  <li>Choose highly selective indexes on commonly-used data.</li>
+</ul>
+
+<h2 id="general-notes">General Notes</h2>
+
+<ul>
+  <li>If the execution plan is using a Hash Join it can be very slow if table size estimates are wrong. Therefore, make sure your table statistics are accurate by reviewing your vacuuming strategy.</li>
+  <li>Avoid correlated subqueries where possible; they can significantly increase query cost.</li>
+  <li>Look for a large variance between estimated rows and actual rows in the EXPLAIN statement.</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- unoptimized due to the OR </span>
+<span class="k">SELECT</span> <span class="k">DISTINCT</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">Name</span>
+<span class="k">FROM</span> <span class="n">Production</span><span class="p">.</span><span class="n">Product</span> <span class="n">PRODUCT</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Sales</span><span class="p">.</span><span class="n">SalesOrderDetail</span> <span class="n">DETAIL</span>
+<span class="k">ON</span> <span class="n">PRODUCT</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">DETAIL</span><span class="p">.</span><span class="n">ProductID</span> <span class="c1">-- indexed</span>
+<span class="k">OR</span> <span class="n">PRODUCT</span><span class="p">.</span><span class="n">rowguid</span> <span class="o">=</span> <span class="n">DETAIL</span><span class="p">.</span><span class="n">rowguid</span><span class="p">;</span>    <span class="c1">-- non-indexed</span>
+<span class="c1">-- turning the OR into its own select with UNION</span>
+<span class="c1">-- althoug longer, it is far better in terms of performance.</span>
+<span class="k">SELECT</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">Name</span>
+<span class="k">FROM</span> <span class="n">Production</span><span class="p">.</span><span class="n">Product</span> <span class="n">PRODUCT</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Sales</span><span class="p">.</span><span class="n">SalesOrderDetail</span> <span class="n">DETAIL</span>
+<span class="k">ON</span> <span class="n">PRODUCT</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">DETAIL</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span>
+	<span class="n">PRODUCT</span><span class="p">.</span><span class="n">Name</span>
+<span class="k">FROM</span> <span class="n">Production</span><span class="p">.</span><span class="n">Product</span> <span class="n">PRODUCT</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Sales</span><span class="p">.</span><span class="n">SalesOrderDetail</span> <span class="n">DETAIL</span>
+<span class="k">ON</span> <span class="n">PRODUCT</span><span class="p">.</span><span class="n">rowguid</span> <span class="o">=</span> <span class="n">DETAIL</span><span class="p">.</span><span class="n">rowguid</span>
+</code></pre></div></div>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="willems2019sql">Willems, K. (2019). <i>SQL Tutorial: How to write better queries</i>. https://www.datacamp.com/community/tutorials/sql-tutorial-query</span></li></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

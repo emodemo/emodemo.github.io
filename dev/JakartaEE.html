@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Jakarta EE | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Jakarta EE" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/JakartaEE.html" />
+<meta property="og:url" content="/dev/JakartaEE.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Jakarta EE" />
+<script type="application/ld+json">
+{"headline":"Jakarta EE","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/JakartaEE.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Jakarta EE</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="managed-beans---an-object-with-a-lifecycle-managed-by-a-ee-container">Managed Beans - an object with a lifecycle managed by a EE container.</h2>
+
+<ul>
+  <li>Enterprise Java have many lifecycle management containers like <strong>JSF</strong>, <strong>EJB</strong>, <strong>CDI</strong>, <strong>Servlet</strong>, etc., where each of these provides different functionalities.</li>
+  <li><strong>CDI</strong> was made to support (almost) everithing supported by <strong>JSF</strong> and <strong>EJB</strong> together with a lot of other stuff: pojo injections, producer methods, stereotypes, events,interceptors, decorators, integration SPI, etc.</li>
+  <li>Once thre is a <code class="language-plaintext highlighter-rouge">beans.xml</code> in <code class="language-plaintext highlighter-rouge">META-INF</code> or <code class="language-plaintext highlighter-rouge">WEB-INF</code> every bean in the package becomes a CDI managed bean.</li>
+  <li><strong>EJB</strong>S can be injected in <strong>CDI</strong> and vice-versa, where different scopes are managed by the <strong>CDI</strong> thru the use of proxies.</li>
+  <li><strong>EJB</strong>s (<code class="language-plaintext highlighter-rouge">@Stateful</code> or <code class="language-plaintext highlighter-rouge">@Stateless</code>) however have a few differences with <strong>CDI</strong>, as ejbs are:
+    <ul>
+      <li>Transactional</li>
+      <li>Remote/Local</li>
+      <li>can passivate stateful beans</li>
+      <li>have timers</li>
+      <li>can be async // TODO: verify CDI changes for Java7,8,9</li>
+      <li>CDI does not support injection of remote beans.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="examples-and-details">Examples and Details</h2>
+
+<ul>
+  <li>CDI needs a default constructor to inject an instance, or else use a factory with <code class="language-plaintext highlighter-rouge">@Produces</code> method.</li>
+  <li>For different implementation of an interface a custom annotation can be used:</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">ProfileType</span> <span class="o">{</span> <span class="no">ADMIN</span><span class="o">,</span> <span class="no">OPERATOR</span> <span class="o">}</span>
+
+<span class="nd">@Qualifier</span> <span class="c1">// @Retention, @Target </span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">Profile</span> <span class="o">{</span> <span class="nc">ProfileType</span> <span class="nf">value</span><span class="o">();</span> <span class="o">}</span>
+
+<span class="nd">@Profile</span><span class="o">(</span><span class="nc">ProfileType</span><span class="o">.</span><span class="na">ADMIN</span><span class="o">)</span> <span class="c1">// add @Default for the default one</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="kd">implements</span> <span class="no">I</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="nd">@Path</span><span class="o">(</span><span class="s">"myservice/"</span><span class="o">)</span> <span class="nd">@RequestScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyService</span> <span class="o">{</span>
+    <span class="c1">// without @Profile, the default implementation will be injected.</span>
+    <span class="nd">@Inject</span> <span class="nd">@Profile</span><span class="o">(</span><span class="nc">ProfileType</span><span class="o">.</span><span class="na">ADMIN</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="no">I</span> <span class="n">i</span><span class="o">;</span>
+
+<span class="c1">// @Context ask CDI to give the proper context when the servlet miss one</span>
+<span class="nd">@GET</span> <span class="nd">@Path</span><span class="o">(</span><span class="s">"getUser"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">Response</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@Context</span> <span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+ <span class="nd">@Context</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Events</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"myservice/"</span><span class="o">)</span> <span class="nd">@RequestScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span> <span class="kd">private</span> <span class="nc">User</span> <span class="n">u</span><span class="o">;</span>
+    <span class="nd">@Inject</span> <span class="kd">private</span> <span class="nc">Event</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Observer</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">observes1</span><span class="o">(</span><span class="nd">@Observes</span> <span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{...}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">observes2</span><span class="o">(</span><span class="nd">@ObservesAsync</span> <span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{...}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>JTA
+    <ul>
+      <li>With <code class="language-plaintext highlighter-rouge">transaction-type='JTA'</code>, the server will take
+care of all transactions made under this context.</li>
+      <li>With <code class="language-plaintext highlighter-rouge">transaction-type='RESOURCE-LOCAL</code> instead, the developer is taking care of the transactions
+        <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;persistence-unit</span> <span class="na">name=</span><span class="s">"my-persistence-unit"</span> <span class="na">transaction-type=</span><span class="s">"JTA"</span><span class="nt">&gt;</span>
+</code></pre></div>        </div>
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@PersistenceContext</span><span class="o">(</span><span class="n">unitName</span> <span class="o">=</span> <span class="s">"ch02-jpa-pu"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="nc">PersistenceContextType</span><span class="o">.</span><span class="na">TRANSACTION</span><span class="o">)</span>
+<span class="kd">private</span> <span class="nc">EntityManager</span> <span class="n">em</span><span class="o">;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>HealthChecks</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Liveness</span> <span class="c1">// @Readiness</span>
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LivenessHealthCheck</span> <span class="kd">implements</span> <span class="nc">HealthCheck</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">HealthCheckResponse</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">HealthCheckResponse</span><span class="o">.</span><span class="na">up</span><span class="o">(</span><span class="s">"I'm up!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Metrics</li>
+  <li>Open API Definition - method annotation <code class="language-plaintext highlighter-rouge">@OpenAPIDefinition(...)</code> . See API for more annotations.</li>
+</ul>
+
+<h2 id="concurrency">Concurrency</h2>
+
+<p>Examples derived from <a class="citation" href="#moraes2020jakarta">(Moraes, 2020)</a></p>
+
+<h3 id="singleton-concurrency-management">Singleton Concurrency management</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<span class="nd">@ConcurrencyManagement</span><span class="o">(</span><span class="nc">ConcurrencyManagementType</span><span class="o">.</span><span class="na">CONTAINER</span><span class="o">)</span>
+<span class="nd">@AccessTimeout</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserMethodLevelBean</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">userCount</span><span class="o">;</span>
+    <span class="nd">@Lock</span><span class="o">(</span><span class="nc">LockType</span><span class="o">.</span><span class="na">READ</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getUserCount</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">userCount</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Lock</span><span class="o">(</span><span class="nc">LockType</span><span class="o">.</span><span class="na">WRITE</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(){</span>
+        <span class="n">userCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="async-tasks">Async tasks</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Pojo</span> <span class="o">{</span> <span class="cm">/* getters, setters */</span> <span class="o">}</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">getPojo</span><span class="o">();</span> <span class="o">}</span>
+
+<span class="c1">// not the best apporach, but gives the main ides</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Task</span> <span class="kd">implements</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">UserTransaction</span> <span class="n">transaction</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">PojoFacade</span> <span class="n">facade</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">performLookups</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">transaction</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>
+            <span class="nc">Pojo</span> <span class="n">pojo</span> <span class="n">acade</span><span class="o">.</span><span class="na">getPojo</span><span class="o">();</span>
+            <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+            <span class="k">return</span> <span class="n">pojo</span><span class="o">;</span>            
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(...)</span> <span class="o">{</span>
+            <span class="n">transaction</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+            <span class="n">retrun</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nf">performLookups</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">transaction</span> <span class="o">=</span> <span class="no">CDI</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">select</span><span class="o">(</span><span class="nc">UserTransaction</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+        <span class="n">facade</span> <span class="o">=</span> <span class="no">CDI</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">select</span><span class="o">(</span><span class="nc">PojoFacade</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>ManagedExecutorService</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"service1"</span><span class="o">)</span> <span class="nd">@RequestScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Service1</span> <span class="o">{</span>
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"LocalManagedExecutorService"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ManagedExecutorService</span> <span class="n">executor</span><span class="o">;</span>
+
+    <span class="c1">// The @Suspended annotation, combined with AsyncResponse, resumes the response once the processing is complete.</span>
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callMe1</span><span class="o">(</span><span class="nd">@Suspended</span> <span class="nc">AsyncResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="nc">Task</span><span class="o">());</span>
+    <span class="k">while</span><span class="o">(!</span><span class="n">result</span><span class="o">.</span><span class="na">isDone</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// in try catch</span>
+    <span class="o">}</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">get</span><span class="o">()).</span><span class="na">build</span><span class="o">());</span> <span class="c1">// in try catch</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>ManagedThreadFactory</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"service2"</span><span class="o">)</span> <span class="nd">@RequestScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Service2</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="nc">PojoFacade</span> <span class="n">facade</span><span class="o">;</span>
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"LocalManagedThreadFactory"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ManagedThreadFactory</span> <span class="n">factory</span><span class="o">;</span>
+
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callMe2</span><span class="o">(</span><span class="nd">@Suspended</span> <span class="nc">AsyncResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newThread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">response</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">get</span><span class="o">()).</span><span class="na">build</span><span class="o">()));</span>
+        <span class="n">t</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Custom ExecutorService</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncTask</span> <span class="kd">implements</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">PojoFacade</span><span class="o">().</span><span class="na">getPojo</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Singleton</span> <span class="c1">// there must be only 1 proxy</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExecutorProxy</span> <span class="o">{</span>
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"LocalManagedThreadFactory"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ManagedThreadFactory</span> <span class="n">factory</span><span class="o">;</span>
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"LocalContextService"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">ContextService</span> <span class="n">context</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">ExecutorService</span> <span class="n">executor</span><span class="o">;</span>
+ 
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// use the ManagedThreadFactory for the new executor !!</span>
+        <span class="n">executor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ThreadPoolExecutor</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ArrayBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="mi">5</span><span class="o">),</span> <span class="n">factory</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="nf">submit</span><span class="o">(</span><span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="n">ctxProxy</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">createContextualProxy</span><span class="o">(</span><span class="n">task</span><span class="o">,</span> <span class="nc">Callable</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">ctxProxy</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Stateless</span> <span class="nd">@Path</span><span class="o">(</span><span class="s">"asyncService"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span> <span class="c1">// inject the singleton executor proxy</span>
+    <span class="kd">private</span> <span class="nc">ExecutorProxy</span> <span class="n">executor</span><span class="o">;</span>
+    
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncService</span><span class="o">(</span><span class="nd">@Suspended</span> <span class="nc">AsyncResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="nc">AsyncTask</span><span class="o">());</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>CompletableFuture</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> 
+    <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">getPojo</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Pojo</span><span class="o">();</span> <span class="o">}</span> 
+<span class="o">}</span>
+
+<span class="nd">@Stateless</span> <span class="nd">@Path</span><span class="o">(</span><span class="s">"asyncService"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="nc">PojoFacade</span> <span class="n">facade</span><span class="o">;</span>
+
+<span class="c1">// TODO: shoudn't three be a managed execution service within the supplyAsync parameters ?! Otherwise the default ForkJoinPool is used?!    </span>
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncService</span><span class="o">(</span><span class="nd">@Suspended</span> <span class="nc">AsyncResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">facade</span><span class="o">.</span><span class="na">getPojo</span><span class="o">()).</span>
+                        <span class="o">.</span><span class="na">thenAccept</span><span class="o">(</span><span class="n">pojo</span> <span class="o">-&gt;</span> <span class="n">response</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">pojo</span><span class="o">).</span><span class="na">build</span><span class="o">()));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Asynchronous Session Beans</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> 
+    <span class="nd">@Asynchronous</span> 
+    <span class="kd">public</span> <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="nf">getPojo</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Asyncresult</span><span class="o">(</span><span class="k">new</span> <span class="nc">Pojo</span><span class="o">());</span>
+    <span class="o">}</span> 
+<span class="o">}</span>
+
+<span class="nd">@Stateless</span> <span class="nd">@Path</span><span class="o">(</span><span class="s">"asyncService"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="nc">PojoFacade</span> <span class="n">facade</span><span class="o">;</span>
+    
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">asyncService</span><span class="o">(</span><span class="nd">@Suspended</span> <span class="nc">AsyncResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">facade</span><span class="o">.</span><span class="na">getPojo</span><span class="o">();</span>
+        <span class="k">while</span><span class="o">(!</span><span class="n">result</span><span class="o">.</span><span class="na">isDone</span><span class="o">())</span> <span class="o">{</span> <span class="cm">/* wait a while */</span> <span class="o">}</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">resume</span><span class="o">(</span><span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Asynchronous Servlet</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> 
+    <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">getPojo</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Pojo</span><span class="o">();</span> <span class="o">}</span> 
+<span class="o">}</span>
+
+<span class="nd">@WebServlet</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"PojoServlet"</span><span class="o">,</span> <span class="n">urlPatterns</span> <span class="o">=</span> <span class="o">{</span><span class="s">"/PojoServlet"</span><span class="o">},</span> <span class="n">asyncSupported</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoServlet</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="nc">PojoFacade</span> <span class="n">facade</span><span class="o">;</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">resp</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">AsyncContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">startAsync</span><span class="o">();</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="na">start</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="na">getResponse</span><span class="o">().</span><span class="na">getWriter</span><span class="o">();</span>
+            <span class="o">...</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="na">complete</span><span class="o">();</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="websocket">WebSocket</h3>
+
+<h3 id="mdb">MDB</h3>
+
+<h3 id="concurrency-service-management-jboss-examples">Concurrency Service Management (jboss examples)</h3>
+<p>// TODO: reference to JBOSS</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;subsystem</span> <span class="na">xmlns=</span><span class="s">"urn:jboss:domain:ee:4.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;spec-descriptor-property-replacement&gt;</span>false<span class="nt">&lt;/spec-descriptor-property-replacement&gt;</span>
+    <span class="nt">&lt;concurrent&gt;</span>
+        <span class="nt">&lt;context-services&gt;</span>
+            <span class="nt">&lt;context-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/context/default"</span> <span class="na">transaction-setup-provider=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/context-services&gt;</span>
+        <span class="nt">&lt;managed-thread-factories&gt;</span>
+            <span class="nt">&lt;managed-thread-factory</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/factory/default"</span> <span class="na">ext-service=</span><span class="s">"default"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/managed-thread-factories&gt;</span>
+        <span class="nt">&lt;managed-executor-services&gt;</span>
+            <span class="nt">&lt;managed-executor-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/executor/default"</span> <span class="na">ext-service=</span><span class="s">"default"</span> <span class="err">-</span><span class="na">task-threshold=</span><span class="s">"60000"</span> <span class="na">keepalive-time=</span><span class="s">"5000"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/managed-executor-services&gt;</span>
+        <span class="nt">&lt;managed-scheduled-executor-services&gt;</span>
+            <span class="nt">&lt;managed-scheduled-executor-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/scheduler/default"</span> <span class="na">service=</span><span class="s">"default"</span> <span class="na">hung-task-threshold=</span><span class="s">"60000"</span> <span class="na">keepalive-time=</span><span class="s">"3000"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/managed-scheduled-executor-services&gt;</span>
+    <span class="nt">&lt;/concurrent&gt;</span>
+    <span class="nt">&lt;default-bindings</span> <span class="na">context-service=</span><span class="s">"java:jboss/ee/concurrency/context/default"</span> <span class="na">datasource=</span><span class="s">"java:jboss/datasources/ExampleDS"</span> <span class="na">managed-executor-service=</span><span class="s">"java:jboss/ee/concurrency/executor/default"</span> <span class="na">managed-scheduled-executor-service=</span><span class="s">"java:jboss/ee/concurrency/scheduler/default"</span> <span class="na">managed-thread-factory=</span><span class="s">"java:jboss/ee/concurrency/factory/default"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/subsystem&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>The <strong>context service</strong> <code class="language-plaintext highlighter-rouge">javax.enterprise.concurrent.ContextService</code> allows you to build contextual proxies from existing objects. Contextual proxy prepares the invocation context, which is used by other Jakarta Concurrency utilities when the context is created or invoked, before transferring the invocation to the original object.</li>
+  <li>The <strong>managed thread factory</strong> <code class="language-plaintext highlighter-rouge">javax.enterprise.concurrent.ManagedThreadFactory</code> concurrency utility allows Jakarta EE applications to create Java threads. JBoss EAP handles the managed thread factory instances, <strong>hence Jakarta EE applications cannot invoke any lifecycle related method</strong>.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">priority</code>: Optional. Indicates the priority for new threads created by the factory, and defaults to 5`</li>
+    </ul>
+  </li>
+  <li>The <strong>Managed executor service</strong> <code class="language-plaintext highlighter-rouge">javax.enterprise.concurrent.ManagedExecutorService</code> and <code class="language-plaintext highlighter-rouge">javax.enterprise.concurrent.ManagedScheduledExecutorService</code> allows Jakarta EE applications to submit tasks for asynchronous execution. JBoss EAP handles managed executor service instances, <strong>hence Jakarta EE applications cannot invoke any lifecycle related method</strong>.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">max-threads</code>: Defines the maximum number of threads used by the executor. If undefined, the value from <code class="language-plaintext highlighter-rouge">core-threads</code> is used.</li>
+      <li><code class="language-plaintext highlighter-rouge">thread-factory</code>: References an existing managed thread factory by its name, to handle the creation of internal threads. If not specified, then a managed thread factory with default configuration will be created and used internally.</li>
+      <li><code class="language-plaintext highlighter-rouge">core-threads</code>: Defines the minimum number of threads to be used by the executor. <strong>If this attribute is undefined, the default is calculated based on the number of processors</strong>. A value of 0 is not recommended. See the <code class="language-plaintext highlighter-rouge">queue-length</code> attribute for details on how this value is used to determine the queuing strategy.</li>
+      <li><code class="language-plaintext highlighter-rouge">keepalive-time:</code> defaults to 60000</li>
+      <li><code class="language-plaintext highlighter-rouge">queue-length</code>: Indicates the executor’s task queue capacity. A value of 0 means direct hand-off and possible rejection will occur. If this attribute is undefined or set to <code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE</code> (e.g. unbounded queue). All other values specify an exact queue size. If an unbounded queue or direct hand-off is used, a <code class="language-plaintext highlighter-rouge">core-threads</code> value greater than 0 is required.</li>
+      <li><code class="language-plaintext highlighter-rouge">reject-policy</code>: Defines the policy to use when a task is rejected by the executor. The attribute value can be the default <code class="language-plaintext highlighter-rouge">ABORT</code>, which means an exception should be thrown, or <code class="language-plaintext highlighter-rouge">RETRY_ABORT</code>, which means the executor will try to submit it once more, before throwing an exception.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="moraes2020jakarta">Moraes, E. (2020). <i>Jakarta EE Cookbook, 2nd Edition</i>. Packt Publishing.</span></li></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

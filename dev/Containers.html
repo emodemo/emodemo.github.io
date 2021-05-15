@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Containers" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/Containers.html","headline":"Containers","@context":"https://schema.org"}</script>
+{"headline":"Containers","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/Containers.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -55,7 +55,18 @@
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<p><a href="https://github.com/GoogleContainerTools/jib">auto-containerization - google jib</a></p>
+<h2 id="other-useful-information">Other useful information</h2>
+
+<ul>
+  <li><a href="https://github.com/GoogleContainerTools/jib">auto-containerization - google jib</a></li>
+  <li>metrics-gathering libraries such as OpenTracing or Prometheus</li>
+  <li><a href="https://github.com/ahmetb/kubectl-tree">kubectl-tree plugin</a></li>
+  <li><strong>Kaniko</strong>. a tool created by Google for building container images from a Dockerfile inside a container with a local Docker daemon running in user space.</li>
+  <li>Knative</li>
+  <li>https://github.com/k8spatterns/examples</li>
+  <li>https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits</li>
+  <li>https://kubernetes.io/docs/concepts/configuration/overview/</li>
+</ul>
 
 <h2 id="docker">DOCKER</h2>
 
@@ -136,9 +147,14 @@ SHELL <span class="o">[</span><span class="s2">"&lt;executable&gt;"</span>, <spa
 <h2 id="k8s">K8S</h2>
 
 <ul>
+  <li>K8S is dropping Docker for containerD, which is the Container Runtime used in Dokcer that is now extracted as a separate component. AWS, GoogleCloud are already using it in their managed K8S clusters.
+    <ul>
+      <li>Alternative container runtime is Cri-o, used by OpenShift.</li>
+    </ul>
+  </li>
   <li><a class="citation" href="#gupta2017kubernetes">(Gupta, 2017)</a></li>
   <li><a class="citation" href="#noauthor0000oracle">(“Oracle Linux Container Services for use with Kubernetes User’s Guide,” n.d.)</a></li>
-  <li>K*s manages jobs. It know how to delegates these jobs to the nodes.
+  <li>K8s manages jobs. It know how to delegates these jobs to the nodes.
     <ul>
       <li>Jobs run containers on nodes.</li>
       <li>Many masters (e.g. one per region). Masters schedule jobs on nodes based on load.</li>
@@ -182,7 +198,7 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
     <ul>
       <li>Kubelet service to communicate with the Master Node</li>
       <li>Proxy acting as a network proxy and load balancer for a service on the node</li>
-      <li>Docker Engine - container runtime</li>
+      <li>containerD - container runtime, preciously Docker Engine.</li>
     </ul>
   </li>
   <li>Worker Nodes are accessed thru Load Balancer</li>
@@ -193,31 +209,33 @@ Dashboard: https://eksworkshop.com/dashboard/dashboard/</p>
 
 <ul>
   <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> kubectl + JSONPath to extract specific fields from objects (pod, daemonSet, deployment). As an example, this command will extract and print the IP address of the pod: <code class="language-plaintext highlighter-rouge">&gt; kubectl get pods my-pod -o jsonpath --template={.status.podIP}</code></li>
-  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> deploy an image with Docker vs Kubernetes:<br />
-<code class="language-plaintext highlighter-rouge">&gt; docker run -d --name loanamort --publish 8080:8080 loanamort:v01</code><br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl apply -f loanamort-pod.yaml</code>
-<code class="language-plaintext highlighter-rouge">&gt; kubectl run {name} --image={image} --port={number}</code> , where the port is exposed within the cluster, not outside.<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl expose deployment {deployment name} --name={service name} --port{number} --target-port={number}</code>, where <code class="language-plaintext highlighter-rouge">--port</code> is where the service should listen, and <code class="language-plaintext highlighter-rouge">--target-port</code> is where the traffic should be directed to.<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl delete deployment/{deployment name}</code> deletes the resource-type/resource-name<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl create -f myConfigFile.yml</code> and <code class="language-plaintext highlighter-rouge">kubectl delete -f myConfigFile.yml</code>, where the configuration file (and what is defined inside).<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl proxy</code>, default access URL is: http://localhost:8001/api/v1/proxy/namespaces/default/{resource-type}/{resource-name}<br />
-example: http://localhost:8001/api/v1/proxy/namespaces/default/services/hello-wildfly-service/index.html<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl proxy --address 0.0.0.0 --accept-hosts '.*'</code><br />
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\</li>
-  <li><code class="language-plaintext highlighter-rouge">kubectl port-forward {pod name} {port}:{port}</code></li>
-  <li>required for some debugging cases either with <code class="language-plaintext highlighter-rouge">docker run ... --cap-add=SYS_PTRACE ...</code> or with k8s:</li>
+  <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> deploy an image with Docker vs Kubernetes:</li>
 </ul>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">capabilities</span><span class="pi">:</span>
-     <span class="na">add</span><span class="pi">:</span>
-     <span class="pi">-</span> <span class="s">SYS_PTRACE</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> docker run <span class="nt">-d</span> <span class="nt">--name</span> loanamort <span class="nt">--publish</span> 8080:8080 loanamort:v01
+<span class="o">&gt;</span> kubectl apply <span class="nt">-f</span> loanamort-pod.yaml
+<span class="o">&gt;</span> kubectl run <span class="o">{</span>name<span class="o">}</span> <span class="nt">--image</span><span class="o">={</span>image<span class="o">}</span> <span class="nt">--port</span><span class="o">={</span>number<span class="o">}</span> <span class="c"># where the port is exposed within the cluster, not outside.</span>
+<span class="o">&gt;</span> kubectl expose deployment <span class="o">{</span>deployment name<span class="o">}</span> <span class="nt">--name</span><span class="o">={</span>service name<span class="o">}</span> <span class="nt">--port</span><span class="o">{</span>number<span class="o">}</span> <span class="nt">--target-port</span><span class="o">={</span>number<span class="o">}</span> <span class="c"># where --port is where the service should listen, and --target-port is where the traffic should be directed to.</span>
+<span class="o">&gt;</span> kubectl delete deployment/<span class="o">{</span>deployment name<span class="o">}</span> <span class="c"># deletes the resource-type/resource-name</span>
+<span class="o">&gt;</span> kubectl create <span class="nt">-f</span> myConfigFile.yml <span class="c"># and</span>
+<span class="o">&gt;</span> kubectl delete <span class="nt">-f</span> myConfigFile.yml <span class="c"># where the configuration file (and what is defined inside).</span>
+<span class="o">&gt;</span> kubectl proxy <span class="c"># default access URL is: http://localhost:8001/api/v1/proxy/namespaces/default/{resource-type}/{resource-name}</span>
+<span class="c"># example: http://localhost:8001/api/v1/proxy/namespaces/default/services/hello-wildfly-service/index.html</span>
+<span class="o">&gt;</span> kubectl proxy <span class="nt">--address</span> 0.0.0.0 <span class="nt">--accept-hosts</span> <span class="s1">'.*'</span>
+<span class="c"># http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/</span>
+<span class="o">&gt;</span> kubectl port-forward <span class="o">{</span>pod name<span class="o">}</span> <span class="o">{</span>port<span class="o">}</span>:<span class="o">{</span>port<span class="o">}</span>
+<span class="c"># required for some debugging cases either with &gt;docker run ... --cap-add=SYS_PTRACE ... </span>
+<span class="c"># or with k8s:</span>
+  capabilities:
+     add:
+     - SYS_PTRACE
 </code></pre></div></div>
 
 <ul>
   <li><a class="citation" href="#burns2019kubernetes">(Burns et al., 2019)</a> Using Port Forwarding Later in the book, we’ll show how to expose a service to the world or other containers using load balancers, but oftentimes you simply want to access a specific Pod, even if it’s not serving traffic on the internet. To achieve this, you can use the port-forwarding support built into the Kubernetes API and command-line tools. When you run: <code class="language-plaintext highlighter-rouge">&gt; kubectl port-forward loanamort 8080:8080</code> a secure tunnel is created from your local machine, through the Kubernetes master, to the instance of the Pod running on one of the worker nodes. As long as the port-forward command is still running, you can access the Pod (in this case the kuard web interface) on http://localhost:8080.</li>
 </ul>
 
-<h3 id="pod---a-logical-collection-of-containers">POD - a logical collection of containers</h3>
+<h3 id="pod---a-logical-collection-of-containers">Pod - a logical collection of containers</h3>
 
 <ul>
   <li>smallest deployable unit that can be created, scheduled, managed</li>
@@ -251,7 +269,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
       <span class="na">protocol</span><span class="pi">:</span> <span class="s">TCP</span>
 </code></pre></div></div>
 
-<h3 id="replica-set---a-better-replication-controller">REPLICA SET - A better REPLICATION CONTROLLER</h3>
+<h3 id="replicaset">ReplicaSet</h3>
 
 <ul>
   <li>Maintains the lifecycle and number of POD’s replicas running at one time.</li>
@@ -260,7 +278,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
   <li>ReplicaSet has a few additional params compared to Replication controller (e.g. <code class="language-plaintext highlighter-rouge">matchExpressions</code> from the example below)</li>
 </ul>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span> <span class="c1"># not part of the `core` API</span>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">ReplicaSet</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-rs</span> <span class="c1"># all PODs names will be `loanamort-rc-xxxx`, where xxxx is the hash value of the POD template</span>
@@ -276,14 +294,14 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
     <span class="c1"># same as loanamort-pod.yml</span>
 </code></pre></div></div>
 
-<h3 id="deployments---declarative-updates-for-pods-and-replica-sets">DEPLOYMENTS - declarative updates for PODs and REPLICA SETs</h3>
+<h3 id="deplyment---declarative-updates-for-pods-and-replica-sets">Deplyment - declarative updates for PODs and REPLICA SETs</h3>
 
 <ul>
   <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> The Deployment is responsible for creating and updating instances of your application. It is a higher level of abstraction; it manages ReplicaSets when doing Pod orchestration, creation, deletion, and updates. A Deployment provides declarative updates for Pods and ReplicaSets. The Deployment allows for easy updating of a Replica Set as well as the ability to roll back to a previous deployment.</li>
   <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> When you want to update a Pod, you will need to modify the Deployment manifest. This modification will create a new ReplicaSet, which will be scaled up while the previous ReplicaSet will be scaled down, providing no down-time deployment of your application.</li>
 </ul>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span> <span class="c1"># not part of the `core` API</span>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">extensions/v1beta1</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">loanamort-deployment</span>
@@ -299,7 +317,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
     <span class="na">rollingUpdate</span><span class="pi">:</span> <span class="c1"># updates an application to a newer version, in a serial, one-by-one fashion</span>
       <span class="na">maxSurge</span><span class="pi">:</span> <span class="s">25%</span>
       <span class="na">maxUnavailable</span><span class="pi">:</span> <span class="s">25%</span>
-    <span class="na">type</span><span class="pi">:</span> <span class="s">RollingUpdate</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">RollingUpdate</span> <span class="c1"># the default one, else use Recreate</span>
   <span class="na">template</span><span class="pi">:</span> <span class="c1"># defines the POD, instead of using separate pod.yml</span>
     <span class="na">metadata</span><span class="pi">:</span>
       <span class="na">labels</span><span class="pi">:</span>
@@ -319,7 +337,11 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
             <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">500m"</span>
 </code></pre></div></div>
 
-<h3 id="service---a-logical-collection-of-pods-and-access-policy">SERVICE - a logical collection of PODs, and access policy</h3>
+<ul>
+  <li><strong>Canary Deployment</strong> - this technique can be implemented by creating a new ReplicaSet for the new container version (preferably using a Deployment) with a small replica count that can be used as the Canary instance. At this stage, the Service should direct some of the consumers to the updated Pod instances. Once we are confident that everything with new ReplicaSet works as expected, we scale a new ReplicaSet up, and the old ReplicaSet down to zero. In a way, we are performing a controlled and user-tested incremental rollout <a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a>.</li>
+</ul>
+
+<h3 id="service---a-logical-collection-of-pods-and-access-policy">Service - a logical collection of PODs, and access policy</h3>
 
 <ul>
   <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> Each service is given its own IP address and port which remains constant for the lifetime of the service. Services have an integrated load-balancer that will distribute network traffic to all Pods. While a Pod’s life can be fragile as they are being spun up or down depending on your application needs, the service is a more constant concept.</li>
@@ -345,7 +367,18 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
       <span class="na">targetPort</span><span class="pi">:</span> <span class="m">8080</span>
 </code></pre></div></div>
 
-<h3 id="job---creates-at-most-1-pods-to-ensure-n-of-them-complete-successfully">JOB - creates at most 1+ PODs to ensure N of them complete successfully</h3>
+<ul>
+  <li>For AWS see <code class="language-plaintext highlighter-rouge">ElasticLoadBalancer</code>.</li>
+  <li>Other options are also <code class="language-plaintext highlighter-rouge">Ingress</code>, and a combination of <code class="language-plaintext highlighter-rouge">Service</code> and <code class="language-plaintext highlighter-rouge">Endpoint</code> with the same name (see <a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> for more details).</li>
+  <li><a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> The essential points to remember here are that once a Service is created, it gets a clusterIP assigned that is accessible only from within the Kubernetes cluster (hence the name), and that IP remains unchanged as long as the Service definition exists. However, how can other applications within the cluster figure out what this dynamically allocated clusterIP is? There are two ways: environment variables and DNS lookup (use the latter).
+    <ul>
+      <li>Assuming a client knows the name of the Service it wants to access, it can reach the Service by a fully qualified domain name (FQDN) such as <code class="language-plaintext highlighter-rouge">random-generator.default.svc.cluster.local</code>. Here, <code class="language-plaintext highlighter-rouge">random-generator</code> is the name of the Service, <code class="language-plaintext highlighter-rouge">default</code> is the name of the namespace, <code class="language-plaintext highlighter-rouge">svc</code> indicates it is a Service resource, and <code class="language-plaintext highlighter-rouge">cluster.local</code> is the clusterspecific suffix. We can omit the cluster suffix if desired, and the namespace as well when accessing the Service from the same namespace.</li>
+      <li>The DNS discovery mechanism doesn’t suffer from the drawbacks of the environment-variable-based mechanism, as the DNS server allows lookup of all Services to all Pods as soon as a Service is defined. However, you may still need to use the environment variables to look up the port number to use if it is a non-standard one or unknown by the service consumer.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="job---creates-at-most-1-pods-to-ensure-n-of-them-complete-successfully">Job - creates at most 1+ PODs to ensure N of them complete successfully</h3>
 
 <ul>
   <li>for short running processes</li>
@@ -369,7 +402,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 
 </code></pre></div></div>
 
-<h3 id="volumes---directory-accessible-to-the-containers">VOLUMES - Directory accessible to the containers</h3>
+<h3 id="volume---directory-accessible-to-the-containers">Volume - Directory accessible to the containers</h3>
 
 <ul>
   <li>The lifecycle of a volume is tied to the pod that created it. Pods can store data on this volume and preserve data across container restarts. But the volume ceases to exist along with the pod. Moreover, pods are ephemeral and so may be rescheduled on a different host. This means the data cannot be stored on a host as well.</li>
@@ -405,14 +438,14 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
       <span class="na">path</span><span class="pi">:</span> <span class="s">/opt/data</span> <span class="c1"># path in the host node filesystem.</span>
 </code></pre></div></div>
 
-<h3 id="persistent-volumes---cluster-scoped-storage-for-applications-that-require-long-lived-data">PERSISTENT VOLUMES - cluster-scoped storage for applications that require long-lived data.</h3>
+<h3 id="persistentvolume---cluster-scoped-storage-for-applications-that-require-long-lived-data">PersistentVolume - cluster-scoped storage for applications that require long-lived data.</h3>
 
 <ul>
   <li>Provision</li>
 </ul>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolume</span> <span class="c1"># the volume</span>
-<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolume</span> <span class="c1"># the volume</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-pv</span>
   <span class="na">labels</span><span class="pi">:</span>
@@ -446,55 +479,45 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 </code></pre></div></div>
 
 <ul>
-  <li>Replication Controller to claim the PVC</li>
+  <li>Claim thtough a Pod</li>
 </ul>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">ReplicationController</span>
-<span class="na">metadata</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase</span>
-<span class="na">spec</span><span class="pi">:</span>
-  <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
-  <span class="na">template</span><span class="pi">:</span> <span class="c1"># defines the POD, instead of using separate pod.yml</span>
-    <span class="na">metadata</span><span class="pi">:</span>
-      <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
-      <span class="na">labels</span><span class="pi">:</span>
-        <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
-        <span class="na">context</span><span class="pi">:</span> <span class="s">couchbase-pv</span>
-    <span class="na">spec</span><span class="pi">:</span>
-      <span class="na">containers</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-rc-pod</span>
-        <span class="na">image</span><span class="pi">:</span> <span class="s">arungupta/oreilly-couchbase</span>
-        <span class="na">volumeMounts</span><span class="pi">:</span>  <span class="c1"># where to mount the volume inside the container</span>
-        <span class="pi">-</span> <span class="na">mountPath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/opt/couchbase/var"</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">mypd</span>
-        <span class="na">ports</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8091</span>
-        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8092</span>
-        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8093</span>
-        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">11210</span>
-      <span class="na">volumes</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">mypd</span>
-        <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
-          <span class="na">claimName</span><span class="pi">:</span> <span class="s">couchbase-pvc</span> <span class="c1"># the claim match</span>
-
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># pod.yml</span>
+<span class="na">volumes</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">couchbase-volume</span>
+ <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
+ <span class="na">claimName</span><span class="pi">:</span> <span class="s">couchbase-pvc</span> <span class="c1"># the claim match</span>
 </code></pre></div></div>
 
-<h3 id="horizontal-pod-auto-scaling">HORIZONTAL POD AUTO-SCALING</h3>
+<h3 id="auto-scaling">Auto-Scaling</h3>
 
 <ul>
+  <li>The <code class="language-plaintext highlighter-rouge">HorizontalPodAutoscaler</code> is prefered over the <code class="language-plaintext highlighter-rouge">VerticalPodAutoscaler</code>.</li>
   <li>Scales the numbers of pods in a replication controller, deployment, or replica based on observed CPU utilization.</li>
   <li>By default, the auto-scaler checks every 30 seconds and adjusts the number of replicas to match the observed average CPU utilization to the target specified by the user.</li>
   <li>The auto-scaler uses https://github.com/kubernetes/heapster to collect CPU utilization information, so it must be installed in the cluster for auto-scaling to work.</li>
+  <li>For Cluster Autoscaler (e.g. number of nodes see respecitve APIs from K8S service providers lke AWS, Azure, …).</li>
+  <li>Alternatively Service Mesh could be used - e.g. Knative (on top of Istio).</li>
 </ul>
 
-<h3 id="daemon-sets---to-run-pods-on-selected-nodes">DAEMON SETS - to run PODs on selected Nodes</h3>
+<h3 id="daemonset">DaemonSet</h3>
 
-<h3 id="health-probes">HEALTH PROBES</h3>
+<h3 id="statefulset">StatefulSet</h3>
+
+<ul>
+  <li><a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> Rather than referring to a predefined PVC, StatefulSets create PVCs by using volume <code class="language-plaintext highlighter-rouge">ClaimTemplates</code> on the fly during Pod creation. This mechanism allows every Pod to get its own dedicated PVC during initial creation as well as during scaling up by changing the replicas count of the <code class="language-plaintext highlighter-rouge">StatefulSets</code>.
+    <ul>
+      <li>PVCs are created and associated with the Pods, but … StatefulSets do not manage PVs in any way. The storage for the Pods must be provisioned in advance by an admin, or provisioned on-demand by a PV provisioner based on the requested storage class and ready for consumption by the stateful Pods.</li>
+      <li>Note the asymmetric behavior here: scaling up a StatefulSet (increasing the replicas count) creates new Pods and associated PVCs. Moreover, scaling down deletes the Pods, but it does not delete any PVCs (nor PVs), which means the PVs cannot be recycled or deleted, and Kubernetes cannot free the storage. This behavior is by design and driven by the presumption that the storage of stateful applications is critical and that an accidental scale-down should not cause data loss. If you are sure the stateful application has been scaled down on purpose and has replicated/drained the data to other instances, you can delete the PVC manually, which allows subsequent PV recycling.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="helath-probes">Helath Probes</h3>
 
 <p>inside <code class="language-plaintext highlighter-rouge">spec.template.spec.containers</code></p>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">livenessProbe</span><span class="pi">:</span> <span class="c1"># or readinessProbe</span>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">livenessProbe</span><span class="pi">:</span> <span class="c1"># and readinessProbe, as both are necessary</span>
   <span class="na">httpGet</span><span class="pi">:</span> <span class="c1"># success: httpGet - status code btwn 200/399; exec - command exists with 0; tcpSocket -  port is open and can make connection</span>
     <span class="na">path</span><span class="pi">:</span> <span class="s">/pools</span>
     <span class="na">port</span><span class="pi">:</span> <span class="m">8091</span>
@@ -502,11 +525,69 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
   <span class="na">timeoutSeconds</span><span class="pi">:</span> <span class="m">1</span>
 </code></pre></div></div>
 
-<h3 id="namespace">NAMESPACE</h3>
+<h3 id="namespace">Namespace</h3>
 
 <ul>
   <li><a class="citation" href="#krochmalski2017docker">(Krochmalski, 2017)</a> A namespace functions as a grouping mechanism inside of Kubernetes. Pods, Volumes, ReplicaSets, and services can easily cooperate within a namespace, but the namespace provides an isolation from the other parts of the cluster. What would be the possible use case for such isolation? Well, namespaces let you manage different environments within the same cluster. For example, you can have different test and staging environments in the same cluster of machines.</li>
   <li>Each namespace can be assigned a resource quota (cpu, memory …), see <code class="language-plaintext highlighter-rouge">type: ResourceQuota</code>.</li>
+</ul>
+
+<h3 id="scheduling-policies---match-a-pod-to-a-node">Scheduling policies - match a Pod to a Node</h3>
+
+<ul>
+  <li><a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> Pods get assigned to nodes with certain capacities based on placement policies… As soon as a Pod is created that is not assigned to a node yet, it gets picked by the scheduler together with all the available nodes and the set of filtering and priority policies. In the first stage, the scheduler applies the filtering policies and removes all nodes that do not qualify based on the Pod’s criteria. In the second stage, the remaining nodes get ordered by weight. In the last stage the Pod gets a node assigned, which is the primary outcome of the scheduling process.<br />
+<strong>In most cases, it is better to let the scheduler do the Pod-to-node assignment and not micromanage the placement logic.</strong> However, on some occasions, you may want to force the assignment of a Pod to a specific node or a group of nodes. This assignment can be done using a node selector. <code class="language-plaintext highlighter-rouge">.spec.nodeSelector</code> is Pod field and specifies a map of key-value pairs that must be present as labels on the node for the node to be eligible to run the Pod.</li>
+  <li>Scheduler Policies - predicates and priorities.</li>
+  <li>Node <code class="language-plaintext highlighter-rouge">affinity</code> and Pod <code class="language-plaintext highlighter-rouge">anti/affinity</code></li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># in the pod.xml</span>
+<span class="na">spec</span><span class="pi">:</span>
+ <span class="na">affinity</span><span class="pi">:</span>
+  <span class="na">nodeAffinity</span><span class="pi">:</span> <span class="s">...</span>
+  <span class="na">podAffinity</span><span class="pi">:</span> <span class="s">...</span>
+  <span class="na">podAntiAffinity</span><span class="pi">:</span> <span class="s">...</span>
+</code></pre></div></div>
+
+<ul>
+  <li><a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> A more advanced feature that controls where Pods can be scheduled and are allowed to run is based on <code class="language-plaintext highlighter-rouge">taints</code> and <code class="language-plaintext highlighter-rouge">tolerations</code>. While node affinity is a property of Pods that allows them to choose nodes, <code class="language-plaintext highlighter-rouge">taints</code> and <code class="language-plaintext highlighter-rouge">tolerations</code> are the opposite. They allow the nodes to control which Pods should or should not be scheduled on them. A <code class="language-plaintext highlighter-rouge">taint</code> is a characteristic of the node, and when it is present, it prevents Pods from scheduling onto the node unless the Pod has toleration for the taint. In that sense, <code class="language-plaintext highlighter-rouge">taints</code> and <code class="language-plaintext highlighter-rouge">tolerations</code> can be considered as an <em>opt-in</em> to allow scheduling on nodes, which by default are not available for scheduling, whereas <code class="language-plaintext highlighter-rouge">affinity</code> rules are an <em>opt-out</em> by explicitly selecting on which nodes to run and thus exclude all the nonselected nodes.
+    <ul>
+      <li>There are hard taints that prevent scheduling on a node <code class="language-plaintext highlighter-rouge">(effect=NoSchedule)</code>, soft taints that try to avoid scheduling on a node <code class="language-plaintext highlighter-rouge">(effect=PreferNoSchedule)</code>, and taints that can evict already running Pods from a node <code class="language-plaintext highlighter-rouge">(effect=NoExecute)</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Taineted Node</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Node</span>
+<span class="na">metadata</span><span class="pi">:</span>
+ <span class="na">name</span><span class="pi">:</span> <span class="s">master</span>
+<span class="na">spec</span><span class="pi">:</span>
+ <span class="na">taints</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">effect</span><span class="pi">:</span> <span class="s">NoSchedule</span> <span class="c1"># Taint on a node’s spec to mark this node as not available for scheduling except when a Pod tolerates this taint</span>
+ <span class="na">key</span><span class="pi">:</span> <span class="s">node-role.kubernetes.io/master</span>
+
+<span class="c1"># Pod tolerationg Node taints</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+<span class="na">metadata</span><span class="pi">:</span>
+ <span class="na">name</span><span class="pi">:</span> <span class="s">random-generator</span>
+<span class="na">spec</span><span class="pi">:</span>
+ <span class="na">containers</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">k8spatterns/random-generator:1.0</span>
+ <span class="na">name</span><span class="pi">:</span> <span class="s">random-generator</span>
+ <span class="na">tolerations</span><span class="pi">:</span>
+<span class="c1"># Tolerate (i.e., consider for scheduling) nodes, which have a taint with key noderole.kubernetes.io/master. On production clusters, this taint is set on the master node to prevent scheduling of Pods on the master. A toleration like this allows this Pod to be installed on the master nevertheless.</span>
+ <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">node-role.kubernetes.io/master</span>
+<span class="c1"># Tolerate only when the taint specifies a NoSchedule effect. This field can be empty here, in which case the toleration applies to every effect.</span>
+ <span class="na">operator</span><span class="pi">:</span> <span class="s">Exists</span>
+ <span class="na">effect</span><span class="pi">:</span> <span class="s">NoSchedule</span>
+</code></pre></div></div>
+
+<h3 id="fabric8configmapcontroller-controller-script">fabric8/configmapcontroller (controller script)</h3>
+
+<ul>
+  <li>This is a controller that watches ConfigMap objects for changes and performs rolling upgrades of their associated Deployments. It can be used with applications that are not capable of watching the ConfigMap and updating themselves with new configurations dynamically. That is particularly true when a Pod consumes this ConfigMap as environment variables or when your application cannot quickly and reliably update itself on the fly without a restart.</li>
 </ul>
 
 <h2 id="aws-eks-example">AWS EKS Example</h2>
@@ -622,6 +703,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
 <ul class="bibliography"><li><span id="noauthor0000oracle">Oracle Linux Container Services for use with Kubernetes User’s Guide. In <i>Oracle Help Center</i>. Retrieved January 31, 2021, from https://docs.oracle.com/en/operating-systems/oracle-linux/kubernetes/</span></li>
 <li><span id="burns2019kubernetes">Burns, B., Hightower, K., &amp; Beda, J. (2019). <i>Kubernetes: up and running</i>.</span></li>
 <li><span id="gupta2017kubernetes">Gupta, A. (2017). <i>Kubernetes for Java developers</i>.</span></li>
+<li><span id="bilgin2019kubernetes">Ibryam, B., &amp; Hub, R. (2019). <i>Kubernetes Patterns</i>. O’Reilly Media.</span></li>
 <li><span id="krochmalski2017docker">Krochmalski, J. (2017). <i>Docker and Kubernetes for Java Developers</i>. Packt Publishing.</span></li></ul>
 
   </div>
