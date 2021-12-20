@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>SQL Optimizations | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v4.2.1" />
 <meta property="og:title" content="SQL Optimizations" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="SQL Optimizations" />
 <script type="application/ld+json">
-{"headline":"SQL Optimizations","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/DBSQL.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/DBSQL.html","headline":"SQL Optimizations","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -57,6 +57,8 @@
     <!-- default one if nothing else is mentioned -->
 <h2 id="other-sources">Other sources</h2>
 <p><a href="https://www.depesz.com/2013/04/16/explaining-the-unexplainable/">a few postgres specific configurations</a></p>
+
+<p>https://explain.depesz.com/</p>
 
 <p>Most part comes from <a class="citation" href="#willems2019sql">(Willems, 2019)</a></p>
 
@@ -160,6 +162,12 @@
 <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Sales</span><span class="p">.</span><span class="n">SalesOrderDetail</span> <span class="n">DETAIL</span>
 <span class="k">ON</span> <span class="n">PRODUCT</span><span class="p">.</span><span class="n">rowguid</span> <span class="o">=</span> <span class="n">DETAIL</span><span class="p">.</span><span class="n">rowguid</span>
 </code></pre></div></div>
+
+<h2 id="aws-aurora-postrgesql-perfomrance-tuning">AWS Aurora PostrgeSQL Perfomrance Tuning</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">random_page_cost</code> - set to 1 or 1.5 instead of default 4, as SSD (no rotation latency) are used, and buffer ahead of time.</li>
+</ul>
 
 <h2 id="references">References</h2>
 

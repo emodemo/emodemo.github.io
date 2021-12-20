@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Qunatitative Risk Management | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Qunatitative Risk Management" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/others/QuantitativeRiskManagement.html" />
+<meta property="og:url" content="/others/QuantitativeRiskManagement.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Qunatitative Risk Management" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/others/QuantitativeRiskManagement.html","headline":"Qunatitative Risk Management","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Qunatitative Risk Management</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="on-the-logic-of-risk-by-p-cirillo">On “The Logic of Risk” by P. Cirillo</h2>
+
+<p>based on The Logic of Risk from Pasqualle Cirillo <a href="https://www.youtube.com/watch?v=-E4QMeCNvIE&amp;list=PLgCR5H4IzggHyHw8dalrVHqHAqZfmTeWa">YouTube</a></p>
+
+<h3 id="check">check:</h3>
+<ul>
+  <li>Conditional Gini (instead of moments for the tail)</li>
+  <li>unevenly spaced time series</li>
+</ul>
+
+<h3 id="lecture-1">Lecture 1</h3>
+<ul>
+  <li>Do not separate probabilities from the payoff.
+    <ul>
+      <li>Systematic and idisyncratic risks. Risks we can and we cannot diversify.</li>
+      <li>Operative point of view : external and internal probabilities</li>
+      <li>Payoff is awlays agent dependent (perception based). Risk is therefore viewed as subjective, not objective.</li>
+    </ul>
+  </li>
+  <li>Modular risk -&gt; when our module is wrong.</li>
+  <li>Extremse do cluster, hence they are not i.i.d., hence be careful in modelling.
+    <ul>
+      <li>Studying dependency becomes pivotal, as depencey usually fattens the tail.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="risk-characteristics">Risk Characteristics</h4>
+<ul>
+  <li>Depth - knowledge of the phenomenon under scrutiny (under study). .. + quality fo the data we have, are they enough, modeling choices.</li>
+  <li>Height - single asset, group of assests, the whole portfolio. Risk aggregtion and disaggregation. What we do at portfolio or asset is different. (Forest vs tree :-) )</li>
+  <li>Length - range of variation of phenomenon we are considering. Is an outlier and extreme event, or it was an outlier because of our model</li>
+  <li>Time - it may also bring ruin.
+    <ul>
+      <li>Delay bias, delay paradox (enough information is never enough =&gt; decision under uncertainty)</li>
+      <li>Not all risks can be quantified (Knightian, Shackle (unknowledge), ambiguity, …)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="fallacies">Fallacies</h4>
+<ul>
+  <li>Size fallacy (cannot compare risk of pandemic with the risk of being eaited by a shark)
+    <ul>
+      <li>you cannot compare risk that are one time with repetitive once.</li>
+      <li>some risks are additive, others are multiplicative</li>
+    </ul>
+  </li>
+  <li>Ostrich’s Fallacy</li>
+  <li>Absence of proof is not proof of absence</li>
+  <li>Delay fallacy - postponing until enough data is there</li>
+  <li>Turkey’s Fallacy</li>
+  <li>technocratic fallacy - too much math, technical, model (your grandmather is also right)</li>
+  <li>Consensus fallacy and infallibility fallacy.</li>
+</ul>
+
+<h3 id="lecture-2---risk-measure">Lecture 2 - Risk Measure</h3>
+<ul>
+  <li>axiomatic approach.</li>
+  <li>identification, assessment (quantify, give tags!!), prioritization (ranking), hedge</li>
+  <li>T (capital t) in fin math means maturity, but here is a final time considered.</li>
+  <li>check also distortion function, pdfs, risk measures from financial math course.</li>
+  <li><strong>The risk measure is meant to determine the amount of capital or assets to be kept in reserve. The aim of a reserve is to guarantee the presence of suffucuent capital that can be used as a partioal cover if the risky ecenti manifests itself, generating a loss.</strong></li>
+  <li><strong>!!!</strong> Loss is positive, profit is negative in the course! (profis is a negative loss)</li>
+  <li>Value At Risk (a quantile) and Expected Shortfall (conditional expectation =&gt; expected value of all loses above the VaR).
+    <ul>
+      <li>VaR is the loss value for which the probablity of observing a large loss, given the available info, is eqaul to $1-\alpha$ (where $\alpha$ is the confidence level of 95%).
+<img src="pics\qrm_1.jpg" alt="" height="50%" width="50%" /></li>
+      <li>VaR is not coherent, ES is always coherent</li>
+      <li>A risk measure is said to be coherent if if satisifies:
+        <ul>
+          <li>monotonicity, translation (cash) invaraince, pos. homogeneity, sub-additivity</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="l3---evt">L3 - EVT</h3>
+<ul>
+  <li>use max() for extreme loss and min() for extreme gain… just switch the signs.</li>
+  <li>extremes and rare events are approached differently
+    <ul>
+      <li>otlier is different from extreme (e.g. outlier -&gt; measuring human height and there is a 12 meters tall man)</li>
+      <li>extreme may be context dependent - 2.25 meters can be extreme in total population but not in NBA population</li>
+    </ul>
+  </li>
+  <li>An extreme is an event that occurs within the range if variation of the phenomena under scrunity, but is characterised by <strong>unusual magnitude</strong> and/or <strong>rarity/temporal sparseness</strong>.</li>
+  <li>Outlier detection: $[Q1-k(Q3-Q1),Q3+k(Q3-Q1)\, k&gt;0]$ (under thin tails only); chi-sqaure and distance measures; Thompson Tau; etc.</li>
+  <li>Remove outliers, but <strong>do not correct for extrmes</strong>. Either analyze them with the rest of the data, or just focus on them.</li>
+  <li>In EVT the role of the Normal and Stable distirbutions of classical statistics is played by GEV and GPD.</li>
+</ul>
+
+\[GEV(x;\mu,\sigma,\xi) = 
+\begin{cases}
+    exp(-(1+\xi\frac{x-\mu}{\sigma})^{-1/\sigma}) &amp; \quad \text{if } \xi \neq 0\\
+    exp(- exp(-x)) &amp; \quad \text{if } \xi = 0
+\end{cases}\]
+
+\[GPD(x;\mu,\sigma,\xi) =
+  \begin{cases}
+    1-(1+\xi\frac{x-\mu}{\sigma})^{-1/\sigma} &amp; \quad \text{if } \xi \neq 0\\
+    1-exp(- \frac{x-\mu}{\sigma}) &amp; \quad \text{if } \xi = 0
+  \end{cases}\]
+
+<h3 id="lesson-4">Lesson 4:</h3>
+<ul>
+  <li>extreme event can be inferred, we have enough knowedge to model the event.</li>
+  <li>In balck swan we now nothing about the event. Before it manifests we cannot even think of it. (for the turkey Thanksgiving is a black swan. For the farmer - not necesseraly :-) )… black swan cannot be modeled or forecast</li>
+  <li>Limiting distributions:
+    <ul>
+      <li>GEV (excess distribution) + block maxima + Fisher-Tippett
+        <ul>
+          <li>the limit distribution for the $\color{green}{\text{normalized maxima}}$</li>
+        </ul>
+      </li>
+      <li>GPD (generalized pareto) + pics over threashold + Pickands-Balkema-de Haan
+        <ul>
+          <li>the limit distirbution of $\color{red}{\text{scaled excesses over high threshold}}$</li>
+        </ul>
+      </li>
+      <li>block maxima - define time-blocks and get the max for each block. But no silver bullet for defining the size of the block. Given this maxima are normalized, then the limiting ditribution is GEV</li>
+      <li>POT - poimts over the threshold -&gt; define excesses, all observation above the threshold.</li>
+      <li>GPD is preferred due to fitting purposes!
+<img src="pics\qrm_4.jpg" alt="" height="50%" width="50%" /></li>
+    </ul>
+  </li>
+  <li>The 3 extreme value classes of distributions (or sorts of domain of attraction of the max MDA): Frechet, Weibull, Gumbell - distributions, each corresponding to a specific behavior of the maxima:
+    <ul>
+      <li><strong>Frechet $\Phi$</strong>: fat tail behavior, risky and infinity upper bound (e.g.: pareto, log-gamma, debour, and all other distro that in the tail decay as a power law, that are fat tailed).</li>
+      <li><strong>Weibull $\Psi$</strong>: more or less risky, but are all characterized by a finite upper bound (e.g.: Uniform, Beta - because they have upper bound)</li>
+      <li><strong>Gumbell $\Lambda$</strong>: thin tailed, decay quite quickly in the tail, not able to generate extremely risky phenomena, in most of the cases (e.g.: normal, exponential). Exception is the log-nomral distribution, which, depending on the sigma parameter, can be very wild animal :-) … in data is is occassionally difficult to distinguish between log-normal and pareto.</li>
+    </ul>
+  </li>
+  <li>$\alpha$ is the tail distribution, and the tail (shape) parameter $\xi$ is $1/\alpha$. It is the same for GEV and GPD</li>
+  <li>Fisher-Tippett with GEV
+    <ul>
+      <li>$\xi = \alpha^{-1} &gt; 0 \leftrightarrow \Phi$</li>
+      <li>$\xi = -\alpha^{-1} &lt; 0 \leftrightarrow \Psi$</li>
+      <li>$\xi = 0 \leftrightarrow \Lambda$</li>
+      <li>Although these distributions are very different, from mathematical point of view, it can be defined that: $X \sim \Phi_{\alpha} \leftrightarrow logX^{\alpha} \sim \Lambda \leftrightarrow -X^{-1} \sim \Psi_{\alpha}$</li>
+      <li>Maximum domain of attraction</li>
+      <li><strong>TODO:</strong> $\bar F(x)$ is the tail of $F$ (e.g a survival function = 1-F)</li>
+    </ul>
+  </li>
+  <li>Pickands-Balkema-de Haan
+    <ul>
+      <li>Excess distribution
+        <ul>
+          <li>excesses can be modeled with GPD</li>
+          <li>the number of exceedances follow a homogeneous Poisson procsess</li>
+          <li>the distro of the max of a poisson number of i.i.d. excesses is GEV</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Bestiary of Tails
+<img src="pics\qrm_5.jpg" alt="" height="35%" width="35%" />
+    <ul>
+      <li>Every tail has one specific requirement for the random variable we are considering.</li>
+      <li><strong>A benchmark will be the exponential distribution</strong>
+        <ul>
+          <li>Many thechnical reasons, leading to the behavior of the <strong>moment generating function</strong>.</li>
+          <li>In the case of GEV (Generalized Extreme Value Distribution) the exponential is the tail that is representative of the Gumbell class.</li>
+          <li>In the GPD (Generalized Pareto Distribution) the exponential case is the case that we get for $\xi=0$</li>
+        </ul>
+      </li>
+      <li>We consider the survival function of exponential function.</li>
+      <li><strong>Heavy tail</strong> (slower than exponential) : if its survival function decays slowlier than the survival function of an exponential function.
+\(\lim \sup_{x \rightarrow \infty} \frac{\bar{F}(x)}{\bar{F}exp(x)} = \frac{\bar{F}(x)}{e^{-\lambda x}} = \infty , \quad \forall \lambda &gt; 0\)
+\(\lim \sup_{x \rightarrow \infty} \frac{\bar{F}(x)}{e^{-\lambda x}} = \bar{F}(x)e^{\lambda x} = \infty , \quad \forall \lambda &gt; 0\)
+        <ul>
+          <li>With heavy tails the random variable (e.g. Moment generating function (we can derive the PDF from it)) being always infinity for every lambda larger than zero, is useless. So for Heavy tails we need other instruments.</li>
+          <li>The most dificult to deal with.</li>
+        </ul>
+      </li>
+      <li><strong>Long tail</strong> (sooner or later a new record)  (is a Heavy Tail, but noy necessarily the reverse). One more condition which is expoloision principle: If very large event happens, the probability of even larger even approaches 1.
+\(\lim_{x \rightarrow \infty} P(X &gt; x+t |X&gt;x) = 1, \quad \forall t &gt; 0\)</li>
+      <li><strong>Subexponential tails</strong> (one big shot is all it takes) (is a Long tail, but not necessarily a long tail). One more principle - one shot (or catastrophy) principle, or the winner takes it all.
+        <ul>
+          <li>For a collection of random varaibles let’s define a partial sum $S_n$ and a partial maximum $M_n$. Then the Principle stays that the probability that a $S_n$ will be larger than a particular large value $x$ is approximatelly the same as the probability that $M_n$ will be larger than that value $x$. So if the random varaible we are observing is subexponentioal at a certain point the behavior of the partial sum will be dominated by one big value, so by the partial sum $S_n$
+\(P(S_n &gt; n) \approx P(M_n&gt;x), \quad \text{as } x \rightarrow \infty\)</li>
+          <li>For example, considering the losses in a portfolio the total loss will be dominated by one big loss</li>
+          <li>Many, very useful heuristics and grapic tools… <strong>TBD</strong></li>
+        </ul>
+      </li>
+      <li><strong>Fat Tails</strong> (is a subexponential) - a fat tail random varaible is a random varaible belong to the mximum domain of attraction of Frechet distribution, i.e a random varaible whose survival function is regularly varyning and can be expressed as the product of two components: a power law decay and a slowly varying function, which is in fact vanishing and leaves the power law only.
+\(\bar{F}(x) = P(X \geq x) = x^{-a}L(x)\)
+Asymprotically scale invariant and the most interesting for modelling extreme and rare events.</li>
+      <li><strong>Pareto</strong> (is a fat tailed) (in the maximum domain of attarction of Frechet)
+        <ul>
+          <li>might not have all moment finite</li>
+        </ul>
+      </li>
+      <li><strong>Lognormal</strong> (is a subexponential, but is not fat tailed) (in the maximum domain of attarction of Gambel, together with the Normal and Exponential distributions, which are light tailed)
+        <ul>
+          <li>can generate very strange behaviors</li>
+          <li>can be difficult to distinguish between a Pareto and a Lognormal</li>
+          <li>all moments always exist (i.e. all moments are finite)</li>
+        </ul>
+      </li>
+      <li>Useful tools:
+        <ul>
+          <li><strong>QQ Plot</strong> typically compaeing data (X-axis) with exponential distribution like Gumbel (Y-axis), to check the hypothesis of exponentiality. Quantile-Quantile plot</li>
+          <li><strong>Zipf (loglog) plot</strong> of the empirical survival function of data/ Useful for fat tailed diistributions, it gives necessary but not sufficient information about tails.
+\(\bar{F}(x)=\left(\frac{x}{x_0}\right)^{-\alpha}, \quad0 &lt; x_0 &lt; x\)
+\(\log(\bar{F}(x)) = \alpha \log(x_0) - \alpha \log(x)\)</li>
+          <li>where $\alpha \log(x_0)$ is a constant as $x_0$ is a constant. So X-axis is ordered $\log(x)$ and Y-axis is the log of survival function $\log [1-\bar{F}(x)]$
+<img src="pics\qrm_2.jpg" alt="" height="50%" width="50%" /></li>
+          <li>Rule of thumb for distinguishing between Power Law and Lognormal:
+            <ol>
+              <li>See the range of the X-axis. if it is small (e.g. btwn 0.1 and 100, if the max is 10000+), it is most likely to b lognormal.</li>
+              <li>use data any type aggregation (e.g. order by size and sum smallest qith largest, 2nd smallest and 2nd largest, etc… or order by size and sum 1st and 2nd, 3rd and 4th and so on..) aggregation1 and aggregation2 can be of different types.</li>
+            </ol>
+          </li>
+          <li><strong>Mean excess function</strong> (very useful in EVT) with random variable X and pdf F is defined as:
+\(e(v) = E[ X-v|X&gt;v ] = \frac{\int_v^\infty (t-v)\mathrm{d}F(t)}{\int_v^\infty\mathrm{d}F(t)}, \quad 0 &lt; v &lt; x_F\)</li>
+          <li>see van der Wijk’s law</li>
+          <li>Empirical MEF - MEPLOT
+\(e_n(v)=\frac{\sum^n_{i=1}(X_i-v)}{\sum^n_{i=1}1(X_i&gt;v)}\)
+            <ul>
+              <li>look for upward linear trend</li>
+              <li>order by size, compute, remove first, compute, remove next, compute…. Generally use at least 10000 items to distinguish between Zipf and lognormal:
+\(e_u^{LogN}(X)=\frac{\sigma^2 u}{log(u)-\mu}(1+ o(1))\)
+\(e_u^{Pareto}(X)=\frac{u}{\alpha - 1} \quad \alpha &gt; 1\)
+<img src="pics\qrm_3.jpg" alt="" height="50%" width="50%" /></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="lesson-5">Lesson 5:</h3>
+
+<ul>
+  <li><strong>The tail parameter ($\alpha$ or $\xi$) value is the upper bound of meaninful theoretical moments: if $\alpha = 2.3$ then up to $2^{nd}$ moment are meaningful; if $\alpha &lt; 1$ even the mean is infinite and useless.</strong> Put another way, the moment of order $k$ exists iff $\alpha &gt; k$.</li>
+  <li>Owing to pre-asymptotic properties, a conservative heuristic is to consider i/i/d with $\alpha \leq 2.5$ as not forecastable in practice.</li>
+  <li>When mean is finite, but varaince is infinite, it is difficult to build confidence intervals for the mean. When varaince is finite, but 4th moment is infinte, it is difficult to build confidence intervals for the variance.</li>
+  <li>For Pareto some moments can be infinite, for lognormal all moments exisits.</li>
+  <li>! <strong>Maximum to Sum plot</strong> (to define moments): with partial max and partial sum on power of $p$, where $p$ is the moment.
+    <ul>
+      <li>calculated for 1, 2, 3, …, n obsrvations</li>
+      <li>for i.i.d. sequence $X_1, X_2,…$ define the quantities:
+\(S_n(p) = \sum^n_{i=1}|X_i|^p\)
+\(M_n(p) = \max(|X_1|^p,...,|X_n|^p)\)
+\(R_n(p) = \frac{M_n(p)}{S_n(p)}, \quad n\geq1, p\gt0\)</li>
+      <li>plot $R_n(p)$ on Y-axis over $n$ in X-axis
+        <ul>
+          <li>always starts at 1</li>
+          <li>convergent to 0, then p-th moment likely tp be finite</li>
+          <li>divergent from 0, then p-th moment lekely to be infinite</li>
+          <li>upward jumps are common for fot tails</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Concentration profile</strong> - uses Gini index , useful to carachterize the distribution.
+    <ul>
+      <li>Order, calculate, remove 1st observation, calculate, …</li>
+      <li><strong>heuristics</strong>: The tail starts where the profile becomes horizontal
+ <img src="pics\qrm_7.jpg" alt="" height="50%" width="50%" /></li>
+    </ul>
+  </li>
+  <li><strong>Lorenz Curve</strong> + <strong>Gini Index</strong>
+ \(L(p)=\frac{\int^p_0 Q(t)dt}{E[X]}\)
+ \(G=\frac{\|L(p)-L_{pe}\|}{\|L_{pi}-L_{pe}\|} = \frac{A}{A+B} \quad 0 \leq G \leq 1\)
+ <img src="pics\qrm_6.jpg" alt="" height="50%" width="50%" /></li>
+  <li><strong>Truncated Gini Index</strong>, connected to VaR ad ES
+ <img src="pics\qrm_9.jpg" alt="" height="50%" width="50%" /></li>
+  <li><strong>Moment Ratio Plots</strong>
+ <img src="pics\qrm_8.jpg" alt="" height="50%" width="50%" /></li>
+  <li><strong>Zenga plot</strong></li>
+  <li>! <strong>GEV and GPD estimation</strong> when data comes exactly from GEV or GPD:
+    <ul>
+      <li>use MLE (when $\xi \gt -1/2$)</li>
+      <li>Probability-Weighted moments (otherwise).</li>
+      <li>MLE for GEV requires numerical estimation as it is impossible to find analytical solution</li>
+      <li>MLE is ok for $\xi \gt -1/2$ (most of the time), but loses consistency of smaller values.</li>
+      <li>Probablility-Weighted Moments: good performance for $\xi &lt; 1$, when at leas the $1^{st}$ moment exist. Although it lacks a solid theoretical foundation it is preffered when $\xi \leq -1/2$</li>
+    </ul>
+  </li>
+  <li>! <strong>Estimation under MDA (maximum domain of attraction)</strong> when data is not exactly GEV concentrate on the tails. Estimation of $\xi$ can be based on upper order statistics
+\(X_{k,n} \leq ... \leq X_{1,n} \quad \text{where } X_{k,n} \text{ is the k-th maximum and } X_{1,n} \text{ is the maximum}\)
+    <ul>
+      <li>tail condition 1: $k(n) \rightarrow \infty$ use a sufficient number of order statistics</li>
+      <li>tail condition 2: $n/k(n) \rightarrow \infty$ let the tail speaks.</li>
+    </ul>
+  </li>
+  <li>!!! <strong>Hill estimstor</strong> Probably the best known tail estimator in EVT
+    <ul>
+      <li>best used for data in the Frechet MDA (i.e. $\xi = \alpha^{-1} &gt; 0$ 
+) (i.e. $\xi = 1/\alpha &gt; 0$ )</li>
+      <li>if $F \in MDA(\Phi_{\alpha}), \quad \alpha \gt 0$ then $\bar F(x) = L(x)x^{-\alpha}$. The Hill estimator is defined as (+ tail conidtions):
+\(\hat \alpha^H = \hat \alpha^H_{k,n} = \frac{1}{\hat \xi^H_{k,n}} = \left( \frac{1}{k} \sum^k_{j=i} log(X_{j,n}) - log(X_{k,n}) \right)^{-1}\)</li>
+      <li>order decreasing : start from the 1st, then 1 and 2nd top, etc.. the optimum K is when the plot stabilizes =&gt; the corresponding value is the alpha, look down the grpah (see pic) for N of observations</li>
+      <li>it is actually MLE</li>
+      <li>loog for stability in the plot</li>
+    </ul>
+  </li>
+  <li>OLS on Zipf Olot (<strong>Please NO</strong>)</li>
+  <li>other methods..</li>
+</ul>
+
+<h3 id="lesson-6-time-series">Lesson 6: Time Series</h3>
+
+<ul>
+  <li>in TS modelling, time is usually treated as discrete. (chapter is only for equally spaced time series)</li>
+  <li>returns are stationary prices might not be so.</li>
+  <li>weak stationary: mean is constant, autocovariance is immune to shifts</li>
+  <li><strong>detrending</strong>: either with linear regression, or differencing (to be preffered when the trend is not deterministic), always use both and choose later on based on the model results.</li>
+  <li><strong>deseasonalizing</strong> - also for business cycles (in R there is the <code class="language-plaintext highlighter-rouge">stl()</code> function)</li>
+  <li><strong>auto-covariance</strong>: in principle $n^{-1}$ should be$(n-h)^{-1}$, but there are numerical ans spectral reasons for using this.
+\(\hat \gamma(h) = n^{-1} \sum^{n-h}_{t=1} (x_{t+h} - \bar x)(x_t - \bar x)\)
+\(\hat \gamma(h) = \hat \gamma(-h) \quad h=0,1,...,n-1\)</li>
+  <li><strong>auto-correlation</strong>, and <strong>auto-correlation function (ACF)</strong>, which describes how the autocorrelation varies with time (i.e variyng $h$).</li>
+  <li><strong>cross-correlation</strong>: correlation between two time series</li>
+  <li><strong>partial auto-correlation function (PACF)</strong> - auto-correlation with linear dependency removed</li>
+  <li>auto-regressive operator</li>
+  <li>ARMA, ARIMA, MA, …</li>
+</ul>
+
+<h3 id="lesson-8">Lesson 8:</h3>
+
+<ul>
+  <li>Reality is not i.i.d.</li>
+  <li>under time series, the fundamental assumptions for Fisher-Tippett that observations are not i.i.d, does not hold.</li>
+  <li>D conditionsn(asymptotic independence) - avoid clusterins and excessive dependence in data, so that we can assume extremes to qualitatively behave as if they were coming from an i.i.d. sequence.</li>
+  <li>D’ imposes anti-clustering condition.</li>
+  <li>Similar to block maxima approach, but for non i.i.d.</li>
+</ul>
+
+<h3 id="lesson-10-the-greeks-for-market-risk">Lesson 10: The Greeks for Market Risk</h3>
+
+<ul>
+  <li><strong>Delta</strong>: measures sensitivity of the portfolio to <strong>small</strong> changes in the price of the underlaying asset(s): where $P$ is protfolio and $S$ is price.</li>
+</ul>
+
+\[\Delta = \frac{\partial P}{\partial S}\]
+
+<ul>
+  <li>can be seen also as the 1st partial derivative of the value of the portfolio with respect to the price of the unrelying asset(s). (as there are other things apart of the price that influence, hence partial)</li>
+  <li>Delta hedging - cover for the loss generated by a small varaintion in the price.</li>
+  <li>To Delta hedge one always need to buy/sell units of the underlying asset</li>
+  <li><strong>Gamma</strong>: measures sensitivity of the portfolio to <strong>large</strong> changes in the price of the underlaying asset(s): where $P$ is protfolio and $S$ is price.
+    <ul>
+      <li>can be seen also as the 2nd partial derivative of the value of the portfolio with respect to the price of the unrelying asset(s).</li>
+      <li>or the 1st derivative of Delta</li>
+    </ul>
+  </li>
+</ul>
+
+\[\Gamma = \frac{\partial^2 P}{\partial S^2}\]
+
+<ul>
+  <li>Gamma measures the the curvature of the function (convex or concave).</li>
+  <li>For linear products (forward, future, …) Gamma is alwyas 0, so Delta is enough. As we have linearity, there is no curvature, hence no need for Gamma.</li>
+  <li>see pics for linear example</li>
+  <li>Delta hedge-error is the error when gamma is ignored on nonlinear product</li>
+  <li>To Gamma hedge one cannot buy the underlying asset, because gamma is related to non-linearity. So to Hendge fpr Gamma, one need something that is non-linearly related to the underlying asset. Typically this is an option on the undrlyig asset.</li>
+  <li>Gamma hedging (make gamma of portfolio 0), where $w_T$ is the amount of options, $\Gamma_T$ is the gamma of the option, and $\Gamma$ is the gamma of the protfolio:
+  \(w_T\Gamma_T+\Gamma=0\)
+  \(w_T=-\Gamma/\Gamma_T\)</li>
+  <li>But the option may have a non-0 Delta too, so the portfolio will become non-delta neutral, so you need to make it again delta neutral again.
+    <ul>
+      <li>see example pics</li>
+    </ul>
+  </li>
+  <li><strong>Vega</strong> sensitivy of portfolio with respect to volatility. (e.g. partial derivative of change in portfolio with respect to volatility). So to hedge one needs a product that is a function of volatility =&gt; options, but a differnent thant the one used for Gamma (a 2nd option), in order to solve a linear system - see pic example + what is on the desk.
+    <ul>
+      <li>But again one need to make the portfolio Delta neutral again (e.g. buy underlying asset).</li>
+    </ul>
+  </li>
+  <li><strong>Theta</strong> sensitivity of portfolio to time</li>
+  <li><strong>Rho</strong> sensitivity of portfolio to interest rates. Most of the time it si not directly rho that is used, but a function of ot called “duration”
+    <ul>
+      <li><strong>Duration</strong> exposure of a portfolio to a yiled curve movements.</li>
+      <li>Let $y$ bw a bond yiled and $S$ its market price. Duration $D$ is defined as:
+\(D= -\frac{1}{S}\frac{\Delta S}{\Delta y}\)</li>
+      <li>If we consider small percentage changes:
+\(D= -\frac{1}{S}\frac{\partial S}{\partial y}\)</li>
+      <li>$\displaystyle \frac{\partial S}{\partial y}$ this is RHO</li>
+      <li>Can be seen as a weighted average of the maturities of the times at wich one receive money for its invetment (or payning if issueing a bond).</li>
+      <li><strong>!!!</strong> Duration - How long I have to wait (on avergae) I have to wait befire I gain monye</li>
+    </ul>
+  </li>
+  <li><strong>Convexity</strong> - like Gamma, but for interest rates. 2nd derivative</li>
+  <li><strong>Taylor Series</strong> expansion of Protfolio P, as a function of $S, \sigma, t$ then:
+<img src="pics\qrm_10.jpg" alt="" height="50%" width="50%" /></li>
+</ul>
+
+
+
+
+<ul class="bibliography"></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Notes on Taleb | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Notes on Taleb" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/science/Taleb_Technical_Notes.html" />
+<meta property="og:url" content="/science/Taleb_Technical_Notes.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Notes on Taleb" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Taleb_Technical_Notes.html","headline":"Notes on Taleb","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Notes on Taleb</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="others">Others</h2>
+
+<ul>
+  <li>“Truth is in the extremes. There is no noise in the fat tails.”</li>
+  <li>“Every Ponzi is sold as a non-zero sum store of value.”</li>
+</ul>
+
+<h2 id="statistical-consequences-of-fat-tails---reading-club">Statistical consequences of fat tails - reading club</h2>
+
+<ul>
+  <li>Empirical survival functon = 1 - CDF</li>
+</ul>
+
+<h3 id="on-chapter-4">on chapter 4:</h3>
+
+<ul>
+  <li>Tail may start at:
+    <ul>
+      <li>convex to concav part of the distribution (Jensen inequality)</li>
+      <li>between 2 and 3 STD</li>
+      <li>Chebyshev’s inequality</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="on-chapters-6-7">on chapters 6-7:</h3>
+
+<ul>
+  <li>(Taleb) Entropy - a problem with continuous vs discrete entropy. Mutual information is made for continuous distributions. $-log(f(x,y)/[f(x)f(y)])$
+    <ul>
+      <li>solve it by making a kernel distribution out of a histogram and use it insde the $F(x,y)$ function.</li>
+      <li>So instead of using summation of discrete functions (summing the logs), one needs to smooth the points. So use a smooth kernel. It doesn’t matter how good the kernel is as long as it gives you a smooth function. Then integrate the logs (the $-log$ part)</li>
+      <li>see calculation of mutual information with kernel function and copula entropy.</li>
+    </ul>
+  </li>
+  <li>For Pareto, as it is unstable distribution, any $\alpha$ higer than 2 will be 2.</li>
+</ul>
+
+<h3 id="on-chaprers-8-9">on chaprers 8-9</h3>
+
+<ul>
+  <li>Jensen inequality</li>
+  <li>Mean Deviation (average of the sqrt) over Standard Deviation (sqrt of the average)
+    <ul>
+      <li>$STD \geq MAD$, as sqrt is concave</li>
+    </ul>
+  </li>
+  <li>KAPPA
+    <ul>
+      <li>compare tail fatness of different distributions.</li>
+      <li>the speed of tracking a sample size</li>
+    </ul>
+  </li>
+  <li>(Taleb) Prefer MLE (logs) over the Method of Moments (sample average).
+    <ul>
+      <li>Instead of getting the mean directly, derive the $\alpha$ (thru MLE calibration - Hill estimator), and then get the mean (the Pareto mean).</li>
+      <li>$\alpha$ give extrapolates over things you have not seen. Mean does not extrapolates.</li>
+    </ul>
+  </li>
+  <li>Mutual infomration over correlation
+    <ul>
+      <li>Kolmogorov information</li>
+      <li><strong>(me) + see wikipage:</strong> <em>variation of information</em> or <em>shared information distance</em> - Unlike mutual informatio it obeys triangular inequality (i.e. true metric)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="statistical-consequences-of-fat-tails---book">Statistical consequences of fat tails - book</h2>
+
+<h3 id="chapter-">Chapter …</h3>
+
+<ul>
+  <li>The natiral boudary between Mediocristan and Extremistan occurs at the subexponential class.</li>
+</ul>
+
+<h3 id="2">2</h3>
+
+<ul>
+  <li>Shadow moments (a.k.a. plug-in estimation): instead of direct measurement, uses a MLE parameters, say the tail exponents, and then derive the shwadow moments. (ch 13, 15)</li>
+  <li>The tail exponent $\alpha$ captures, by extrapolation, the low-probability deviation not seen in the data, but that plays a disproportionately large share in determining the mean. This generalized approach to estimators is also applied to Gini and other inequality estimators. So we can produce more reliable (or at least less unreliable) estimators for, say, a function of the tail exponent in some situations. But, of course, not all.</li>
+  <li>Unusable:
+    <ul>
+      <li>Metrics such as standard deviation and variance are not useable.They fail out of sample,even when they exist, even when all moments exist.</li>
+      <li>Beta, Sharpe Ratio and other common hackneyed financial metrics are uninformative.</li>
+      <li>The method of moments (MoM) fails to work. Higher moments are uninformative or do not exist.</li>
+      <li>In the absence of reliable information, Bayesian methods can be of little help. The key is that one needs a reliable prior, something not readily observable</li>
+    </ul>
+  </li>
+  <li>Invisibility:
+    <ul>
+      <li>We do not observe probability distributions, just realizations.</li>
+      <li>A probability distribution cannot tell you if the realization belongs to it.</li>
+      <li>You need a meta-probability distribution to discuss tail events (i.e., the conditional probability for the variable to belong to a certain distributions vs. others).</li>
+    </ul>
+  </li>
+  <li>Miltiplicative risk scale example: At the beginning of the COVID-19 pandemic, many epidemiologists innocent of probability compared the risk of death from it to that of drowning in a swimming pool. For a single individual, this might have been true (although COVID-19 turned out rapidly to be the main source of fatality in many parts, and later even caused 80% of the fatalities New York City). But conditional on having 1000 deaths, the odds of the cause being drowning in swimming pools is slim.<br />
+This is because your neighbor having COVID increases the chances that you get it, whereas your neighbor drowning in her or his swimming pool does not increase your probability of drowning (if anything, like plane crashes, it decreases other people’s chance of drowning ).<br />
+This aggregation problem is discussed in more technical terms with ellipticality, see Section 6.8 – joint distributions are no longer elliptical, causing the sum to be fat-tailed even when individual variables are thin-tailed.</li>
+</ul>
+
+<h2 id="technical-incerto">Technical incerto</h2>
+
+<h3 id="1-real-world-statistical-consequences-of-fat-tails">1. Real world statistical consequences of fat tails</h3>
+
+<ul>
+  <li>Fat-tails do not deliver a lot of deviations from the mean, but big deviations once in a while.</li>
+  <li>fat-tails means higher peaks for the distribution, as the fatter the tail, the more market spend time between the Mean and SD
+    <ul>
+      <li>=&gt; less variations that are not tail events</li>
+      <li>=&gt; more quiet time, not less</li>
+    </ul>
+  </li>
+  <li>One need meta-probability distributions to discuss tail events.</li>
+  <li>If we know nothing about the 4th moment (Kurtosis is a function of it), we know nothing about the stability of the 2nd moment.</li>
+  <li>figure out the distribution and then calculate mean (ot other moments) from it.</li>
+</ul>
+
+<h3 id="2-convexity-risk-and-fragility">2. Convexity risk and fragility</h3>
+
+<ul>
+  <li>$E_n(X_t) \geq E_\tau(X_i)$ Ensemble probabilities and Time probabilities.
+    <ul>
+      <li>Law of Large Numbers (LLN) obeys arithmetic average for Ensemble probabilities</li>
+      <li>obeys geometric average for time probabilities =&gt; follow different LLN</li>
+    </ul>
+  </li>
+  <li>What matter for the Climate is not the average, but the distribution of the extreme events.</li>
+  <li>$PDF{x} \neq PDF{f(x)}$
+    <ul>
+      <li>Do not mistake the probabilities of exposure to a X variable for the variable itself.</li>
+      <li>It is easier to modify the exposure to get tractable properties than to try understanding $x$.</li>
+      <li>Confusion between truth space and consequence space.</li>
+      <li>Test example: change airport traffic +/- 10% and check travelling time.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="notes">notes</h3>
+
+<ul>
+  <li>payoff function IS NOT exposure</li>
+  <li>measures of VEGA with L1 norm</li>
+  <li><strong>!!! fragility def :</strong> (1)sensitivity of a given (2)risk measure to (3)an error in the (4)estimation of the (5)deviation parameter of a (6)distribution. Because the (2)risk measure involves parts of (6) the distribution that are away from the portion used for (4)estimation.</li>
+  <li>anti-fragility (sensitive to volatility)
+    <ul>
+      <li>similar to VEGA of an option or non-linear payoff</li>
+      <li>not exactly the opposite of fragile. Implies VEGA above a K threshold in the positive tail of the distribution (right one), and an absence of fragility on the left tail.</li>
+    </ul>
+  </li>
+  <li>Utility function is not only convex or concave, but both (as in Prospect Theory)
+    <ul>
+      <li>Jensen inequality expects monotonic transformations, but not both at the same time.</li>
+    </ul>
+  </li>
+  <li>Being long on the option side of the tail eliminates the need to try to figure out what we do not know.</li>
+  <li>If you are short a call spread strike at $K$ and long another call ot $K+y$ =&gt; you are “short volatility”, but you are not exposed to infinite variance.
+    <ul>
+      <li>Portfolio constructed of infinite variance security does not have to be with infinite variance.</li>
+    </ul>
+  </li>
+  <li>example for convexity and Jensen inequality</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>$1+3+5$</th>
+      <th>$f[E(x)]$</th>
+      <th style="text-align: center">relation</th>
+      <th>$E[f(x)]$</th>
+      <th style="text-align: center">type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$f(x)=x$</td>
+      <td>$(1+3+5)=9$ and $9/6=1.5$</td>
+      <td style="text-align: center">$=$</td>
+      <td>$1+3+5=9$ and $9/6=1.5$</td>
+      <td style="text-align: center">linear</td>
+    </tr>
+    <tr>
+      <td>$f(x)=x^2$</td>
+      <td>$(1+3+5)^2$ and $(9/6)^2=2.25$</td>
+      <td style="text-align: center">$&lt;$</td>
+      <td>$1^2+3^2+5^2$ and $35/6=5.83$</td>
+      <td style="text-align: center">convex</td>
+    </tr>
+    <tr>
+      <td>$f(x)=\sqrt x$</td>
+      <td>$\sqrt{(1+3+5)}$ and $\sqrt{9/6}=1.22$</td>
+      <td style="text-align: center">$&gt;$</td>
+      <td>$\sqrt1+\sqrt3+\sqrt5$ and $\sqrt{9}/6=0.5$</td>
+      <td style="text-align: center">concave</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>$E[x] = \displaystyle\sum_{i=1}^\infty x_i p_i$ // discrete</li>
+  <li>$E[x] = \displaystyle\int_{-\infty}^\infty xf(x) \delta x$ // continuous</li>
+</ul>
+
+<h3 id="here-and-there">here and there</h3>
+<ul>
+  <li>I show elsewhere that if you do not know what a <em>typical</em> event is, fractal power laws are the most effective way to discuss the extremes mathematically.
+    <ul>
+      <li>It does not mean that the real world generator is a power law - it means you do not understand the structure of the event</li>
+      <li>it simplifies the math: only one parameter <em>alpha</em>, that increase or decrease the role of rare events in total probabilities (instead of doing simulations)</li>
+      <li>Parametrizing power law lends itself to monstrous estimation error (the horrible inverse problem), as small changes in the <em>alpha</em> leads to monstrously large effect in the tails.</li>
+      <li><em>alpha</em> is not observable</li>
+    </ul>
+  </li>
+  <li>4th quadrant meaningless measurements: SD, Linear Regression, ANOVA, least square, Markovitz portfolio optimization (relies on estimates of covariance)</li>
+  <li><strong>!!!</strong> convexity (long-gamma property) is easier to attain than knowledge
+    <ul>
+      <li>reduce the cost per attempt, compensate by multiplying the number of trials, allocate 1/N of potential investment, make N as large as possible</li>
+      <li>=&gt; minimize P of missing, rather than maximize profits on a win.</li>
+    </ul>
+  </li>
+  <li>stay flexible with frequent ins/outs; be very short term in order to capture the long term. 5 sequential five-year options are better than single 5 year option.</li>
+</ul>
+
+<h2 id="a-conversation-between-nassim-nicholas-taleb-and-stephen-wolfram-at-the-wolfram-summer-school-2021">A conversation between Nassim Nicholas Taleb and Stephen Wolfram at the Wolfram Summer School 2021</h2>
+
+<ul>
+  <li>2nd level of stochasticity is variance of the variance.</li>
+  <li>Instead of taking an option of the average varaince I take an average option accross the two state varaince. It is out-of-the money. $F[E[\sigma]] \ vs \ E[F[\sigma]]$, where F is the option function.</li>
+  <li>25 degree, 25 degree (Celcius) or 0 and 50 degress.</li>
+  <li>In finance I see the world as arbitrage. In econmics I see the world as law of one price. I traded by looking at similar things with different evaluation =&gt; replicate an item into antoher (ME - if it walks like a duck it is duck) + dynamic replication // an option into stock, inot another opition.
+Comparision is done by comparing the distributions.</li>
+  <li>When you are under fat tails, these do not work dynamically.</li>
+  <li>I know of no model than discounted cash flow to price anything.</li>
+  <li><strong>on numeraire</strong>: I take a basket of goods and services, constantly revised, and see what numeraire will make this basket non-volatile.
+    <ul>
+      <li>I use gold. So on days when gold is down I return the merchandise in silver ????</li>
+    </ul>
+  </li>
+  <li>When you do evidence based sceince you are making claims about the aggregate, not about individuals. And a lot of people don’t get that calims about aggregate hold for an aggregate, not for individuals.</li>
+  <li>p value is random variable.</li>
+  <li>Gini is Bad (one issues is that it is static).</li>
+</ul>
+
+
+
+
+<ul class="bibliography"></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

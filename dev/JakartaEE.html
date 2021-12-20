@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Jakarta EE | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v4.2.1" />
 <meta property="og:title" content="Jakarta EE" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Jakarta EE" />
 <script type="application/ld+json">
-{"headline":"Jakarta EE","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/JakartaEE.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/JakartaEE.html","headline":"Jakarta EE","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -151,7 +151,7 @@ care of all transactions made under this context.</li>
 
 <h2 id="concurrency">Concurrency</h2>
 
-<p>Examples derived from <a class="citation" href="#moraes2020jakarta">(Moraes, 2020)</a></p>
+<p>Examples derived from <a class="citation" href="#moraes2020jakarta">(Moraes, 2020)</a> and <a class="citation" href="#Juneau2020jeeconcurrency">(Juneau, 2020)</a></p>
 
 <h3 id="singleton-concurrency-management">Singleton Concurrency management</h3>
 
@@ -176,7 +176,7 @@ care of all transactions made under this context.</li>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Pojo</span> <span class="o">{</span> <span class="cm">/* getters, setters */</span> <span class="o">}</span>
 
 <span class="nd">@Stateless</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">getPojo</span><span class="o">();</span> <span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">getPojo</span><span class="o">()</span> <span class="o">{...}</span> <span class="o">}</span>
 
 <span class="c1">// not the best apporach, but gives the main ides</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Task</span> <span class="kd">implements</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="o">{</span>
@@ -249,7 +249,8 @@ care of all transactions made under this context.</li>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncTask</span> <span class="kd">implements</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="nc">Pojo</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">PojoFacade</span><span class="o">().</span><span class="na">getPojo</span><span class="o">();</span>
+        <span class="nc">PojoFacade</span> <span class="n">facade</span> <span class="o">=</span> <span class="no">CDI</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">select</span><span class="o">(</span><span class="nc">PojoFacade</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">get</span><span class="o">()</span>
+        <span class="k">return</span> <span class="n">facade</span><span class="o">.</span><span class="na">getPojo</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
@@ -317,7 +318,7 @@ care of all transactions made under this context.</li>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PojoFacade</span> <span class="o">{</span> 
     <span class="nd">@Asynchronous</span> 
     <span class="kd">public</span> <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Pojo</span><span class="o">&gt;</span> <span class="nf">getPojo</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">Asyncresult</span><span class="o">(</span><span class="k">new</span> <span class="nc">Pojo</span><span class="o">());</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">AsyncResult</span><span class="o">(</span><span class="k">new</span> <span class="nc">Pojo</span><span class="o">());</span>
     <span class="o">}</span> 
 <span class="o">}</span>
 
@@ -366,7 +367,7 @@ care of all transactions made under this context.</li>
 <h3 id="mdb">MDB</h3>
 
 <h3 id="concurrency-service-management-jboss-examples">Concurrency Service Management (jboss examples)</h3>
-<p>// TODO: reference to JBOSS</p>
+
 <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;subsystem</span> <span class="na">xmlns=</span><span class="s">"urn:jboss:domain:ee:4.0"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;spec-descriptor-property-replacement&gt;</span>false<span class="nt">&lt;/spec-descriptor-property-replacement&gt;</span>
     <span class="nt">&lt;concurrent&gt;</span>
@@ -377,7 +378,7 @@ care of all transactions made under this context.</li>
             <span class="nt">&lt;managed-thread-factory</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/factory/default"</span> <span class="na">ext-service=</span><span class="s">"default"</span><span class="nt">/&gt;</span>
         <span class="nt">&lt;/managed-thread-factories&gt;</span>
         <span class="nt">&lt;managed-executor-services&gt;</span>
-            <span class="nt">&lt;managed-executor-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/executor/default"</span> <span class="na">ext-service=</span><span class="s">"default"</span> <span class="err">-</span><span class="na">task-threshold=</span><span class="s">"60000"</span> <span class="na">keepalive-time=</span><span class="s">"5000"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;managed-executor-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/executor/default"</span> <span class="na">ext-service=</span><span class="s">"default"</span> <span class="na">hung-task-threshold=</span><span class="s">"60000"</span> <span class="na">keepalive-time=</span><span class="s">"5000"</span><span class="nt">/&gt;</span>
         <span class="nt">&lt;/managed-executor-services&gt;</span>
         <span class="nt">&lt;managed-scheduled-executor-services&gt;</span>
             <span class="nt">&lt;managed-scheduled-executor-service</span> <span class="na">name=</span><span class="s">"default"</span> <span class="na">jndi-name=</span><span class="s">"java:jboss/ee/concurrency/scheduler/default"</span> <span class="na">service=</span><span class="s">"default"</span> <span class="na">hung-task-threshold=</span><span class="s">"60000"</span> <span class="na">keepalive-time=</span><span class="s">"3000"</span><span class="nt">/&gt;</span>
@@ -406,12 +407,21 @@ care of all transactions made under this context.</li>
   </li>
 </ul>
 
+<h2 id="testing">Testing</h2>
+
+<ul>
+  <li><a href="https://tomee.apache.org/latest/examples/concurrency-utils.html">Concurrency Utilities for Java EE</a></li>
+  <li><a href="https://github.com/kaiwinter/testcontainers-examples/blob/master/wildfly-mariadb/README.md">testcontainers-examples: wildfly-mariadb</a></li>
+  <li><a href="https://github.com/t1/jee-testcontainers">jee testcontainers</a></li>
+</ul>
+
 <h2 id="references">References</h2>
 
 
 
 
-<ul class="bibliography"><li><span id="moraes2020jakarta">Moraes, E. (2020). <i>Jakarta EE Cookbook, 2nd Edition</i>. Packt Publishing.</span></li></ul>
+<ul class="bibliography"><li><span id="Juneau2020jeeconcurrency">Juneau, J. (2020). <i>Get started with concurrency in Jakarta EE</i>. https://blogs.oracle.com/javamagazine/get-started-with-concurrency-in-jakarta-ee</span></li>
+<li><span id="moraes2020jakarta">Moraes, E. (2020). <i>Jakarta EE Cookbook, 2nd Edition</i>. Packt Publishing.</span></li></ul>
 
   </div>
 

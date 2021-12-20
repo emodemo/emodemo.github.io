@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Bayesian | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Bayesian" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/science/Bayesian.html" />
+<meta property="og:url" content="/science/Bayesian.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Bayesian" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Bayesian.html","headline":"Bayesian","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Bayesian</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="todo">todo</h2>
+
+<ul>
+  <li>model comparison</li>
+  <li>ch7, 9, 13(power analysis and sample size) + beta distributions</li>
+  <li>sec 23.1</li>
+</ul>
+
+<h2 id="probability-the-frequency-of-the-event-occurring">Probability, the frequency of the event occurring</h2>
+
+<ul>
+  <li><strong>join probability</strong> $P(X=value1,Y=valueA) = P(X=value1 \mid Y=valueA) * \sum_x P(X=x,Y=valueA)$</li>
+  <li><strong>marginal probability</strong> $P(X=value1) = \sum_y P(X=value1,Y=valueA) = \int \mathrm{d}y \ p(x,y)$.</li>
+  <li>
+    <p><strong>conditional probability</strong></p>
+
+\[P(X=value1  \mid  Y=valueA) = \frac{P(X=value1, Y=valueA)}{\sum_x P(X=x, Y=valueA)} = \frac{p(x,y)}{\int_x \mathrm{d}x \ p(x,y)} = \frac{P(X=value1, Y=valueA)}{P(Y=valueA)}\]
+
+    <ul>
+      <li>tell the relation between two different, but related conditionals
+        <ol>
+          <li>$P(X \mid Y) = P(X,Y) \ /\ P(Y)$ the joint probability of the two events over marginal probability of the conditioned</li>
+          <li>take $P(X \mid Y)$ and multiply it by $P(Y)$ =&gt; $P(X \mid Y) * P(Y) = P(X,Y)$</li>
+          <li>respectively $P(Y \mid X) * P(X) = P(X,Y)$</li>
+          <li>equate the two alternative representations of the joint $P(X,Y)$ =&gt; $P(X \mid Y) * P(Y) = P(Y \mid X) * P(X)$</li>
+          <li>divide by $P(Y)$ =&gt; $P(X \mid Y) = \frac{P(Y \mid X) * P(X)}{P(Y)}$</li>
+        </ol>
+      </li>
+      <li>conditional probability with many events
+        <ul>
+          <li>$P(X \mid Y,Z) = \frac{P(Y,Z \mid X)}{P(Z,Y)} * P(X)$</li>
+          <li>where, $P(Y,Z \mid X) = P(Y \mid X) * P(Z \mid X)$</li>
+          <li>and $P(Z,Y) = [P(Y,Z \mid X) * P(X)] + [P(Y,Z \mid X_{NOT}) * P(X_{NOT})]$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="from-prior-to-updated-posterior-belief">From <strong>prior</strong> to updated <strong>posterior</strong> belief</h2>
+
+<ul>
+  <li>Let’s say there is a hypothesis $\theta$ and some data $Y$ to support/oppose it.
+    <ul>
+      <li>The <strong>prior (prevalence)</strong> $P(\theta)$ the strength of our belief in $\theta$ without the data $Y$.</li>
+      <li>The <strong>posterior (precision)</strong> $P(\theta \mid Y)$ is the strength of our belief in $\theta$ when tha data $Y$ is taken into account.</li>
+      <li>The <strong>likelihood (sensitivity, power)</strong> $P(Y \mid \theta)$ is the probability that the data could be generated by the model with param values $\theta$.</li>
+      <li>The <strong>evidence (marginal likelihood)</strong> $P(Y)$ is the probability of the data according to the model, determined by summing across all possible param values weighted by the strength of belief in those param values.</li>
+      <li>This is a relation between the <strong>prior</strong>/subjective belief (the expert opinion on the hypothesis) $P(\theta)$ and the <strong>posterior</strong>/updated belief $P(\theta \mid Y)$ once there is some data to consider.</li>
+    </ul>
+
+\[P(\theta \mid Y) = \frac{P(Y \mid \theta) * P(\theta)}{P(Y)} = \int \mathrm{d}\theta \ p(Y \mid \theta) \ p(\theta)\]
+  </li>
+  <li>
+    <p>Posterior with two independent events:</p>
+
+    <p>\(P(\theta \mid Y,Z) = \frac{P(Y \mid \theta,Z)}{P(Y \mid Z)}\ *\ P(\theta \mid Z)\)</p>
+    <ul>
+      <li>since $Y$ and $Z$ are independent events =&gt; $P(Y \mid \theta,Z) = P(Y \mid \theta)$</li>
+      <li>the denominator requires attention too: $P(Y \mid Z) = \frac{P(Y,Z)}{P(Z)}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="tables">Tables</h2>
+
+<ul>
+  <li><strong>notes</strong> <em>True/False</em> <em>Positive/Negative</em> here refers to the test result (e.g. <em>False Negative</em> means that the test have been incorrectly negative (should have been positive, and that a sick person without disease have a negative test)</li>
+  <li><strong>LR+</strong> Positive Likelihood ratio: How much the odds of having a disease increase when test is positive</li>
+  <li><strong>LR-</strong> Negative Likelihood ratio: How much the odds of not having a disease increase when test is negative</li>
+  <li><strong>Power</strong> of a binary hypothesis is the probability that a test correctly rejects the $H_0$ when a specific $H_1$ is true =  $P(H_0 = reject  \mid  H_1=true)$.
+<img src="pics/Bayesian_table.png" alt="&quot;bayesian table&quot;" title="bayesian table" /></li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+  <li>Example with a disease with $\theta(disease) = (sick, well)$ and $Y(test) = (positive\ \oplus , negative\ \ominus)$. What is the $Pr$ of having a disease when the test is positive (what is the Precision) given that TP rate (Sensitivity) is 0.99, FP rate (Type I error)= 0.09 and Prevalence is 0.02?</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">test \ disease</th>
+      <th>$\theta = sick$</th>
+      <th>$\theta = well$</th>
+      <th>marginal $P(Y)$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Y = positive $\oplus$</td>
+      <td>0.99*  <code class="language-plaintext highlighter-rouge">0198</code>  0.0198</td>
+      <td>0.09** <code class="language-plaintext highlighter-rouge">0882</code>  0.0882</td>
+      <td><strong>—- <code class="language-plaintext highlighter-rouge">1080</code>  0.1080</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Y = negative $\ominus$</td>
+      <td>0.01   <code class="language-plaintext highlighter-rouge">0002</code>  0.0002</td>
+      <td>0.91   <code class="language-plaintext highlighter-rouge">8918</code>  0.8918</td>
+      <td><strong>—- <code class="language-plaintext highlighter-rouge">8920</code>  0.8920</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>marginal $P(\theta)$</strong></td>
+      <td><strong>1.00 <code class="language-plaintext highlighter-rouge">0200</code> 0.02</strong>***</td>
+      <td><strong>1.00 <code class="language-plaintext highlighter-rouge">9800</code>  0.98</strong></td>
+      <td><strong>—- <code class="language-plaintext highlighter-rouge">10000</code> 1.00</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>* <strong>likelihood</strong> $P(Y\oplus \mid  \theta\ sick)$ = $0.99$ // True Positive Rate</li>
+  <li>** $P(Y\oplus \mid  \theta\ well)$ = $0.09$ // False Positive Rate</li>
+  <li>*** <strong>prior</strong> belief $P(\theta\ sick) = 0.02$</li>
+  <li><strong>evidence</strong> $P(Y\oplus) = P(Y\oplus, \theta\ sick) + P(Y\oplus, \theta\ well)$ = $(0.99<em>0.02) + (0.09</em>0.98) = 0.1080$</li>
+  <li><strong>posterior</strong> $P(\theta\ sick  \mid  Y\oplus) = P(Y\oplus  \mid  \theta\ sick) \ / \ P(Y\oplus) * P(\theta\ sick)$ = $0.99\ /\ 0.108 * 0.02 = 0.18333$</li>
+  <li>
+    <p><strong>conditional</strong> $P(\theta\ sick  \mid  Y\oplus) = P(\theta\ sick\ , \ Y\oplus) \ / \ P(Y\oplus)$ = $0.0198\ /\ 0.108 = 0.18333$</p>
+  </li>
+  <li>Example with coin flipping: prior belief of getting heads is 0.5 half the time (50%) with chances of skewness (0.25 and 0.75) the other half of the time(25% of the time it is 0.25, and 25% of the time it is 0.75); testing data shows 3 heads out of 12 flips; =&gt; what is the probability of getting a head on a given flip?
+    <ul>
+      <li><strong>prior</strong> is  $\theta = P(heads) = 0.5$ half the time, $0.25$ and $0.75$ the other half of the time.</li>
+      <li><img src="pics/Bayesian_prior.png" alt="&quot;prior&quot;" title="prior" />
+        <ul>
+          <li>Note: for those beliefs, the predicted probability for heads is (using the evidence formula):
+            <ul>
+              <li>$= P(Y=heads \mid \theta=0.25) * P(\theta=0.25)$</li>
+              <li>$+ P(Y=heads \mid \theta=0.5) * P(\theta=0.5)$</li>
+              <li>$+ P(Y=heads \mid \theta=0.75) * P(\theta=0.75)$</li>
+              <li>$= (0.25<em>0.25)+(0.5</em>0.5)+(0.25*0.75) = 0.5$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>likelihood</strong> is $P(Y \mid  \theta) = \theta^3 \ (1-\theta)^{9}$</li>
+      <li><img src="pics/Bayesian_likelihood.png" alt="&quot;likelihood&quot;" title="likelihood" />
+        <ul>
+          <li>for $P(\theta=heads)=0.25$ the likelihood is $0.25^3 * (1-0.25)^9 = 0.0156 * 0.075 = 0.0012$</li>
+          <li>for $P(\theta=heads)=0.5$ the likelihood is $0.5^3 * (1-0.5)^9 = 0.125 * 0.002 = 0.0002$</li>
+          <li>for $P(\theta=heads)=0.75$ the likelihood is $0.75^3 * (1-0.75)^9 = 0.4219 * 3.8147E-06 = 1.60933E-06$</li>
+        </ul>
+      </li>
+      <li><strong>evidence</strong> is $P(Y=heads) = \sum_\theta P(Y=heads \mid  \theta) \ P(\theta)$ // sum of all joint probabilities
+        <ul>
+          <li>$= P(Y=heads \mid \theta=0.25) * P(\theta=0.25)$</li>
+          <li>$+ P(Y=heads \mid \theta=0.5) * P(\theta=0.5)$</li>
+          <li>$+ P(Y=heads \mid \theta=0.75) * P(\theta=0.75)$</li>
+          <li>$= (0.0012<em>0.25)+(0.0002</em>0.5)+(1.60933E-06*0.75) = 0.000417$</li>
+        </ul>
+      </li>
+      <li><strong>posterior</strong> is: $P(\theta \mid  Y=heads) = \frac{P(Y=heads \mid theta) * P(\theta)} {P(Y=heads)}$</li>
+      <li><img src="pics/Bayesian_posterior.png" alt="&quot;posterior&quot;" title="posterior" />
+        <ul>
+          <li>for $\theta = 0.25$ the posterior is $0.0012 * 0.25 / 0.000417 = 0.704$</li>
+          <li>for $\theta = 0.5$ the posterior is $0.0002 * 0.5 / 0.000417 = 0.293$</li>
+          <li>for $\theta = 0.75$ the posterior is $1.60933E-06 * 0.75 / 0.000417 = 0.0029$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="bibliography">Bibliography</h2>
+
+<ul>
+  <li>Kruschke - Doing Bayesian data analysis - 2010</li>
+  <li>based on Kruschke:
+    <ul>
+      <li>http://tinyheero.github.io/2016/03/20/basic-prob.html</li>
+      <li>http://tinyheero.github.io/2016/04/21/bayes-rule.html</li>
+      <li>http://tinyheero.github.io/2017/03/08/how-to-bayesian-infer-101.html</li>
+    </ul>
+  </li>
+  <li>https://commons.wikimedia.org/wiki/File:Preventive_Medicine_Statistics_Sensitivity_TPR,_Specificity_TNR,_PPV,_NPV,_FDR,_FOR,_ACCuracy,_Likelihood_Ratio,_Diagnostic_Odds_Ratio_2_Final.png</li>
+  <li>https://eli.thegreenplace.net/2018/conditional-probability-and-bayes-theorem/</li>
+</ul>
+
+
+
+
+<ul class="bibliography"></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

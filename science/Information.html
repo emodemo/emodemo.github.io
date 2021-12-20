@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Information | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Information" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/science/Information.html" />
+<meta property="og:url" content="/science/Information.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Information" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Information.html","headline":"Information","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Information</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="entropy">Entropy</h2>
+
+<ul>
+  <li><a class="citation" href="#statquest">(Starmer, n.d.)</a></li>
+  <li>
+    <p>Entropy… basis for relative entropy (KL distance), Cross entropy, Mutual information, dimension reduction algorithms (t-SNE, UMAP), classification trees, etc.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th> </th>
+          <th style="text-align: center">heads</th>
+          <th style="text-align: center">tails</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>probability</td>
+          <td style="text-align: center">0.9</td>
+          <td style="text-align: center">0.1</td>
+        </tr>
+        <tr>
+          <td>surprise</td>
+          <td style="text-align: center">0.15</td>
+          <td style="text-align: center">3.32</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><strong>Surprise</strong> of observing an event: In general it is the inverse of the probability $1/P(x)$. However, due to calculation $100%$ or $0%$ , the $log(1/P(x))$ is used. For two items $log_{2}$ is used.</li>
+      <li>To caclulate the total surprise for a sequence of events (combined), just sum their individual surprises. It works due to log transofrmating multiplication to summation. Example: $heads, heads, tails = 0.15 + 0.15 + 3.32 = 3.62$</li>
+      <li>Example 2: Surprise after flipping a coin 100 times (do not know how many $heads$ and $tails$):
+\((0.9 \times 100) \times 0.15 + (0.1 \times 100) \times 3.32 = 46.7\)</li>
+      <li>Then divide per 100 to get the average surprise per coin toss = $0.467$.</li>
+      <li>Hence <strong>Entropy</strong> is the <strong>Expected Value</strong> of the <strong>Surprise</strong>.</li>
+      <li>Cancelling out the $100$ leaves us with,
+\(E(Surprise) = (0.9 \times 0.15) + (0.1 \times 3.32) = 0.47\)
+\(E(Surprise) = \sum x\ P(X=x),\)
+\(\quad \text{where } x \text{ is a specific value for surprise and its probability is } P(X=x)\)</li>
+      <li>So plugin the equation for surprise for $x$ and a probability $p(x)$ gives:
+\(Entropy = \sum log(\frac{1}{p(x)})\ p(x)\)</li>
+      <li>However, in the wild, the formula is a bit different: 1) swap the probability and the surprise, 2) use log properties to convert fraction into subtraction, 3) $log(1) = 0$, 4) put the $-$ sign out of the summation:
+\(Entropy = \sum log(\frac{1}{p(x)})\ p(x) =\)
+\(= \sum p(x)\ [log(1) - log(p(x)] =\)
+\(= \sum p(x)\ [0 - log(p(x)] =\)
+\(= \sum -p(x)\ log(p(x)) =\)
+\(= -\sum p(x)\ log(p(x))\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="divergence-and-distance">Divergence and Distance</h2>
+
+<ul>
+  <li>Kullback-Leibler distance is typicall used in information-theoretic, or even Bayesian settings, to measure information change between distributions before and after applying some inference. It is not a distance in the typical (metric) sense, because of lack of symmetry and triangle inequality, and so is used in places where directionality is meaninful. <a href="https://stats.stackexchange.com/questions/9311/kullback-leibler-vs-kolmogorov-smirnov-distance">Venkatasubramanian</a>
+    <ul>
+      <li>more popular in ML (a.k.a. information gain) as it is differentiable</li>
+    </ul>
+  </li>
+  <li>Kolmogorov-Smirnov is typicall used in the context of a non-parametric test. It is rarely used as a generic “distance between distributiosn”, where the $l_1$ distance, the Jensen-Shannon, and oter are more common. <a href="https://stats.stackexchange.com/questions/9311/kullback-leibler-vs-kolmogorov-smirnov-distance">Venkatasubramanian, and others too</a>
+    <ul>
+      <li>It is symmetric. Can be used as an evaluation metric that looks at greatest separation between two CDFs.</li>
+    </ul>
+  </li>
+  <li>Jensen-Shannon divergence (a.k.a. information radius IRad, or total divergnce to the average) measures similarities between two PDFs. Based on Kullback-Leibler distance, but symmetric and always has a finite value.
+    <ul>
+      <li>Its squre root is often referred as Jensen-Shannon distance.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="statquest">Starmer, J. <i>StatQuest!</i> https://statquest.org/</span></li></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

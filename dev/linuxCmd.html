@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Linux command line cheat sheet | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v4.2.1" />
 <meta property="og:title" content="Linux command line cheat sheet" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Linux command line cheat sheet" />
 <script type="application/ld+json">
-{"headline":"Linux command line cheat sheet","description":"emodemo’s notes on development, fiction, science and other stuff.","@type":"WebPage","url":"/dev/linuxCmd.html","author":{"@type":"Person","name":"emodemo"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/linuxCmd.html","headline":"Linux command line cheat sheet","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
     MathJax = {
@@ -102,6 +102,7 @@
   <li><code class="language-plaintext highlighter-rouge">fg</code> bring the most recent suspended job to the foreground</li>
   <li><code class="language-plaintext highlighter-rouge">fg[job]</code> bring particular suspended job to the foreground</li>
   <li><code class="language-plaintext highlighter-rouge">lsof</code> list of files opened by processes.</li>
+  <li><code class="language-plaintext highlighter-rouge">cat /proc/&lt;PID_ID&gt;/environ</code> see prcocess environment</li>
 </ul>
 
 <h2 id="io-redirection">io redirection</h2>
@@ -206,6 +207,21 @@
   <li><code class="language-plaintext highlighter-rouge">export LD_DEBUG=bindings,symbols prog</code> symbol relocation process, locate any dependency of <code class="language-plaintext highlighter-rouge">prog</code>.</li>
   <li><code class="language-plaintext highlighter-rouge">*. program.sh</code> run a program and let the set environment stays in the terminal</li>
   <li><code class="language-plaintext highlighter-rouge">*./program.sh</code> run a program without letting the set environment to stay in the terminal. May require executable permissions</li>
+</ul>
+
+<h2 id="git">git</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git add &lt;folder&gt;/*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git reset --hard HEAD~1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git push --force</code></li>
+</ul>
+
+<h3 id="git-conflicts">git conflicts</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git checkout &lt;branch</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git pull origin master</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git commit</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git push origin HEAD</code></li>
 </ul>
 
 <h2 id="ubuntu-on-hyperv">Ubuntu on HyperV</h2>

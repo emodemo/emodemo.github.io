@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Functional | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Functional" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/Functional.html" />
+<meta property="og:url" content="/dev/Functional.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Functional" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/Functional.html","headline":"Functional","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Functional</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="functions">Functions</h2>
+
+<p><img src="pics/function_domain_range.svg" alt="function" /></p>
+<ul>
+  <li>Exactly 1 to 1 mapping from A to B, where the valid inputs are called  $\color{red}{domain}$ and the valid outputs $\color{blue}{range}$.</li>
+  <li>Often the exact $\color{blue}{range}$ of a function is not known, but one coulde describe a set, which contains the range - the $\color{blue}{codomain}$.</li>
+</ul>
+
+<h2 id="functional-programming">Functional Programming</h2>
+
+<ul>
+  <li>based on <a class="citation" href="#sinclair2019functional">(Sinclair, 2019)</a></li>
+  <li>An <strong>algebraic structure</strong> on a set <strong>A</strong> is a collection of finitary operations on <strong>A</strong>. The set <strong>A</strong> together with this <strong>algebraic strcuture</strong> is called <strong>algebra</strong>.
+    <ul>
+      <li>monoid, aplicative, semigroup, lattice, fucntor, monad - these are all <strong>allgebraic strucutres</strong>.</li>
+      <li><strong>Algebraic structures</strong> represent templates for solving a problem (like design patterns), and have their basis in mathematics (unlike design patterns). So they tend to be formely defined, and to conform to specific laws.</li>
+      <li>Laws do not make algebraic structures more restricitve, but rather give allow making dedcutions and assumptions on how the code works.</li>
+      <li>More often the explanaints of an <strong>algebraic structure</strong> are not about the problem it solves, but about the loaws it conforms to.</li>
+      <li>It is not until <em>instances</em> like <code class="language-plaintext highlighter-rouge">Maybe</code>, <code class="language-plaintext highlighter-rouge">Either</code> or <code class="language-plaintext highlighter-rouge">Effect</code> are created, that anything useful can be done.</li>
+    </ul>
+  </li>
+  <li><strong>TypeClasses</strong> are used to implement <strong>algebraic strucutres</strong>. They enable <em>parametric polymorphism</em>, which allow the use of the same <em>function</em> with different types, even when the exact type is not known upfront.</li>
+  <li><strong>Algebraic Data Types</strong> - it is about the possibilites.
+    <ul>
+      <li><strong>Product</strong> (AND): a class conainting 3 variables (<code class="language-plaintext highlighter-rouge">a</code>,<code class="language-plaintext highlighter-rouge">b</code>,<code class="language-plaintext highlighter-rouge">c</code>), where <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> can have 2 values (e.g. boolean) and <code class="language-plaintext highlighter-rouge">c</code> can have 10 values, the calss can hace $2x2x10=40$ possibilities. In reality <strong>Product</strong> classes may have infinitely many possibilities.</li>
+      <li><strong>Sum</strong> (OR): a class representing a direction with four values <code class="language-plaintext highlighter-rouge">east</code>, <code class="language-plaintext highlighter-rouge">west</code>, <code class="language-plaintext highlighter-rouge">south</code> and <code class="language-plaintext highlighter-rouge">nord</code> can have only one of these four direction. Hence all possibilities are $1+1+1+1=4$. An <code class="language-plaintext highlighter-rouge">Either</code> can be only <code class="language-plaintext highlighter-rouge">Left</code> or <code class="language-plaintext highlighter-rouge">Right</code>, but not both.</li>
+      <li>Generaly <strong>Sum</strong> have more limited range of values, and it can be very useful to know the precise number of combination. as it is a way of making assertions about the code with mathematical certainty. Therefore they are useful to model the business domain.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="categories">Categories</h2>
+
+<h3 id="laws">Laws</h3>
+
+<p><strong>identity law</strong> <code class="language-plaintext highlighter-rouge">combine(x, empty) = combine(empty, x) = x</code>, example $a + 0 = a = 0 + a$<br />
+<code class="language-plaintext highlighter-rouge">fa.map(x =&gt; x) = fa</code><br />
+<strong>composition law</strong> <code class="language-plaintext highlighter-rouge">u.map(x =&gt; g(f(x))) = u.map(f).map(g) = fa.map(f.andThen(g))</code><br />
+<strong>associativity</strong> <code class="language-plaintext highlighter-rouge">combine(combine(a, b), c) = combine(a, combine(b,c))</code>, example:  $(a + b) + c = a + (b + c)$</p>
+
+<h3 id="type-constructors-and-higher-kinded-types">Type constructors and Higher Kinded Types</h3>
+
+<p><a href="https://github.com/mariogalic/scala-cats-examples/blob/master/src/main/scala/example/TypeConstructor.scala">example here</a></p>
+
+<h3 id="types-as-per-scala-cats-documentation">Types (as per Scala Cats documentation)</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Semigroup</code> has an $\color{green}{associative}$ binary operation <code class="language-plaintext highlighter-rouge">combine</code>.
+A common example is the <code class="language-plaintext highlighter-rouge">Integer</code> semigroup with the operation <code class="language-plaintext highlighter-rouge">+</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">SemigroupK</code> (K for Kind) allows to define the combine for type constructors. So, for example, whereas you can find a <code class="language-plaintext highlighter-rouge">Semigroup</code> for types which are fully specified like <code class="language-plaintext highlighter-rouge">Int</code> or <code class="language-plaintext highlighter-rouge">List[Int]</code> or <code class="language-plaintext highlighter-rouge">Option[Int]</code>, you will find SemigroupK for type constructors like <code class="language-plaintext highlighter-rouge">List</code> and <code class="language-plaintext highlighter-rouge">Option</code>.
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Semigroup</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">def</span> <span class="nf">combine</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">A</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Semigroup</span><span class="o">[</span><span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]].</span><span class="py">combine</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">),</span> <span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">))</span> <span class="o">==</span>
+<span class="nc">SemigroupK</span><span class="o">[</span><span class="kt">List</span><span class="o">].</span><span class="py">combineK</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">),</span> <span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">));</span>
+<span class="c1">// List[Int] = List(1, 2, 3, 4, 5, 6)</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Monoid</code> extends <code class="language-plaintext highlighter-rouge">Semigroup</code> and has an empty value conforming to the $\color{green}{identity}$ law for the <code class="language-plaintext highlighter-rouge">combine</code> operation. Having an <code class="language-plaintext highlighter-rouge">empty</code> allows to write a generic <code class="language-plaintext highlighter-rouge">combineAll</code> operation. A common examples are <code class="language-plaintext highlighter-rouge">Integer</code> with <code class="language-plaintext highlighter-rouge">0</code> and <code class="language-plaintext highlighter-rouge">String</code> with <code class="language-plaintext highlighter-rouge">""</code>.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="nc">extends</span> <span class="nc">Semigroup</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">empty</span><span class="k">:</span> <span class="kt">A</span>
+<span class="o">}</span>
+<span class="k">def</span> <span class="nf">combineAll</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span> <span class="nv">list</span><span class="o">.</span><span class="py">foldRight</span><span class="o">(</span><span class="nv">m</span><span class="o">.</span><span class="py">empty</span><span class="o">)(</span><span class="nv">m</span><span class="o">.</span><span class="py">combine</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">first</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">second</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="nf">tuple2Instance</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">A</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">B</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">B</span><span class="o">])</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]]</span> <span class="k">=</span>
+  <span class="k">new</span> <span class="nc">Monoid</span><span class="o">[</span><span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">empty</span><span class="k">:</span> <span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Pair</span><span class="o">(</span><span class="nv">A</span><span class="o">.</span><span class="py">empty</span><span class="o">,</span> <span class="nv">B</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span>
+
+    <span class="k">def</span> <span class="nf">combine</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">],</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">])</span><span class="k">:</span> <span class="kt">Pair</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]</span> <span class="k">=</span>
+        <span class="nc">Pair</span><span class="o">(</span><span class="nv">A</span><span class="o">.</span><span class="py">combine</span><span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">first</span><span class="o">,</span> <span class="nv">y</span><span class="o">.</span><span class="py">first</span><span class="o">),</span> <span class="nv">B</span><span class="o">.</span><span class="py">combine</span><span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">second</span><span class="o">,</span> <span class="nv">y</span><span class="o">.</span><span class="py">second</span><span class="o">))</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">intAdditionMonoid</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Monoid</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">empty</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">combine</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="o">}</span>
+
+<span class="k">def</span> <span class="nf">combineAll</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">A</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">A</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span> <span class="nv">list</span><span class="o">.</span><span class="py">foldRight</span><span class="o">(</span><span class="nv">A</span><span class="o">.</span><span class="py">empty</span><span class="o">)(</span><span class="nv">A</span><span class="o">.</span><span class="py">combine</span><span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Functor</code> a type class that abstract over type constructor that can be mapped over (e.g. <code class="language-plaintext highlighter-rouge">List</code>, <code class="language-plaintext highlighter-rouge">Option</code>, <code class="language-plaintext highlighter-rouge">Future</code>), where it must obeys $\color{green}{identity}$ and $\color{green}{composition}$ laws.<br />
+The <code class="language-plaintext highlighter-rouge">F</code> is often reffered as <em>effect</em> or <em>computational context</em>. Different effects will abstract away different behaviors with respect to fundamental functions like map. For instance, <code class="language-plaintext highlighter-rouge">Option</code>’s effect abstracts away potentially missing values, where map applies the function only in the <code class="language-plaintext highlighter-rouge">Some</code> case but otherwise threads the <code class="language-plaintext highlighter-rouge">None</code> through.
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Functor</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]]</span> <span class="o">{</span>
+<span class="k">def</span> <span class="nf">map</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">fa</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">A</span><span class="o">])(</span><span class="n">f</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Occasionally it is a bit difficult to work with nested data types like <code class="language-plaintext highlighter-rouge">List[Option[A]]</code>. But <code class="language-plaintext highlighter-rouge">Functor</code>s can <code class="language-plaintext highlighter-rouge">compose</code>, which means if <code class="language-plaintext highlighter-rouge">F</code> and <code class="language-plaintext highlighter-rouge">G</code> have <code class="language-plaintext highlighter-rouge">Functor</code> instances, then so does <code class="language-plaintext highlighter-rouge">F[G[_]]</code>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listOption</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">None</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+<span class="c1">// listOption: List[Option[Int]] = List(Some(1), None, Some(2))</span>
+<span class="nc">Functor</span><span class="o">[</span><span class="kt">List</span><span class="o">].</span><span class="py">compose</span><span class="o">[</span><span class="kt">Option</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="n">listOption</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="c1">// res: List[Option[Int]] = List(Some(2), None, Some(3))</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>TODO!!!!</strong> <code class="language-plaintext highlighter-rouge">Applicative</code> adds <code class="language-plaintext highlighter-rouge">pure</code> and <code class="language-plaintext highlighter-rouge">ap</code> to <code class="language-plaintext highlighter-rouge">Functors</code>. <code class="language-plaintext highlighter-rouge">pure</code> wraps the value into the type constructor - for <code class="language-plaintext highlighter-rouge">Option</code> this could be <code class="language-plaintext highlighter-rouge">Some(_)</code>, for <code class="language-plaintext highlighter-rouge">Future</code> <code class="language-plaintext highlighter-rouge">Future.successful</code>, and for <code class="language-plaintext highlighter-rouge">List</code> a singleton list.<br />
+If we view <code class="language-plaintext highlighter-rouge">Functor</code> as the ability to work with a single effect, <code class="language-plaintext highlighter-rouge">Applicative</code> encodes working with multiple independent effects.
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Applicative</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]]</span> <span class="nc">extends</span> <span class="nc">Functor</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">def</span> <span class="nf">ap</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">ff</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">A</span> <span class="k">=&gt;</span> <span class="kt">B</span><span class="o">])(</span><span class="n">fa</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="nf">pure</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">a</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="nf">map</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">fa</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">A</span><span class="o">])(</span><span class="n">f</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="nf">ap</span><span class="o">(</span><span class="nf">pure</span><span class="o">(</span><span class="n">f</span><span class="o">))(</span><span class="n">fa</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Apply</code> is a weakened <code class="language-plaintext highlighter-rouge">Applicative</code> providing only the <code class="language-plaintext highlighter-rouge">ap</code> operation. Hence, in Cats, <code class="language-plaintext highlighter-rouge">Apply extends Functor {def ap ...}</code> and <code class="language-plaintext highlighter-rouge">Applicative extends Apply {def pure ...}</code>.</li>
+  <li><strong>TODO!!!!</strong> <code class="language-plaintext highlighter-rouge">Monad extends Applicative</code></li>
+  <li><strong>TODO!!!!</strong> <code class="language-plaintext highlighter-rouge">Parallel</code> … In short, <code class="language-plaintext highlighter-rouge">Monads</code> describe dependent computations and <code class="language-plaintext highlighter-rouge">Applicatives</code> describe independent computations.</li>
+</ul>
+
+<h3 id="instances">Instances</h3>
+
+<ul>
+  <li>Maybe, Either, Effect, Future, Promise</li>
+</ul>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="sinclair2019functional">Sinclair, J. (2019). <i>Things I wish someone had explaind about functional programming</i>. https://jrsinclair.com/articles/2019/algebraic-structures-what-i-wish-someone-had-explained-about-functional-programming/</span></li></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

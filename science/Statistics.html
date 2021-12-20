@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Statistics | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Statistics" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/science/Statistics.html" />
+<meta property="og:url" content="/science/Statistics.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Statistics" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Statistics.html","headline":"Statistics","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Statistics</h1>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<h2 id="scales">Scales</h2>
+
+<ul>
+  <li><strong>nominal</strong> (categorical without order): A blue, B red, C green … (no meaningful relation between the numbers)</li>
+  <li><strong>rank</strong> (categorical with order): A junior, B middle, C senior, D principal … (B &gt; A)</li>
+  <li><strong>intervals</strong> (numerical without natural zero):  A $10^\circ$, B $20^\circ$, C $30^\circ$ … (B &gt; A, B-A = D-C), allows +/- operations.</li>
+  <li><strong>ratio</strong> (numerical with natural zero):  A 10km., B 20km. C 30km. (B &gt; A, B is twice faster than A), allows +/- and */div operations</li>
+</ul>
+
+<h2 id="descriptions">Descriptions</h2>
+
+<ul>
+  <li><strong>dispersion</strong> and <strong>shape</strong> is the extent to which a distribution is stretched and squeezed
+    <ul>
+      <li><strong>mean</strong> where population mean is $\mu$ and sample mean $\overline {x}$, calculated the same way.</li>
+      <li><strong>variance</strong>: $\displaystyle {Var} (X)=\frac {1}{n} \sum _{i=1}^n (x_i - \mu )^2 = \sum _{i=1}^n p_i \times (x_i - \mu )^2$
+        <ul>
+          <li>for continuous var $\displaystyle \int \mathrm{d}x \ p(x) \ (x-\mu)^2$, where $f(x)$ is the PDF</li>
+          <li>for sample variance use $1/(n-1)$ instead of $1/n$, where the $-1$ is to compensatione for sample varaince being always samller than population varaince.</li>
+          <li>co-variance classify positive, negative and no relationship. But tells nothing about the slope itself (i.e. different values could show the same correlation).</li>
+        </ul>
+      </li>
+      <li>sample SD = $\sqrt {varaince} = \displaystyle \sqrt \frac {\sum _{i=1}^n (x_i - \overline x)^2}{n-1}$. In the general case we use the “sample” varaince and SD, not the population one (i.e divide by $n-1$ instead of $n$).</li>
+      <li>inter-quartile range $Q_{3}-Q_{1}$ or $75^{th}$ and $25^{th}$ percentiles.</li>
+      <li>coefficient of variation (or relative SD) = $\displaystyle {\frac {\sigma }{\mu }}$</li>
+      <li>$standard\ error = sample\ SD/\sqrt{sample\ N}$</li>
+      <li>Moments</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="means">Means</h2>
+
+<h3 id="pythagorean">Pythagorean</h3>
+
+<ul>
+  <li><strong>arithmetic</strong> - good for data with linear relationship $\displaystyle \frac {1}{n} \sum _{i=1}^n a_i = \frac {a_1 + a_2 + \cdots +a_n}{n}$
+    <ul>
+      <li>$\mu = E[x] = \sum_x p(x)x = \int \mathrm{d}x \ p(x)x$, where $E[x]$ is expected value</li>
+    </ul>
+  </li>
+  <li><strong>geometric</strong> - good for data with multiplicative relationship : $\displaystyle \left(\prod _{i=1}^n a_i \right)^{\frac 1 n} = \sqrt[n] {(a_1 \times a_2 \times \cdots \times a_n)}$
+    <ul>
+      <li>Data is of different scales, but then we no longer have an interpretative scale. Geometrical mean is unit-less.</li>
+      <li>The above formulae cannot accommodate with inputs $\leq 0$, due to the multiplication part.</li>
+      <li>
+        <ul>
+          <li>useful when comparing items with different ranges (e.g. $a_1$ is from 0 to 1 and $a_2$ is from 0 to 100).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>harmonic</strong> - good for ratios $[(i_1^{-1} + i_{…}^{-1} + i_n^{-1})/n]^{-1}$, that is to say the the harmonic mean is the reciprocal of the arithmetic mean of reciprocals.
+    <ul>
+      <li>The above formulae cannot accommodate with inputs $\leq 0$, due to the division part.</li>
+      <li>remember from primary school that the reciprocal of $n$ is $1/n$, and for $y/x$ it is $x/y$ (i.e. $1 - y/x = x/y$). Anther way to think of reciprocal is about two numbers that equal 1 when multiplied together.</li>
+      <li>$5 \div 3/7 = 5/1 * 7/3 = 35/3$</li>
+      <li>Example: trip from $A$ to $B$ and back: $A\to B\ 30\ km/h$, $B\to A\ 10\ km/h$</li>
+      <li>Solution with <strong>arithmetic</strong> mean requires to use the time spent:
+        <ol>
+          <li>$A\to B\ : 30\ km\ per\ 60\ min =&gt; 1/2\ km\ per\ min =&gt; 5\ km\ at\ 1/2\ speed = 10\ mins$</li>
+          <li>$B\to A\ : 10\ km\ per\ 60\ min =&gt; 1/6\ km\ per\ min =&gt; 5\ km\ at\ 1/6\ speed = 30\ mins$</li>
+          <li>Total time = $10 + 30 = 40\ mins$, so $A\to B$ accounts for $25\%$ of the total time and $B\to A$ accounts for $75\%$ of total time.</li>
+          <li>Weighted arithmetic mean = $(30\ km/h * 0.25) + (10\ km/h * 0.75) = 15km/h$</li>
+        </ol>
+      </li>
+      <li>Solution with <strong>harmonic</strong> mean:
+        <ul>
+          <li>arithmetic mean of reciprocals = $1/30 + 1/10 = (2/15) / 2 =  1/15$</li>
+          <li>reciprocal of the arithmetic mean = $1 \div 1/15 = 1/1 * 15/1 = 15$</li>
+        </ul>
+      </li>
+      <li>(another way of typing it) : $\displaystyle \frac {n}{\sum \limits _{i=1}^n \frac {1}{x_i}} = \frac {n}{\frac {1}{x_1} + \frac {1}{x_2} +\cdots + \frac {1}{x_n}}$</li>
+      <li>useful for situations when the average of rates is desired.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="descriptive">Descriptive</h3>
+
+<ul>
+  <li><strong>median</strong></li>
+  <li><strong>mode</strong></li>
+  <li><strong>skewness</strong></li>
+  <li><strong>kurtosis</strong></li>
+</ul>
+
+<h3 id="generalized">Generalized</h3>
+
+<h3 id="with-specific-distributions">With specific distributions</h3>
+
+<h3 id="with-specific-geometries">With specific geometries</h3>
+
+<ul>
+  <li><strong>Freshet mean</strong></li>
+</ul>
+
+<h2 id="null-hypothesis">Null hypothesis:</h2>
+
+<ul>
+  <li>Elementary statistial inference does not “accept” nor “confirm”.
+    <ol>
+      <li>Reject the null hypothesis.</li>
+      <li>Fail to reject the null hypothesis.</li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="errors-and-residuals--when-comparing-to-a-value">Errors and residuals // when comparing to a value</h2>
+
+<ul>
+  <li><strong>error</strong> is the deviation of the observed value from the true value (the population mean).
+    <ul>
+      <li>$e_i = X_i - \mu$
+        <ul>
+          <li>The expected value, being the mean of the entire population, is typically unobservable, and hence the statistical error cannot be observed either.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>residual</strong> (fitting deviation) is the deviation of the observed value from the estimated value (the sample mean).
+    <ul>
+      <li>$e_r = X_r - \bar {X}$</li>
+    </ul>
+  </li>
+  <li><strong>BIASES</strong> and other uses:
+    <ul>
+      <li>SSE (sum of square errors or residuals) refers to the residual sum of squares (SSR) of a regression.</li>
+      <li>MSE and RMSE refer to the amount by which the values predicted by an estimator differ from the quantities being estimated</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="moments">Moments</h2>
+
+<ul>
+  <li>TODO: ++ https://en.wikipedia.org/wiki/Moment_(mathematics)</li>
+  <li>https://en.wikipedia.org/wiki/Standardized_moment</li>
+  <li>https://en.wikipedia.org/wiki/L-moment
+    <ul>
+      <li>https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm</li>
+      <li>The primary use of probability weighted moments and L-moments is in the estimation of parameters for a probability distribution. Estimates based on probability weighted moments and L-moments are generally superior to standard moment-based estimates. The L-moment estimators have some desirable properties for parameter estimation. In particular, they are robust with respect to outliers and their small sample bias tends to be small. L-moment estimators can often be used when the maximum likelihood estimates are unavailable, difficult to compute, or have undesirable properties. They may also be used as starting values for maximum likelihood estimates.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="pdfs">PDFs</h2>
+
+<ul>
+  <li>Probabilities are the areas under a fixed curve $p(data \mid distribution)$</li>
+  <li>Likelihoods are the y-axis values for a fixed point with distributions that can be moved $L(distribution \mid data)$</li>
+  <li>TODO: ++ https://en.wikipedia.org/wiki/Kernel_density_estimation</li>
+</ul>
+
+<h2 id="power-and-sample-size">Power and Sample Size</h2>
+
+<ul>
+  <li>Power is the probability that we will corectly reject the null hypothesis (e.g. correctly get a small $p$ value). Commonly denoted as $1 - \beta$ (a.k.a. true positive), where $\beta$ is the probability of type II error (a.k.a. false negative).
+    <ul>
+      <li>$\alpha$ is the probability of false positive, and $1 - \alpha$ us true negative</li>
+    </ul>
+  </li>
+  <li>To do a power calculation, one needs 2 out of 3 : effect szie, data variation and sample size.
+    <ul>
+      <li>If there are is a preliminary data use it for effect size and data variation.</li>
+      <li>if no preliminary data is available: do 3 replicas, look for a 2 fold difference and see how much variation will gice a good power. If vraintion is small increase sample size or effect size.</li>
+      <li>for some fata there is already calculated variantion. So either plugin the wanted effect size and determine the sample size, or vice-versa.</li>
+    </ul>
+  </li>
+  <li>A simple way for power calculaton:
+    <ul>
+      <li>choose a good power between 0 and 1, often 0.8 (e.g. 80% of correctly rejecting the null hypothesis)</li>
+      <li>choose a good significance threshold $\alpha$ e.g 0.05</li>
+      <li>calculate effect size $d$</li>
+      <li><a href="http://powerandsamplesize.com/">online calculators</a></li>
+    </ul>
+  </li>
+  <li><a href="http://www.3rs-reduction.co.uk/html/6__power_and_sample_size.html">Power and Sample Size</a></li>
+  <li><a href="http://www.3rs-reduction.co.uk/html/main_menu.html">Power and Sample Size - Main Menu</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Power_of_a_test">Power of a test (wiki)</a> and <a href="https://en.wikipedia.org/wiki/Predictive_probability_of_success">Predictive probability of success (wiki)</a></li>
+</ul>
+
+<h2 id="survival-function--analysis">Survival function / analysis</h2>
+
+<ul>
+  <li>In the general case the survival function = 1 - CDF.</li>
+</ul>
+
+<h2 id="scaling-and-normalizing">Scaling and Normalizing</h2>
+
+<ul>
+  <li>In scaling the range of the distributed data is changed, but shape and property stays the same (i.e. fit data between min-max range).
+    <ul>
+      <li>simple scaling $X_{new} = X_{old} / X_{max}$</li>
+      <li>min max scaling $X_{new} = (X_{old}-X_{min}) / (X_{max}-X_{min})$</li>
+    </ul>
+  </li>
+  <li>In normalizing the shape of the distributed data is changed.
+    <ul>
+      <li>In the general case it is transformed to normal distribution.</li>
+      <li>referred also as Standardization.</li>
+      <li>Z score - how far away is an item from the mean.</li>
+      <li>Box-Cox normalization</li>
+      <li>T-Scores…</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="expected-value">Expected value</h2>
+
+<ul>
+  <li>
+    <p><a class="citation" href="#statquest">(Starmer, n.d.)</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th> </th>
+          <th style="text-align: center"> </th>
+          <th style="text-align: center"> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>probability</td>
+          <td style="text-align: center">0.17</td>
+          <td style="text-align: center">0.83</td>
+        </tr>
+        <tr>
+          <td>outcome</td>
+          <td style="text-align: center">-1</td>
+          <td style="text-align: center">1</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Expected values is the sum of each outcome $x$ times the probability of observing it $P(X=x)$.
+\(E(X) = (-1 \times 0.17)+(1 \times 0.83) = 0.66 = \sum x\ P(X=x)\)</li>
+  <li><strong>(with exponential distribution below)</strong> Probability of meeting someone.
+    <ul>
+      <li>Meet someone in 10 secondes, then calculate the AUC between 0 and 10 is $\displaystyle \int_0^{10} \lambda e^{-\lambda x} = 0.39$ or between 25 and 30 seconds $\displaystyle \int_{25}^{30} \lambda e^{-\lambda x}$</li>
+      <li>Note: total AUC is 1.</li>
+      <li>Alternatively, the probabilitu of meeting someone in the first 10 seconds is approximately the width of the rectangle 0 to 10, which is $(10-0)=10$ times its height.
+        <ul>
+          <li>to find the height, find the y-xais coordinate where the top edge of the reactange intersects the curve (e.g. when time = 5) : $f(X=5, \lambda=0.05)= \lambda e^{-\lambda x} = 0.05 e^{-0.05 \times 5} = 0.04$.</li>
+          <li>meeting someone between 0 and 10 secs = Area = hieght * width = $0.04 \times 10 = 0.04$, compared to $0.39$ calculated above.</li>
+        </ul>
+      </li>
+      <li>Then do this for each 10 seconds interval.</li>
+      <li>Then put these into the equation for discrete outcomes, to get how much, on average, one must wait to meet someone. Let’s say the result is 22.</li>
+      <li>Then do these for 5 second intervals (rectangles will double). Let’s say the result is 21.8.</li>
+      <li>Then go for 0 second interval an infinite number of rectangles, then we are not approximationg, but calculating exactly.</li>
+      <li>So the height at each point is the likelihood at that point and the width can be written as $\Delta x$ And when the number of rectangles $n$ goes to $\infty$, than $\Delta x$ goes to $0$ one ends up with an integral.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>\(\lim_{n \rightarrow \infty} E(X) = \sum_{i=1}^{n=\infty} x\ P(X=x) =\)
+\(= \sum_{i=1}^{n=\infty} width \times height = \lim_{n \rightarrow \infty} \sum x\ (L(X=x) \times \Delta x) =\)
+\(=\int x\ L(X=x) dx\)</p>
+
+<ul>
+  <li>So for calculation the Expected value thru an exponential distribution $f(X=x) = \lambda e^{-\lambda x}$, just plug it in the formula above. Just have in minf that the exponential formula is define for values greater than $0$. This will give us 20 seconds:
+  \(E(X) = \int_0^{\infty} x\ \lambda e^{-\lambda x}\ dx\)</li>
+</ul>
+
+<h3 id="example-of-exponential-distribution">example of exponential distribution</h3>
+
+<ul>
+  <li>$f(X=x)= \lambda e^{-\lambda x}$, when $x \geq 0$, otherwise $0$. In the example below $\lambda$, which is also called the <strong>Rate</strong>, is a parameter that defines the shape of the curve. Examples with $\color {azure} {\lambda = 0.05}$ and $\color {orange} {\lambda = 0.01}$</li>
+</ul>
+
+<p><img src="pics\stat_exponential.png" alt="exponential" />){:height=”50%” width=”50%”}</p>
+
+<h2 id="some-nice-examples">Some nice examples</h2>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=8nm0G-1uJzA">Odds Ratios and Logs</a> Example for Determine the p-value of the significance of relationship. Check the same example with Bayesian too, might be a fun!!!</li>
+  <li>PCA compare correlations. PCoordinateA compares distances. Note: mnimizing Euclidean (linear) distances is the same as maximizing Euclidean (linear) correlations (PCA).
+    <ul>
+      <li>MDS (multi-dimensional scaling) uses log fold change</li>
+      <li>there are many other distances however</li>
+      <li>for eigen stuff see <a href="https://www.youtube.com/watch?v=FgakZw6K1QQ">StatQuest - PCA</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="statquest">Starmer, J. <i>StatQuest!</i> https://statquest.org/</span></li></ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>
