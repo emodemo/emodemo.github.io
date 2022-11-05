@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Domain Driven Design | emodemo’s notes</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Domain Driven Design" />
+<meta name="author" content="emodemo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
+<link rel="canonical" href="/dev/DomainDrivenDesign.html" />
+<meta property="og:url" content="/dev/DomainDrivenDesign.html" />
+<meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Domain Driven Design" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Domain Driven Design","url":"/dev/DomainDrivenDesign.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pages/dev.html">Development</a><a class="page-link" href="/pages/fiction.html">Fiction</a><a class="page-link" href="/pages/science.html">Science</a><a class="page-link" href="/pages/else.html">Other Stuff</a><a class="page-link" href="/pages/library.html">Library</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+        <div class="wrapper">
+          <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Domain Driven Design</h1>
+    <div>
+        </br>
+        <b>created:</b> 04 November 2022
+        <b>&emsp; revision:</b> 1
+        
+    </div>
+  </header>
+
+  <div class="post-content">
+    <!-- default one if nothing else is mentioned -->
+<ul>
+  <li>In case you wonder about an Event Sourcing issues, just ask your accountant :-) .
+    <ul>
+      <li>compensating events instead of update</li>
+      <li>no versioning ?! either use an updated event with sensible defaults, or switch to a new stream.</li>
+    </ul>
+  </li>
+  <li>Optimistic concurrency control on the streams.</li>
+  <li>Represent domain (business) logic as pure functions over ADT (immutable algebraic types). it should not depend on serializtion (db), infrastructure (web services), async code, and should not throw exceptions (pure function).</li>
+</ul>
+
+<h2 id="domain-driven-model-made-functional">Domain Driven Model made functional</h2>
+
+<ul>
+  <li>This whole section is a summary and citations from: <a class="citation" href="#wlaschin2018ddd">(Wlaschin, 2018)</a></li>
+  <li><a href="https://fsharpforfunandprofit.com/">Wlaschin site</a> with a lot of good stuff</li>
+  <li>3 approaches to domain modelling:
+    <ul>
+      <li>mainstream: define data structures and functions to act on them</li>
+      <li>semistructuread and/or flexible structures such as maps to store key-value pairs (see Clojure)</li>
+      <li>combining element together to make other elements, focus on composition rule (algebra)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="chapter-1">chapter 1</h3>
+
+<ul>
+  <li>A business doesn’t just have data, it transforms it somehow. The value of the business is created in this process of transformation, so it is critically important to understand how these transformations work and how they relate to each other.</li>
+  <li>Domain Events are the starting point for almost all of the business processes we want to model. It is a record of something that happened in the system</li>
+  <li><em>scenario</em> and <em>use case</em> are user centric, <em>business process</em> is business centric.</li>
+  <li><em>commands</em> things that make <em>domain events</em> happen (e.g. Do this for me). It is a request for some process to happen and is triggered by a person or another event</li>
+  <li><em>domains</em> from the problem space are mapped to <em>bounded contexts</em> in the solution space (the domain model). The relationship does not always need to be one-to-one.</li>
+  <li><em>context maps</em> to communicate and interaction between <em>contexts</em></li>
+</ul>
+
+<h3 id="chapter-2">chapter 2</h3>
+
+<ul>
+  <li>In domain-driven design we let the domain drive the design, not a database schema.</li>
+  <li>The concept of a “database” is certainly not part of the ubiquitous language. The users do not care about how data is persisted.<br />
+In DDD terminology this is called <em>persistence ignorance</em>. It is an important principle because it forces you to focus on modeling the domain accurately, without worrying about the representation of the data in a database.</li>
+  <li>Letting classes drive the design can be just as dangerous as letting a database drive the design-again, you’re not really listening to the requirements.</li>
+  <li>We need to capture … phases in our domain model, not just for documentation but to make it clear that (for example) an unpriced order should not be sent to the shipping department.<br />
+The easiest way to do that is by creating new names for each phase: <code class="language-plaintext highlighter-rouge">UnvalidatedOrder</code>, <code class="language-plaintext highlighter-rouge">ValidatedOrder</code>, and so on. It does mean that the design becomes longer and more tedious to write out, but the advantage is that everything is cristal clear.</li>
+</ul>
+
+<h3 id="chapter-3">chapter 3</h3>
+
+<ul>
+  <li><strong>Transferring Data Between Bounded Contexts</strong>: The data objects that are passed around may be superficially similar to the objects defined inside the bounded context (which we’ll call <em>domain objects</em>), but they are not the same; they are specifically designed to be serialized and shared as part of the intercontext infrastructure. We will call these objects <em>Data Transfer Objects</em> or DTOs.</li>
+  <li><strong>Trust Boundaries and Validation</strong>: The perimeter of a bounded context acts as a <em>trust boundary</em>. Anything inside the bounded context will be trusted and valid, while anything outside the bounded context will be untrusted and might be invalid. Therefore, we will add “gates” at the beginning and end of the workflow that act as intermediaries between the trusted domain and the untrusted outside world.
+    <ul>
+      <li>At the input gate, we will always validate the input to make sure that it conforms to the constraints of the domain model. It often plays the role of anti-corrupption layer, acting as a translator between models.</li>
+      <li>The job of the output gate is to ensure that private information doesn’t leak out of the bounded context, both to avoid accidental coupling between contexts and for security reasons.</li>
+    </ul>
+  </li>
+  <li>command -&gt; public workflow -&gt; domain event</li>
+  <li>Avoid Domain Events within a Bounded Context… Instead, if we need a “listener” for an event, we just append it to the end of workflow.</li>
+  <li>Keep I/O at the edge.. a function that reads or writes to a database or file system would be considered “impure”, so we would try to avoid these kinds of functions in our core domain.</li>
+</ul>
+
+<h3 id="chapter-4">chapter 4</h3>
+
+<ul>
+  <li>A value is just a member of a type, something that can be used as an input or an output. For example, 1 is a value of type int, “abc” is a value of type string, and so on.
+    <ul>
+      <li>Functions can be values too. If we define a simple function such as let add1 x = x + 1, then add1 is a (function) value of type int-&gt;int.</li>
+      <li>Values are immutable (which is why they are not called “variables”). And values do not have any behavior attached to them, they are just data.</li>
+      <li>In contrast, an object is an encapsulation of a data structure and its associated behavior (methods).</li>
+      <li>So in the world of functional programming (where objects don’t exist), you should use the term “value” rather than “variable” or “object.”</li>
+    </ul>
+  </li>
+  <li>Optional<T> for missing values</T></li>
+  <li>Result&lt;E,T&gt; for modelling errors (OR type for Success or failure).</li>
+  <li>workflow is modelled with functions</li>
+</ul>
+
+<h3 id="chapter-5">chapter 5</h3>
+
+<ul>
+  <li>! Listing all the effects explicitly is useful, but it does make the type signature ugly and complicated, so we would typically create a <strong>type alias</strong> for this to make it look nicer.</li>
+  <li>In DDD terminology, objects with a persistent identity are called <strong>Entities</strong> and objects without a persistent identity are called <strong>Value Objects</strong>. Let’s start by discussing <strong>Value Objects</strong> first.</li>
+  <li>In a business context, Entities are often a document of some kind: orders, quotes, invoices, customer profiles, product sheets, and so on. They have a life cycle and are transformed from one state to another by various business processes.<br />
+The distinction between “Value Object” and “Entity” is context-dependent. For example, consider the life cycle of a cell phone. During manufacturing, each phone is given a unique serial number - a unique identity - so in that context, the phone would be modeled as an Entity. When they’re being sold, however, the serial number isn’t relevant - all phones with the same specs are interchangeable - and they can be modeled as Value Objects. But once a particular phone is sold to a particular customer, identity becomes relevant again and it should be modeled as an Entity: the customer thinks of it as the same phone even after replacing the screen or battery.</li>
+  <li>Here’s an example of how an Entity can be updated in F#. First, we’ll start with an initial value: <code class="language-plaintext highlighter-rouge">​let​ initialPerson = {PersonId=PersonId 42; Name=​"Joseph"​}</code> To make a copy of the record while changing only some fields, F# uses the with keyword, like this:	<code class="language-plaintext highlighter-rouge">​let​ updatedPerson = {initialPerson ​with​ Name=​"Joe"​}</code></li>
+  <li>Is Order an Entity or a Value Object? Obviously it’s an Entity - the details of the order may change over time, but it’s the same order.</li>
+</ul>
+
+<h4 id="on-aggregates">On <strong>Aggregates</strong></h4>
+
+<ul>
+  <li>A very common situation: we have a collection of Entities, each with their own ID and also some “top-level” Entity that contains them. In DDD terminology, a collection of Entities like this is called an <strong>aggregate</strong>, and the top-level Entity is called the aggregate root. In this case, the aggregate comprises both the Order and the collection of OrderLines, and the aggregate root is the Order itself.</li>
+  <li>the Customer and the Order are distinct and independent aggregates. They each are responsible for their own internal consistency, and the only connection between them is via the identifiers of their root objects.</li>
+  <li>This leads to another important aspect of aggregates: they are the <em>basic unit of persistence</em>. If you want to load or save objects from a database, you should load or save whole aggregates. Each database transaction should work with a single aggregate and not include multiple aggregates or cross aggregate boundaries.</li>
+  <li>Just to be clear, an aggregate is not just any collection of Entities. For example, a list of Customers is a collection of Entities, but it’s not a DDD “aggregate,” because it doesn’t have a top-level Entity as a root and it isn’t trying to be a consistency boundary.</li>
+  <li>Here’s a summary of the important role of aggregates in the domain model:
+    <ul>
+      <li>An aggregate is a collection of domain objects that can be treated as a single unit, with the top-level Entity acting as the “root”.</li>
+      <li>All of the changes to objects inside an aggregate must be applied via the top level to the root, and the aggregate acts as a consistency boundary to ensure that all of the data inside the aggregate is updated correctly at the same time.</li>
+      <li>An aggregate is the atomic unit of persistence, database transactions, and data transfer.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chapter-6">chapter 6</h2>
+
+<ul>
+  <li>Integrity (or validity) in this context means that a piece of data follows the correct business rules (it is a business term).</li>
+  <li>Consistency here means that different parts of the domain model agree about facts (it is a business term).</li>
+  <li><strong>!!!</strong> it’s important to recognize that consistency and atomicity of persistence are linked. There’s no point, for example, in ensuring that an order is internally consistent if the order is not going to be persisted atomically. If different parts of the order are persisted separately and then one part fails to be saved, then anyone loading the order later will be loading an order that is not internally consistent.</li>
+  <li>In general, a useful guideline is “only update one aggregate per transaction”. If more than one aggregate is involved, we should use messages and eventual consistency, even though both aggregates are within the same bounded context. But sometimes—and especially if the workflow is considered by the business to be a single transaction—it might be worth including all affected entities in the transaction. A classic example is transferring money between two accounts, where one account increases and the other decreases.</li>
+  <li>If the accounts are represented by an Account aggregate, then we would be updating two different aggregates in the same transaction. That’s not necessarily a problem, but it might be a clue that you can refactor to get deeper insights into the domain. In cases like this, for example, the transaction often has its own identifier, which implies that it’s a DDD Entity in its own right. In that case, why not model it as such?</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">​</span>  <span class="err">​</span><span class="k">type</span><span class="err">​</span> <span class="nc">MoneyTransfer</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="nc">Id</span><span class="p">:</span> <span class="nc">MoneyTransferId</span>
+<span class="err">​ </span>	 <span class="nc">ToAccount</span> <span class="p">:</span> <span class="nc">AccountId</span>
+<span class="err">​ </span>	 <span class="nc">FromAccount</span> <span class="p">:</span> <span class="nc">AccountId</span>
+<span class="err">​ </span>	 <span class="nc">Amount</span><span class="p">:</span> <span class="nc">Money</span>
+<span class="err">​ </span>	 <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>After this change, the Account entities would still exist, but they would no longer be directly responsible for adding or removing money. Instead the current balance for an Account would now be calculated by iterating over the MoneyTransfer records that reference it. We’ve not only refactored the design, but we’ve also learned something about the domain.</li>
+  <li>How do we ensure that the constraints are enforced? Answer: The same way we would in any programming language—make the constructor private and have a separate function that creates valid values and rejects invalid values, returning an error instead. In FP communities, this is sometimes called the smart constructor approach.</li>
+  <li>Capturing Business Rules in the Type System</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// before</span>
+<span class="k">type</span><span class="err">​</span> <span class="nc">CustomerEmail</span> <span class="p">=</span> <span class="p">{</span>
+<span class="err">​ </span>	  <span class="nc">EmailAddress</span> <span class="p">:</span> <span class="nc">EmailAddress</span>
+<span class="err">​ </span>	  <span class="nc">IsVerified</span> <span class="p">:</span> <span class="err">​</span><span class="kt">bool</span><span class="err">​</span>
+<span class="err">​ </span>	  <span class="p">}</span>
+<span class="c1">// after</span>
+<span class="err">​</span><span class="k">type</span><span class="err">​</span> <span class="nc">CustomerEmail</span> <span class="p">=</span>
+<span class="err">​ </span>	  <span class="p">|</span> <span class="nc">Unverified</span> <span class="err">​</span><span class="k">of</span><span class="err">​</span> <span class="nc">EmailAddress</span>
+<span class="err">​ </span>	  <span class="p">|</span> <span class="nc">Verified</span> <span class="err">​</span><span class="k">of</span><span class="err">​</span> <span class="nc">VerifiedEmailAddress</span> <span class="err">​</span><span class="c1">// different from normal EmailAddress​</span>
+<span class="c1">// hence no need on unit test, as the compiler will compain if the wrong type is added.</span>
+</code></pre></div></div>
+
+<h3 id="chapter-7">chapter 7</h3>
+
+<ul>
+  <li>A much better way to model the domain is to create a new type for each state of the order. This allows us to eliminate implicit states and conditional fields (boolean).
+    <ul>
+      <li>for example, convert a design with a flag into a design with two choices, one for each state “unverified” and  “verified”.</li>
+    </ul>
+  </li>
+  <li>Hence “state machine” and transitions from one state to another.</li>
+  <li>The dependencies for the top-level workflow function should not be exposed, because the caller doesn’t need to know about them. The signature should just show the inputs and outputs.</li>
+  <li>But for each internal step in the workflow, the dependencies should be made explicit, just as we did in our original designs. This helps to document what each step actually needs. If the dependencies for a step change, then we can alter the function definition for that step, which in turn will force us to change the implementation.</li>
+  <li>For long running workflows, each step could be smaller, independent workflow, triggred by an event.
+    <ul>
+      <li>This is where the state machine model is a valuable framework for thinking about the system. Before each step, the order is loaded from storage, having been persisted as one of its states. The mini-workflow transitions the order from the original state to a new state, and at the end the new state is saved back to storage again.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="chapter-8">chapter 8</h3>
+
+<ul>
+  <li>Functions are things. They can be passed as input, return as output, or passed as a control parameter. Because functions are things, we can put them in a list.</li>
+  <li><strong>Currying</strong> convert any multiparameter function into a series of one parametter functions.</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">add</span> <span class="n">x</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="c1">// int -&gt; int -&gt; int</span>
+<span class="k">let</span> <span class="n">adderGenerator</span> <span class="n">x</span> <span class="p">=</span> <span class="k">fun</span> <span class="n">y</span> <span class="p">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="c1">// int -&gt; (int -&gt; int)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>In F#, we don’t need to do this explicitly—every function is a curried function! That is, any two-parameter function with signature ‘a -&gt; ‘b -&gt; ‘c can also be interpreted as a one-parameter function that takes an ‘a and returns a function (‘b -&gt; ‘c), and similarly for functions with more parameters.</li>
+  <li><strong>Partial application</strong>: If every function is curried, that means you can take any multiparameter function and pass in just one argument, and you’ll get a new function back with that parameter baked in but all the other parameters still needed.</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// sayGreeting: string -&gt; string -&gt; unit​</span>
+<span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">sayGreeting</span> <span class="n">greeting</span> <span class="n">name</span> <span class="p">=</span> <span class="n">printfn</span> <span class="err">​</span><span class="s2">"%s %s"</span><span class="err">​</span> <span class="n">greeting</span> <span class="n">name</span>
+<span class="c1">// sayHello: string -&gt; unit​</span>
+<span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">sayHello</span> <span class="p">=</span> <span class="n">sayGreeting</span> <span class="err">​</span><span class="s2">"Hello"</span><span class="err">​</span>
+<span class="err">​</span><span class="c1">// sayGoodbye: string -&gt; unit​</span>
+<span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">sayGoodbye</span> <span class="p">=</span> <span class="n">sayGreeting</span> <span class="err">​</span><span class="s2">"Goodbye"</span>
+<span class="n">sayHello</span> <span class="err">​</span><span class="s2">"Alex"</span><span class="err">​</span>	<span class="err">​</span><span class="c1">// output: "Hello Alex"​</span>
+<span class="err">​</span><span class="n">sayGoodbye</span> <span class="err">​</span><span class="s2">"Alex"</span><span class="err">​</span> <span class="err">​</span><span class="c1">// output: "Goodbye Alex"​​</span>
+</code></pre></div></div>
+
+<ul>
+  <li>total function: where every input has an associated output (no exceptions).
+    <ul>
+      <li>One thechnique would be to restrict the input to eliminate illegal values (smart conctructor - validation is either in the constructor or in a specific input type)</li>
+      <li>Another techique is to extend the output - use Option.</li>
+    </ul>
+  </li>
+  <li>Workflow composition: sequential and/or parallel</li>
+</ul>
+
+<h3 id="chapter-9-dependecies">chapter 9: dependecies</h3>
+
+<ul>
+  <li>Function cmposition has 2 main problems:
+    <ul>
+      <li>Some functions have extra parameters that aren’t part of the data pipeline, but are nedded for the implementation (i.e. dependencies).</li>
+      <li>Functions with effects in their output (Result type), cannot be directly connected to functions that accept unwrapped plain data as input.</li>
+    </ul>
+  </li>
+  <li>Adapter Function, Function Transformer</li>
+  <li>Composing functions with different shapes: monads (Reader Monad, Free Monad, etc.), which are not addresed in this book, or partial applications.
+    <div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// pseudocode for partial applications</span>
+<span class="n">workflow</span> <span class="n">input</span><span class="p">:</span> <span class="nc">UnvalidatedOrder</span>
+<span class="c1">// before</span>
+<span class="nc">ValidateOrder</span><span class="p">(</span><span class="nc">CheckA</span><span class="p">,</span> <span class="nc">CheckB</span><span class="p">,</span> <span class="nc">UnvalidatedOrder</span><span class="o">):</span> <span class="nc">ValidatedOrder</span>
+<span class="nc">PriceOrder</span><span class="p">(</span><span class="nc">CheckC</span><span class="p">,</span> <span class="nc">ValidatedOrder</span><span class="o">):</span> <span class="nc">PricedOrder</span>
+<span class="c1">// after with partial function using currying</span>
+<span class="nc">ValidateOder2</span><span class="p">(</span><span class="nc">ValidateOrder</span><span class="p">,</span> <span class="nc">CheckA</span><span class="p">,</span> <span class="nc">CheckB</span><span class="o">):</span> <span class="nc">ValidatedOrder</span>
+<span class="nc">PriceOrder2</span><span class="p">(</span><span class="nc">PriceOrder</span><span class="p">,</span> <span class="nc">CheckC</span><span class="o">):</span> <span class="nc">PricedOrder</span>
+<span class="c1">// realcode: pass all dependecies in the composition root</span>
+<span class="k">let</span><span class="err">​</span> <span class="n">placeOrder</span>
+<span class="err">​ </span>	  <span class="n">checkProductExists</span>               <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span>	  <span class="n">checkAddressExists</span>               <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span>	  <span class="n">getProductPrice</span>                  <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span>	  <span class="n">createOrderAcknowledgmentLetter</span>  <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span>	  <span class="n">sendOrderAcknowledgment</span>          <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span>	  <span class="p">:</span> <span class="nc">PlaceOrderWorkflow</span> <span class="p">=</span>           <span class="err">​</span><span class="c1">// function definition​</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="chapter-10-effects">chapter 10: effects</h3>
+
+<ul>
+  <li>Domain errors: expected as paart of the domain model, where the business will already have procedures in place to deal with with.</li>
+  <li>Panics: leave the system in unknown state, or npe, divide by zero and similar.</li>
+  <li>Infra: netoerk timeout, authenticatio error etc.</li>
+  <li>Error handling in the code is ugly =&gt; switch functions,often called monadic finctions as well: <code class="language-plaintext highlighter-rouge">bind</code> or <code class="language-plaintext highlighter-rouge">flatMap</code>. So instead of one-track pipeline, the final result is a two-track pipeline, with a “success” track and a “failure” track. Going from success to failure is possible, but not the other way around.</li>
+  <li>This could be combined with a <code class="language-plaintext highlighter-rouge">map</code> function to switch from one track to two track funtions, where the output from the first one is not a <code class="language-plaintext highlighter-rouge">Result</code>, <code class="language-plaintext highlighter-rouge">Option</code> or else value.</li>
+  <li>It also means error types must be compatible with one another (e.g. OR type of several errors).</li>
+  <li>?? The switch function can be used to handle also dead-end functions, like I/O effects</li>
+  <li><strong>!!!</strong> After all, it finally goes again to Monads and Applicatives.</li>
+</ul>
+
+<h3 id="chapter-11-serialization">chapter 11: serialization</h3>
+
+<ul>
+  <li>DTOs as a contract between bounded contexts</li>
+  <li><a href="https://fsharpforfunandprofit.com/posts/serializing-your-domain-model/">Serializing your domain model</a>
+    <ul>
+      <li><a href="https://fsharpforfunandprofit.com/posts/serializing-your-domain-model/#guidelines-for-translating-algebraic-data-types-to-dtos">Guidelines</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="chapter-12-persistence">chapter 12: persistence</h3>
+
+<ul>
+  <li>Separate pure functions from I/O and use a root function to handel the results from the pure into I/O. <code class="language-plaintext highlighter-rouge">I/O -&gt; Pure -&gt; I/O</code>, where I/O are at the domain boundaries.</li>
+  <li>If there’s too much mixing of I/O and logic, the simple “sandwich” may become more of a “layer cake.” In that case, you might want to break the workflow into shorter mini-workflows, as discussed in ​Long-Running Workflows​. This way each workflow can stay as a small, simple sandwich.</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// command handler at the edge of the bounded context​</span>
+<span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">payInvoice</span>
+<span class="err">​</span>  <span class="n">loadUnpaidInvoiceFromDatabase</span> <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span> <span class="n">markAsFullyPaidInDb</span>           <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span> <span class="n">updateInvoiceInDb</span>             <span class="err">​</span><span class="c1">// dependency​</span>
+<span class="err">​ </span> <span class="n">payInvoiceCommand</span> <span class="p">=</span>           <span class="err">​</span><span class="c1">// load from DB​</span>
+<span class="err">​ </span>   <span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">invoiceId</span> <span class="p">=</span> <span class="n">payInvoiceCommand</span><span class="p">.</span><span class="nc">InvoiceId</span>
+<span class="err">​ </span>	 <span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">unpaidInvoice</span> <span class="p">=</span> <span class="n">loadUnpaidInvoiceFromDatabase</span> <span class="n">invoiceId</span>
+<span class="err">​ </span>   <span class="err">​</span><span class="c1">// call into pure domain​</span>
+<span class="err">​ </span>   <span class="err">​</span><span class="k">let</span><span class="err">​</span> <span class="n">payment</span> <span class="p">=</span> <span class="n">payInvoiceCommand</span><span class="p">.</span><span class="nc">Payment</span>
+<span class="err">​</span>    <span class="k">let</span><span class="err">​</span> <span class="n">paymentResult</span> <span class="p">=</span> <span class="n">applyPayment</span> <span class="n">unpaidInvoice</span> <span class="n">payment</span>
+<span class="err"> </span>	  <span class="err">​</span><span class="c1">// handle result​</span>
+<span class="err">​ </span>	 <span class="err">​</span><span class="k">match</span><span class="err">​</span> <span class="n">paymentResult</span> <span class="err">​</span><span class="k">with</span><span class="err">​</span>
+<span class="err">​ </span>	 <span class="p">|</span> <span class="nc">FullyPaid</span> <span class="p">-&gt;</span>
+        <span class="n">markAsFullyPaidInDb</span><span class="p">(</span><span class="n">invoiceId</span><span class="p">)</span>
+        <span class="n">postInvoicePaidEvent</span><span class="p">(</span><span class="n">invoiceId</span><span class="p">)</span>
+<span class="err">​ </span>	 <span class="p">|</span> <span class="nc">PartiallyPaid</span> <span class="n">updatedInvoice</span> <span class="p">-&gt;</span>
+<span class="err">​</span>        <span class="n">updateInvoiceInDb</span> <span class="n">updatedInvoice</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Command and Query separation, aaplied to FP:
+    <ul>
+      <li>Functions that return data should not have side effects.</li>
+      <li>Functions that have side effects (updating state) should not return data - that is, they should be unit-returning functions.</li>
+    </ul>
+  </li>
+  <li><strong>!!! Bounded Contexts Must Own Their Data Storage</strong></li>
+  <li>No other system can directly access the data owned by the bounded context. Instead, the client should either use the public API of the bounded context or use some kind of copy of the data store.</li>
+</ul>
+
+<h4 id="command-query-responsibility-segregation">Command-Query Responsibility Segregation</h4>
+
+<ul>
+  <li>It’s often tempting to try to reuse the same objects for reading and writing. For example, if we have a Customer record, we might save it to a database and load it from a database with side-effecting functions like these:</li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">​ </span>	<span class="err">​</span><span class="k">type</span><span class="err">​</span> <span class="nc">SaveCustomer</span> <span class="p">=</span> <span class="nc">Customer</span> <span class="p">-&gt;</span> <span class="nc">DbResult</span><span class="p">&lt;</span><span class="nc">Unit</span><span class="p">&gt;</span>
+<span class="err">​ </span>	<span class="err">​</span><span class="k">type</span><span class="err">​</span> <span class="nc">LoadCustomer</span> <span class="p">=</span> <span class="nc">CustomerId</span> <span class="p">-&gt;</span> <span class="nc">DbResult</span><span class="p">&lt;</span><span class="nc">Customer</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>However, it’s not really a good idea to reuse the same type for both reading and writing for a number of reasons.</li>
+  <li>First, the data returned by the query is often different than what is needed when writing. For example, a query might return denormalized data or calculated values, but these wouldn’t be used when writing data. Also, when creating a new record, fields such as generated IDs or versions wouldn’t be used, yet would be returned in a query. Rather than trying to make one data type serve multiple purposes, it’s better to design each data type for one specific use.</li>
+  <li>A second reason to avoid reuse is that the queries and commands tend to evolve independently and therefore shouldn’t be coupled. For example, you may find that over time you need three or four different queries on the same data, with only one update command. It gets awkward if the query type and the command type are forced to be the same.</li>
+  <li>Finally, some queries may need to return multiple entities at once for performance reasons. For example, when you load an order, you may also want to load the customer data associated with that order, rather than making a second trip to the database to get the customer. Of course, when you are saving the order to the DB, you would use only the reference to the customer (the CustomerId) rather than the entire customer.</li>
+  <li>Based on these observations, it’s clear that queries and commands are almost always different from a domain-modeling point of view, and therefore they should be modeled with different types. This separation of query types and command types leads naturally to a design where they are segregated into different modules so that they are truly decoupled and can evolve independently. One module would be responsible for queries (known as the read model) and the other for commands (the write model), hence command-query responsibility segregation or CQRS.</li>
+</ul>
+
+<h3 id="chapter-13-wrap-up">chapter 13: wrap up</h3>
+
+<ul>
+  <li>We should try to capture important constraints and business rules in the type system wherever possible. Our motto is “make illegal states unrepresentable”.</li>
+  <li>We should also try to design our functions to be “pure” and “total”, so that every possible input has an explicit documented output (no exceptions) and all behavior is entirely predictable (no hidden dependencies).</li>
+  <li>Building a complete workflow using only composition of smaller functions.</li>
+  <li>Parameterizing functions whenever there’s a dependency, or even just a decision that we want to put off</li>
+  <li>Using partial application to bake dependencies into a function, allowing the function to be composed more easily and to hide unneeded implementation details.</li>
+  <li>Creating special functions that could transform other functions into various shapes. In particular we learned about bind—the “adapter block” that we used to convert error-returning functions into two-track functions that could easily be composed.</li>
+  <li>Solving type-mismatch problems by “lifting” disparate types into a common type.</li>
+</ul>
+
+<h2 id="f-to-scala">F# to Scala</h2>
+
+<ul>
+  <li><a class="citation" href="#schwarz2020scala31">(Schwarz, 2020)</a></li>
+  <li><a class="citation" href="#schwarz2020scala32">(Schwarz, 2020)</a></li>
+</ul>
+
+<div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// F#</span>
+<span class="c1">// AND Type</span>
+<span class="k">type</span> <span class="nc">FruitSalad</span> <span class="p">=</span> <span class="p">{</span>
+  <span class="nc">Apple</span><span class="p">:</span> <span class="nc">AppleVariety</span>
+  <span class="nc">Banana</span><span class="p">:</span> <span class="nc">BananaVariety</span>
+  <span class="nc">Cherries</span><span class="p">:</span> <span class="nc">CherryVariety</span>
+<span class="p">}</span>
+<span class="c1">// OR Type</span>
+<span class="k">type</span> <span class="nc">FruitSnack</span> <span class="p">=</span>
+  <span class="p">|</span> <span class="nc">Apple</span> <span class="k">of</span> <span class="nc">AppleVariety</span>
+  <span class="p">|</span> <span class="nc">Banana</span> <span class="k">of</span> <span class="nc">BananaVariety</span>
+  <span class="p">|</span> <span class="nc">Cherries</span> <span class="k">of</span> <span class="nc">CherryVariety</span>
+
+<span class="k">type</span> <span class="nc">AppleVariety</span> <span class="p">=</span> 
+  <span class="p">|</span> <span class="nc">GoldenDelicious</span>
+  <span class="p">|</span> <span class="nc">GrannySmith</span>
+  <span class="p">|</span> <span class="nc">Fuji</span>
+
+<span class="c1">// Simple Type</span>
+<span class="k">type</span> <span class="nc">ProductCode</span> <span class="p">=</span> <span class="nc">ProductCode</span> <span class="k">of</span> <span class="kt">string</span>
+<span class="k">type</span> <span class="nc">SimpleName</span> <span class="p">=</span> <span class="nc">SimpleName</span> <span class="k">of</span> <span class="kt">string</span>
+<span class="c1">// we cannot confuse different types by mistake</span>
+<span class="c1">// SimpleName = ProductCode leads to compile Error</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// AND Type</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FruitSalad</span> <span class="o">(</span>
+  <span class="n">apple</span><span class="k">:</span> <span class="kt">AppleVariety</span><span class="o">,</span>
+  <span class="n">banana</span><span class="k">:</span> <span class="kt">BananaVariety</span><span class="o">,</span>
+  <span class="n">cherries</span><span class="k">:</span> <span class="kt">CherryVariety</span>
+<span class="o">)</span>
+<span class="c1">// OR type Scala 2</span>
+<span class="k">sealed</span> <span class="k">trait</span> <span class="nc">FruitSnack</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Apple</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">AppleVariety</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FruitSnack</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Banana</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">BananaVariety</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FruitSnack</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Cherry</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">CherryVariety</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FruitSnack</span>
+
+<span class="c1">// OR type Scala 3</span>
+<span class="c1">// SUM of 3 types, where each one is Product </span>
+<span class="c1">// (although a degenerate one with 1 argument only)</span>
+<span class="n">enum</span> <span class="nc">FruitSnack</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Apple</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">AppleVariety</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Banana</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">BananaVariety</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Cherry</span><span class="o">(</span><span class="n">variety</span><span class="k">:</span> <span class="kt">CherryVariety</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">enum</span> <span class="nc">AppleVariety</span> <span class="o">{</span> 
+  <span class="k">case</span> <span class="nc">GoldenDelicious</span><span class="o">,</span> <span class="nc">GrannySmith</span><span class="o">,</span> <span class="nc">Fuji</span>
+<span class="o">}</span>
+<span class="n">enum</span> <span class="nc">BananaVariety</span> <span class="k">with</span> 
+  <span class="k">case</span> <span class="nc">Cavendish</span><span class="o">,</span> <span class="nc">GrosMichel</span><span class="o">,</span> <span class="nc">Manzano</span>
+<span class="n">enum</span> <span class="nc">CherryVariety</span> <span class="k">with</span> 
+  <span class="k">case</span> <span class="nc">Montmorency</span><span class="o">,</span> <span class="nc">Bing</span>
+
+<span class="c1">// Simple Type</span>
+<span class="n">opaque</span> <span class="k">type</span> <span class="kt">ProductCode</span> <span class="o">=</span> <span class="nc">String</span>
+<span class="k">object</span> <span class="nc">ProductCode</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">apply</span> <span class="o">(</span><span class="n">code</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ProductCode</span> <span class="o">=</span> <span class="n">code</span>
+<span class="o">}</span>
+
+<span class="c1">// example usage</span>
+<span class="k">val</span> <span class="nv">snack</span> <span class="k">=</span> <span class="nv">FruitSnack</span><span class="o">.</span><span class="py">AppleVariety</span><span class="o">(</span><span class="nc">Fuji</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">salad</span> <span class="k">=</span> <span class="nc">FruitSalad</span><span class="o">(</span><span class="nc">GoldenDelicious</span><span class="o">,</span> <span class="nc">Cavendish</span><span class="o">,</span> <span class="nc">Bing</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Scott Wlaschin to Scala 3</span>
+<span class="n">enum</span> <span class="nc">CardType</span> <span class="k">with</span> <span class="k">case</span> <span class="nc">Visa</span><span class="o">,</span> <span class="nc">Mastercard</span>
+<span class="n">enum</span> <span class="nc">Currency</span> <span class="k">with</span> <span class="k">case</span> <span class="nc">EUR</span><span class="o">,</span> <span class="nc">USD</span>
+<span class="k">object</span> <span class="nc">OpaqueTypes</span> <span class="k">with</span> <span class="c1">// 'with' can be replaced by ':'</span>
+  <span class="n">opaque</span> <span class="k">type</span> <span class="kt">CheckNumber</span> <span class="o">=</span> <span class="nc">Int</span>
+  <span class="k">object</span> <span class="nc">CheckNumber</span> <span class="k">with</span> <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">CheckNumber</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="n">opaque</span> <span class="k">type</span> <span class="kt">CardNumber</span> <span class="o">=</span> <span class="nc">String</span>
+  <span class="k">object</span> <span class="nc">CardNumber</span><span class="k">:</span> <span class="kt">def</span> <span class="kt">apply</span><span class="o">(</span><span class="kt">s:</span> <span class="kt">String</span><span class="o">)</span><span class="kt">:</span> <span class="kt">CardNumber</span> <span class="o">=</span> <span class="n">s</span>
+  <span class="n">opaque</span> <span class="k">type</span> <span class="kt">PaymentAmount</span> <span class="o">=</span> <span class="nc">Float</span>
+  <span class="k">object</span> <span class="nc">PaymentAmount</span><span class="k">:</span> <span class="kt">def</span> <span class="kt">apply</span><span class="o">(</span><span class="kt">f:</span> <span class="kt">Float</span><span class="o">)</span><span class="kt">:</span> <span class="kt">PaymentAmount</span> <span class="o">=</span> <span class="n">f</span>
+
+<span class="k">import</span> <span class="nn">OpaqueTypes._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">CreditCardInfo</span> <span class="o">(</span><span class="n">cardType</span><span class="k">:</span> <span class="kt">CardType</span><span class="o">,</span> <span class="n">cardNumber</span><span class="k">:</span> <span class="kt">CardNumber</span><span class="o">)</span>
+
+<span class="n">enum</span> <span class="nc">PaymentMethod</span> <span class="k">with</span>
+  <span class="k">case</span> <span class="nc">Cash</span>
+  <span class="k">case</span> <span class="nc">Check</span><span class="o">(</span><span class="n">checkNumeber</span><span class="k">:</span> <span class="kt">CheckNumber</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Card</span><span class="o">(</span><span class="n">cardNumber</span><span class="k">:</span> <span class="kt">CardNumber</span><span class="o">)</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Payment</span><span class="o">(</span>
+  <span class="n">amount</span><span class="k">:</span> <span class="kt">PaymentAmount</span><span class="o">,</span>
+  <span class="n">currency</span><span class="k">:</span> <span class="kt">Currency</span><span class="o">,</span>
+  <span class="n">method</span><span class="k">:</span> <span class="kt">PaymentMethod</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">cash10EUR</span> <span class="k">=</span> <span class="nc">Payment</span><span class="o">(</span><span class="nc">PaymentAmount</span><span class="o">(</span><span class="mi">10</span><span class="o">),</span> <span class="nv">Currency</span><span class="o">.</span><span class="py">EUR</span><span class="o">,</span> <span class="nv">PaymentMethod</span><span class="o">.</span><span class="py">Cash</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">check10USD</span> <span class="k">=</span> <span class="nc">Payment</span><span class="o">(</span><span class="nc">PaymentAmount</span><span class="o">(</span><span class="mi">10</span><span class="o">),</span> <span class="nv">Currency</span><span class="o">.</span><span class="py">USD</span><span class="o">,</span> <span class="nv">PaymentMethod</span><span class="o">.</span><span class="py">Check</span><span class="o">(</span><span class="nc">CheckNumber</span><span class="o">(</span><span class="mi">123</span><span class="o">)))</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Simple Types implementation in Scala</span>
+
+<span class="c1">// a) type aliases - NO</span>
+<span class="k">type</span> <span class="kt">CustomerId</span> <span class="o">=</span> <span class="nc">Int</span> <span class="c1">// + companion object</span>
+<span class="k">type</span> <span class="kt">OrderId</span> <span class="o">=</span> <span class="nc">Int</span>    <span class="c1">// + companion object</span>
+<span class="k">val</span> <span class="nv">customerId</span> <span class="k">=</span> <span class="nc">CustomerId</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">orderId</span> <span class="k">=</span> <span class="nc">OrderId</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span>
+<span class="c1">// compiler will treat both as Int</span>
+<span class="nf">assert</span><span class="o">(</span><span class="n">orderId</span> <span class="o">==</span> <span class="n">customerId</span><span class="o">)</span> <span class="c1">// :-( this will compile</span>
+<span class="k">val</span> <span class="nv">customerId</span><span class="k">:</span> <span class="kt">CustomerId</span> <span class="o">=</span> <span class="nc">OrderId</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span> <span class="c1">// :-( this will compile</span>
+<span class="k">val</span> <span class="nv">something</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">CustomerId</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span> <span class="c1">// :-( this will compile</span>
+<span class="k">def</span> <span class="nf">display</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">CustomerId</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"customerId=$id"</span><span class="o">)</span>
+<span class="nf">display</span><span class="o">(</span><span class="n">orderId</span><span class="o">)</span> <span class="c1">// :-( this will compile</span>
+
+<span class="c1">// b) value classes - AnyVal with one val parameter</span>
+<span class="k">class</span> <span class="nc">CustomerId</span><span class="o">(</span><span class="k">val</span> <span class="nv">id</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
+<span class="c1">// assert will work again, but adding `derives Eql` will give error</span>
+<span class="nf">display</span><span class="o">(</span><span class="n">orderId</span><span class="o">)</span> <span class="c1">// will gove an error</span>
+
+<span class="c1">// c) case class which `dervies Eql` works fine too</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">CustomerId</span><span class="o">(</span><span class="k">val</span> <span class="nv">id</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="n">dervies</span> <span class="nc">Eql</span>
+
+<span class="c1">// d) opaque types as value and case classes have performance issues</span>
+<span class="c1">// similar to type aliases, but exists at compile time. </span>
+<span class="c1">// Not preserved at runtime, do not produce classes</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// always a valid model - smart constructo approach.</span>
+<span class="c1">// private constructio and creation function with validation</span>
+<span class="c1">// hence if customerId &lt; 0 then Either[Error, CustomerId] = ... , which is a Monad</span>
+<span class="c1">// alernativelly, to get all validation errors use Applicative</span>
+</code></pre></div></div>
+
+<h2 id="insigits-from-conferences">Insigits from Conferences</h2>
+
+<h3 id="1">1</h3>
+<ul>
+  <li>based on <a class="citation" href="#servienti2018DDDAggregates">(Servienti, 2018)</a></li>
+  <li>Be aware fo the distributed monolith :)</li>
+  <li>Services (a.k.a. contexts) should be free to evolve without affecting anyone else in the system (ie. be autonomous).</li>
+  <li>Example with “shopping card”:
+    <ul>
+      <li>“Shopping card” does not exists. Every single context has its own view of the “shopping card” concept.</li>
+      <li>So “sales” owns a subset of the “shoppping card”, while “Warehouse”, and “maerketing” owns other parts and not car about the rest.</li>
+      <li>Still there should be an owner of the concept “shoppping card”, and not of all data in it. “Sales” in this case.</li>
+      <li>The UX present a “Shopping card” view model. In practice this is a cache (a dictionary) with no owner.</li>
+      <li>View Model composition and decomposition. No need of complex projections and read models.</li>
+      <li>Append-only model</li>
+    </ul>
+  </li>
+  <li>Zero coupling is utopic. But we could aggregate things in the same boundry based on the coupling: things that change together should be in the same context. Follow the coupling.</li>
+  <li>Define service boundaries. Behaviour defines how to aggregated data and define boundaries, not data itself.</li>
+  <li>Do not bring in more thechnology to solve non-technical problems. In case of issues go back to the whiteboard.</li>
+  <li>User mental model can badly influence servcie design. User/analyst/PM tend to think in terms of data representation. They see the “shopping card”, while developers see the composed view model.</li>
+  <li>Do not give names prematurely.</li>
+  <li>Use “anti-requirements” tehcnique for validation (a.k.a. ask stupid questions): “Will there be a case where last name of the customer will be used to applly a discount price?” If NO, then last name should not be in the same place as price!</li>
+</ul>
+
+<h3 id="2">2</h3>
+<ul>
+  <li>based on <a class="citation" href="#richardson2018DDDAggregates">(Richardson, 2016)</a></li>
+  <li>Aggregate:
+    <ul>
+      <li>a unit of consistency</li>
+      <li>cluster of objects that can be treated as a unit</li>
+      <li>a graph with a root.</li>
+      <li>reference an aggregate only by the identity (id, primary key) of the root. Not by an object reference.</li>
+      <li>Do not use foreign keys (object references) in Domain Models - considered parasites</li>
+    </ul>
+  </li>
+  <li>Transactions:
+    <ul>
+      <li>should only CRUD 1 aggregate. Processing 1 command by 1 aggregate.</li>
+      <li>transaction scope = service</li>
+      <li>maintain consistency between services with events driven architecture.
+        <ul>
+          <li>create order in PENDING</li>
+          <li>send event to service B</li>
+          <li>receive event from service B</li>
+          <li>order becomes SUCCESS or FAILURE</li>
+        </ul>
+      </li>
+      <li>a drawback could be that “rollback” logic might be needed to be implemented: compensating transactions. Imapct could be minimized with proper validations.</li>
+    </ul>
+  </li>
+  <li>How to atomically “update a db” and “send event”?
+    <ul>
+      <li>use event sourcing. Hence bothe db update and event sending are one and the same thing. Events become 1st class citizens. Events are persisted, not state. And state is calculated from the events on demand.</li>
+      <li>JPA will query the events and recreate the state. FP (scala) fold or reduce: <code class="language-plaintext highlighter-rouge">var currentState = fold(applyEvent, initState, events)</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="13-ways-of-looking-at-a-turlte-">13 ways of looking at a Turlte !!!</h3>
+<ul>
+  <li><a href="https://fsharpforfunandprofit.com/posts/13-ways-of-looking-at-a-turtle/">article + links to video</a></li>
+</ul>
+
+<h3 id="another-simplifed-explanation">another simplifed explanation</h3>
+<ul>
+  <li><a href="https://antman-does-software.com/functional-domain-driven-design-simplified">Functional DDD simplified</a></li>
+</ul>
+
+<h3 id="miscellaneous">miscellaneous</h3>
+<ul>
+  <li>On GDPR: one idea is to split public and private data with separate ids, and referene the public one in the private domain object.</li>
+  <li>Invaraints are business rules that should be consistent.</li>
+  <li>On statistics, but yet useful :) “All models are wrong, but some are useful.” George Box</li>
+  <li>Use DDD to create hypothesis, and theory of constrains to validate them and find bottlenecks</li>
+  <li>Bounded context = Autonomy</li>
+  <li>How to atomically “update a db” and “send event”?
+    <ul>
+      <li>(me, not good solution) use @transactional and 1st update the DB, then send the event. If the http fails, it is easier to rollback the JPA code.</li>
+    </ul>
+  </li>
+  <li>Use:
+    <ul>
+      <li>ADT to model structures representing concepts and relations inside the model, and make illegal states in the Domain model unrepresentable (compiler error)</li>
+      <li>Categories (Option, Eiter, Future, …) to model effects of operations</li>
+      <li>Function Composistion to describe business process (state transitions)</li>
+      <li>use Function composition and Value Objects (ADT) + validations/smart constructors to construct Entities (ADT). <strong>Whenever an object is constructed it is already valid</strong>. see Validated applicative too.</li>
+      <li>states could be case class with different info, instead of enums</li>
+    </ul>
+  </li>
+  <li>Partial function are indistinguishable from total funcions. So maybe do not use them! Solution 1: use Either[L,R], solution 2: use refined types (postive integer instead of just integer), which will lead to compile time error, not runtime one.</li>
+  <li>Try to derive most of the functions (like map from flatmap)</li>
+</ul>
+
+<h2 id="references">References</h2>
+
+
+
+
+<ul class="bibliography"><li><span id="richardson2018DDDAggregates">Richardson, C. (2016). <i>Developing microservices with aggregates</i>. https://www.youtube.com/watch?v=7kX3fs0pWwc</span></li>
+<li><span id="schwarz2020scala31">Schwarz, P. (2020). <i>Scala 3 by example, part 1</i>. https://www.slideshare.net/pjschwarz/scala-3-by-example-algebraic-data-types-for-domain-driven-design-part-1</span></li>
+<li><span id="schwarz2020scala32">Schwarz, P. (2020). <i>Scala 3 by example, part 2</i>. https://www.slideshare.net/pjschwarz/scala-3-by-example-algebraic-data-types-for-domain-driven-design-part-2</span></li>
+<li><span id="servienti2018DDDAggregates">Servienti, M. (2018). <i>Talk Session: All Our Aggregates Are Wrong</i>. https://www.youtube.com/watch?v=KkzvQSuYd5I</span></li>
+<li><span id="wlaschin2018ddd">Wlaschin, S. (2018). <i>Domain Modeling Made Functional</i>. Pragmatic Bookshelf.</span></li></ul>
+
+  </div>
+
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        <!--
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              <svg class="svg-icon orange">
+                <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+              </svg><span>Subscribe</span>
+            </a>
+          </p>
+        -->
+          <ul class="contact-list">
+            <li class="p-name">emodemo</li>
+            
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p>emodemo&#39;s notes on development, fiction, science and other stuff.</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>

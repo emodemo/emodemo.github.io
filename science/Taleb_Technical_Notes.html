@@ -2,9 +2,9 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Notes on Taleb | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Notes on Taleb" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -13,12 +13,22 @@
 <link rel="canonical" href="/science/Taleb_Technical_Notes.html" />
 <meta property="og:url" content="/science/Taleb_Technical_Notes.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Notes on Taleb" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Taleb_Technical_Notes.html","headline":"Notes on Taleb","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Notes on Taleb","url":"/science/Taleb_Technical_Notes.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -30,7 +40,7 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
-<body><header class="site-header">
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -46,11 +56,14 @@
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post">
+        <div class="wrapper">
+          <article class="post">
 
   <header class="post-header">
     <h1 class="post-title">Notes on Taleb</h1>
+    <div>
+        
+    </div>
   </header>
 
   <div class="post-content">
@@ -122,12 +135,71 @@
   </li>
 </ul>
 
+<h3 id="on-chapter-">on chapter ???</h3>
+
+<ul>
+  <li>If the variance exists, ut the curtosis is infinite, one cannot find the variance.</li>
+  <li>$\alpha$ is not a hard threshold.</li>
+  <li>stable distributios can be combined with linear combination</li>
+  <li><em>mean</em> for Paerto -&gt; use the same logic to find it as for Gini!?</li>
+  <li>power law extrapolates =&gt; one can take the <em>mea</em>n</li>
+</ul>
+
+<h3 id="on-chapter-24-25">on chapter 24-25</h3>
+
+<ul>
+  <li><strong>!!!</strong> Mistaking tails for volatility. Fat tails is not the same as high varaince. High varaince reduces kurtosis.
+    <ul>
+      <li>variance: “average squared deviation”</li>
+      <li>kurtosis: average of “squared deviation squared” / square of “average asquared deviation”
+        <ul>
+          <li>4th moment is like non-adjuste kurtosis, can be seen as varaince of the variance.</li>
+        </ul>
+      </li>
+      <li>kurtosis could be seen as Jensen inequality ratio. Kurtosis deviates form 1 of the 3 inequalities.</li>
+      <li>…extract the 2nd moment in order to achieve neutrality ot it. Sucj a newutrality requires some kind of “short volatility” in the body because <em>higher kurtosis means lower action in the center of the distribution</em>.</li>
+    </ul>
+  </li>
+  <li>recall dynamic hedging book: p202 - moments explained, p264 4th moment trade example</li>
+  <li>greeks $\leftrightarrow$ payoff fucntion $\leftrightarrow$ polynomials $\leftrightarrow$ moments
+    <ul>
+      <li>see excel file</li>
+    </ul>
+  </li>
+  <li>skewnness:
+    <ul>
+      <li>3rd moment is like the varaince of the 1st moment, how the 1st moment is distributed.</li>
+      <li>betting on 3rd moment is betting on the symmetry. 5th moment is the symmetry of the 3rd moment.</li>
+      <li>another way to view it is as a corelation between 1st and 2nd moment
+        <ul>
+          <li>ingreased vilatility when the 1st moment has increased =&gt; positive skewness</li>
+          <li>increased volatility when the market goes down =&gt; negative skewness</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>numerarie is not necesarrily something that is risk free, but somethong that maps to your consmuption (basket of your needs).
+    <ul>
+      <li>If there is an inlfation, but I only buy wine and chees, and these are now cheaper =&gt; no inflation fo me.</li>
+      <li>Taleb’s numerarie: a synthetic combination of a little bit of: gold, dollars and euros</li>
+    </ul>
+  </li>
+  <li>max entropy to evaluate correlation risk measure ??</li>
+  <li>max likely hood is close to max entropy. but they are conceptually differnt.</li>
+  <li>In financy we use a Gaussian becuase it s a maximum entropy distribution under the constraints of $\mu$ and $\sigma$. If you set the 1st and 2nd moment and maximise the entropy (maximum ignorence, disorder, uncertainty) then you end up with a Gaussian. But what if you maximise the distribution under tail risk constraints (i.e. no tail risk), then what is the distribtuion?
+    <ul>
+      <li>maximise the entropy under no constraints =&gt; Caushy</li>
+      <li>and if thre is a log constraint =&gt; Student T (power law). So you have a power law without the tail, because you have a hard hedge on the tail (not distribution hedge). <strong>And this is the idea of max entropy under tail risk constraint</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="statistical-consequences-of-fat-tails---book">Statistical consequences of fat tails - book</h2>
 
 <h3 id="chapter-">Chapter …</h3>
 
 <ul>
-  <li>The natiral boudary between Mediocristan and Extremistan occurs at the subexponential class.</li>
+  <li>The natural boudary between Mediocristan and Extremistan occurs at the subexponential class.</li>
 </ul>
 
 <h3 id="2">2</h3>
@@ -137,7 +209,7 @@
   <li>The tail exponent $\alpha$ captures, by extrapolation, the low-probability deviation not seen in the data, but that plays a disproportionately large share in determining the mean. This generalized approach to estimators is also applied to Gini and other inequality estimators. So we can produce more reliable (or at least less unreliable) estimators for, say, a function of the tail exponent in some situations. But, of course, not all.</li>
   <li>Unusable:
     <ul>
-      <li>Metrics such as standard deviation and variance are not useable.They fail out of sample,even when they exist, even when all moments exist.</li>
+      <li>Metrics such as standard deviation and variance are not useable. They fail out of sample, even when they exist, even when all moments exist.</li>
       <li>Beta, Sharpe Ratio and other common hackneyed financial metrics are uninformative.</li>
       <li>The method of moments (MoM) fails to work. Higher moments are uninformative or do not exist.</li>
       <li>In the absence of reliable information, Bayesian methods can be of little help. The key is that one needs a reliable prior, something not readily observable</li>
@@ -306,8 +378,7 @@ Comparision is done by comparing the distributions.</li>
   </div>
 
 </article>
-
-      </div>
+        </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/"></data>
   
@@ -334,7 +405,7 @@ Comparision is done by comparing the distributions.</li>
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

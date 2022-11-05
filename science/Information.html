@@ -2,9 +2,9 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Information | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Information" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -13,12 +13,22 @@
 <link rel="canonical" href="/science/Information.html" />
 <meta property="og:url" content="/science/Information.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Information" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/science/Information.html","headline":"Information","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Information","url":"/science/Information.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -30,7 +40,7 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
-<body><header class="site-header">
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -46,21 +56,24 @@
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post">
+        <div class="wrapper">
+          <article class="post">
 
   <header class="post-header">
     <h1 class="post-title">Information</h1>
+    <div>
+        
+    </div>
   </header>
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<h2 id="entropy">Entropy</h2>
+<h2 id="entropy-inside-transformation">Entropy (inside transformation)</h2>
 
 <ul>
   <li><a class="citation" href="#statquest">(Starmer, n.d.)</a></li>
   <li>
-    <p>Entropy… basis for relative entropy (KL distance), Cross entropy, Mutual information, dimension reduction algorithms (t-SNE, UMAP), classification trees, etc.</p>
+    <p>Entropy… basis for relative entropy (KL distance), Cross entropy, Mutual information, dimension reduction algorithms (t-SNE, UMAP), classification trees, channel capacity, etc.</p>
 
     <table>
       <thead>
@@ -107,6 +120,30 @@
   </li>
 </ul>
 
+<h2 id="types">Types</h2>
+
+<p><img src="pics/information.svg" alt="information" height="25%" width="25%" /></p>
+<ul>
+  <li><strong>mutual</strong> (a.k.a information gain) - the amount of information obtained about a random varaible by observing another random variable.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>conditional</strong> - the amount of information required to describe the outcome of a random variable $Y$, given the value of another random variable $X$ is known $H(Y</td>
+          <td>X)$</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><strong>directed information</strong> amount of information that flows from one process to another. It has many applications in problems where causality plays an important role, such as capacity of channel with feedback. Estimation could be challenging <a class="citation" href="#wikiDirectInformation">(<i>Direct Information</i>, n.d.)</a></li>
+</ul>
+
+<h2 id="the-base">The base</h2>
+
+<ul>
+  <li>The choice of base for $\log$ , the logarithm, varies for different applications. Base 2 gives the unit of bits (or “shannons”), while base e gives “natural units” nat, and base 10 gives units of “dits”, “bans”, or “hartleys”. <a class="citation" href="#wikiEntropy">(<i>Entropy (Information Theory)</i>, n.d.)</a></li>
+</ul>
+
 <h2 id="divergence-and-distance">Divergence and Distance</h2>
 
 <ul>
@@ -115,7 +152,7 @@
       <li>more popular in ML (a.k.a. information gain) as it is differentiable</li>
     </ul>
   </li>
-  <li>Kolmogorov-Smirnov is typicall used in the context of a non-parametric test. It is rarely used as a generic “distance between distributiosn”, where the $l_1$ distance, the Jensen-Shannon, and oter are more common. <a href="https://stats.stackexchange.com/questions/9311/kullback-leibler-vs-kolmogorov-smirnov-distance">Venkatasubramanian, and others too</a>
+  <li>Kolmogorov-Smirnov is typically used in the context of a non-parametric test. It is rarely used as a generic “distance between distributiosn”, where the $l_1$ distance, the Jensen-Shannon, and oter are more common. <a href="https://stats.stackexchange.com/questions/9311/kullback-leibler-vs-kolmogorov-smirnov-distance">Venkatasubramanian, and others too</a>
     <ul>
       <li>It is symmetric. Can be used as an evaluation metric that looks at greatest separation between two CDFs.</li>
     </ul>
@@ -127,18 +164,47 @@
   </li>
 </ul>
 
+<h2 id="micromacro">Micro/Macro</h2>
+
+<p><a href="https://www.youtube.com/watch?v=kfffy12uQ7g">PBS Time Space: The Misunderstood Nature of Entropy</a><br />
+<a href="https://www.youtube.com/watch?v=KR23aMjIHIY">PBS Time Space: Reversing Entropy with Maxwell’s Demon</a><br />
+<a href="https://www.youtube.com/watch?v=vgYQglmYU-8">PBS Time Space: How Quantum Entanglement Creates Entropy</a></p>
+<ul>
+  <li>Microstate: the exact arrangement of positions, velocities, etc. for all macroscopic particles</li>
+  <li>Macrostate: the specific combinations of large-scale, macroscopi properties.</li>
+  <li>For a given macrostate, all microstates consistent with its termodynamic properties are equally likely. For some macrostates there are a lot of microstates, while other can be produced by only very few microstares.</li>
+  <li>Boltzmann: Entropy (of a macrostate) $S$ is the logarithm of number of microstates consistent with the macrostate $\Omega$, times the Boltzmann constant $k_B$.</li>
+  <li><strong>Order is not the same thong as low entropy</strong></li>
+  <li>In thermodynamcs, the only special arrangements of particles that change entropy are the one that change the thermodynamic propeprties.</li>
+  <li>The <em>macrostate</em> that deined thermodymaic equilibrium is, by definition, the one with most <em>microstates</em>, which also means the maximum entropy.</li>
+  <li>From the eample with gas molecules in the room: when en externoul source is brought to push the gass molecules into the corner it, in fact, reduces the possible microstates.</li>
+  <li>Thermodynamic entropy is realted to the amount of hidden information based on thermodynamic knowedge only. it defines how far a system is from thermal equilibrium, and also defines the availability of <em>free energy</em> (that can be extracted as the system moves back to equilirium).</li>
+  <li><strong>!!</strong> Thermodynamic entropy is low if three are differences in the average thermodynamic propeprties form one macroscopic region compared to antoher</li>
+  <li>Shannon entropy can be thought of as the amount of hidden information in a system, or more precisely the amount of information we can hope to gain by making a measurement of the system.
+    <ul>
+      <li>Another way of thinking about Shannon entropy is in term of events. The more possible outcomes of an event, the more entropy the event has.</li>
+    </ul>
+  </li>
+  <li>von Neumann entropy: tells the amount of entaglement in a system. it seems to reveal that the evolution of entaglement connections is what drives the 2nd law of thermodynamics.
+    <ul>
+      <li>check on decoherence: when different particles interact together, the web of entaglement grows soquily that it soon become impossible to observe the entire wave function, so the macro word emerges.</li>
+    </ul>
+  </li>
+</ul>
+
 <h2 id="references">References</h2>
 
 
 
 
-<ul class="bibliography"><li><span id="statquest">Starmer, J. <i>StatQuest!</i> https://statquest.org/</span></li></ul>
+<ul class="bibliography"><li><span id="wikiDirectInformation"><i>Direct Information</i>. https://en.wikipedia.org/wiki/Directed_information#Estimation</span></li>
+<li><span id="wikiEntropy"><i>Entropy (Information Theory)</i>. https://en.wikipedia.org/wiki/Entropy_(information_theory)</span></li>
+<li><span id="statquest">Starmer, J. <i>StatQuest!</i> https://statquest.org/</span></li></ul>
 
   </div>
 
 </article>
-
-      </div>
+        </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/"></data>
   
@@ -165,7 +231,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

@@ -2,9 +2,9 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Containers | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Containers" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -13,12 +13,22 @@
 <link rel="canonical" href="/dev/Containers.html" />
 <meta property="og:url" content="/dev/Containers.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Containers" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/Containers.html","headline":"Containers","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Containers","url":"/dev/Containers.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -30,7 +40,7 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
-<body><header class="site-header">
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -46,11 +56,18 @@
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post">
+        <div class="wrapper">
+          <article class="post">
 
   <header class="post-header">
     <h1 class="post-title">Containers</h1>
+    <div>
+        </br>
+        <b>created:</b> 18 January 2021
+        <b>&emsp; modified:</b> 04 November 2022
+        <b>&emsp; revision:</b> 6
+        
+    </div>
   </header>
 
   <div class="post-content">
@@ -70,6 +87,11 @@
   <li><a href="https://github.com/grafana/loki">loki</a></li>
   <li><a href="https://github.com/kubernetes/kops">kops</a></li>
   <li><a href="https://editor.cilium.io/">network policies editor cilium</a></li>
+  <li>https://github.com/stacksimplify/aws-eks-kubernetes-masterclass</li>
+  <li>https://www.stacksimplify.com/aws-eks/</li>
+  <li>https://github.com/aws/eks-charts</li>
+  <li><a href="https://nginx.viraptor.info/">NGINX Location Tester</a></li>
+  <li><a href="https://github.com/lwthiker/curl-impersonate">CURL Impersonate</a></li>
 </ul>
 
 <h2 id="docker">DOCKER</h2>
@@ -203,6 +225,25 @@
   </li>
   <li>Another potions is <code class="language-plaintext highlighter-rouge">Ingress</code>(see <a class="citation" href="#bilgin2019kubernetes">(Ibryam &amp; Hub, 2019)</a> for more details).</li>
   <li>Assuming a client knows the name of the Service it wants to access, it can reach the Service by a fully qualified domain name (FQDN) such as <code class="language-plaintext highlighter-rouge">random-generator.default.svc.cluster.local</code>. Here, <code class="language-plaintext highlighter-rouge">random-generator</code> is the name of the Service, <code class="language-plaintext highlighter-rouge">default</code> is the name of the namespace, <code class="language-plaintext highlighter-rouge">svc</code> indicates it is a Service resource, and <code class="language-plaintext highlighter-rouge">cluster.local</code> is the clusterspecific suffix. We can omit the cluster suffix if desired, and the namespace as well when accessing the Service from the same namespace.</li>
+  <li><a href="https://kubernetes.github.io/ingress-nginx/">Nginx Ingress Configuration</a>
+    <ul>
+      <li>To use on AWS ALB, install the service as NodePort and add anotations for ALB</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="istio-routing--traffic-management">Istio Routing &amp; traffic management</h3>
+
+<ul>
+  <li><a href="https://github.com/aws-samples/eks-alb-istio-with-tls">Istio on AWS ALB</a></li>
+  <li>VirtualService: routes traffic to particular services, match by condition (headers, end-user, exact …), weight (a.k.a. canary, A/B, blue-green) (Layer 7)</li>
+  <li>DestinationRule: applied after VirtualService, used to configure what happens to the traffic, once arrived at the destination service: load balancing, subnets with versions, etc
+    <ul>
+      <li><a href="https://istio.io/latest/docs/reference/config/networking/destination-rule/">Configuration</a></li>
+    </ul>
+  </li>
+  <li>Gateway: control inbound and outbound traffic for the mesh (layers 4-6)</li>
+  <li><a href="https://istiobyexample.dev/">https://istiobyexample.dev/</a></li>
 </ul>
 
 <h3 id="job---creates-at-most-1-pods-to-ensure-n-of-them-complete-successfully">Job - creates at most 1+ PODs to ensure N of them complete successfully</h3>
@@ -453,20 +494,6 @@
 </code></pre></div></div>
 
 <ul>
-  <li>Launch an app (k8s object <code class="language-plaintext highlighter-rouge">Deployment</code>, <code class="language-plaintext highlighter-rouge">Service</code>)<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl create -f ....yml</code><br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl get services -o wide</code> and get the EXTERNAL_IP address<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl describe svc &lt;SERVICE-NAME&gt;</code></li>
-  <li>Delete everything:<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl get svc --all-namespaces</code><br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl delete svc &lt;SERVICE_NAME&gt;</code><br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl delete deployment &lt;DEPLOYMENT_NAME&gt;</code>\, will delete the rs too<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl get deployments</code> to find the proper name<br />
-<code class="language-plaintext highlighter-rouge">&gt; kubectl get rs</code><br />
-stop/terminate ec2 instances ???<br />
-delete node creation stack<br />
-delete cluster creations stack<br />
-delete iam role</li>
   <li>ELB AWS configu ?? <code class="language-plaintext highlighter-rouge">&gt; aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"</code></li>
 </ul>
 
@@ -496,8 +523,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
   </div>
 
 </article>
-
-      </div>
+        </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/"></data>
   
@@ -524,7 +550,7 @@ https://www.youtube.com/watch?v=8OPkt93WyPA</p>
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

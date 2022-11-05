@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Java Testing Frmeworks | emodemo’s notes</title>
+<title>Physycis stuff | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="Java Testing Frmeworks" />
+<meta property="og:title" content="Physycis stuff" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/dev/Testing.html" />
-<meta property="og:url" content="/dev/Testing.html" />
+<link rel="canonical" href="/science/onPhysics.html" />
+<meta property="og:url" content="/science/onPhysics.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Java Testing Frmeworks" />
+<meta property="twitter:title" content="Physycis stuff" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Java Testing Frmeworks","url":"/dev/Testing.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Physycis stuff","url":"/science/onPhysics.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
 <script>
@@ -60,57 +60,24 @@
           <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Java Testing Frmeworks</h1>
+    <h1 class="post-title">Physycis stuff</h1>
     <div>
-        </br>
-        <b>created:</b> 18 January 2021
-        <b>&emsp; revision:</b> 1
         
     </div>
   </header>
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<h2 id="mockito">Mockito</h2>
-
 <ul>
-  <li>When the <code class="language-plaintext highlighter-rouge">MockitoJUnitRunner</code> executes a test, in the before phase, Mockito creates mocks and spies instances for all <code class="language-plaintext highlighter-rouge">@Mock</code> or <code class="language-plaintext highlighter-rouge">@Spy</code> fields, and injects them into the <code class="language-plaintext highlighter-rouge">@InjectMocks</code> field.</li>
-  <li>The order of DI attempts is <em>constructor</em>, <em>setter</em>, <em>fields</em>.</li>
-  <li><code class="language-plaintext highlighter-rouge">final</code> or <code class="language-plaintext highlighter-rouge">static</code> fields are not supported, but <code class="language-plaintext highlighter-rouge">private</code> are.</li>
-  <li>Uses refelction internally.</li>
+  <li><a href="https://www.youtube.com/watch?v=qFJ14DZfKG4">Nock Lucid - Why do the Planets orbit in a Plane?</a></li>
+  <li><a href="https://youtu.be/or8Rktj_HA4?t=293">Nock Lucid - WWhat is Physical Information?</a>
+    <ul>
+      <li>The upper limit on the speed of interactions is the speed of light, including gravity. Any speed observed to be faster than the speed of light is OK, as long as that speed isn’t causally connecting two events in space-time. The speed of lght is the speed of causation, the speed of information.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.youtube.com/watch?v=L2suMPiuog4">PBS Space Time - Loop Quantum Gravity Explained</a></li>
+  <li><a href="https://youtu.be/hXgqik6HXc0?t=718">Consciousness is Not a Computation (Roger Penrose) AI Podcast Clips</a> Rephrased by R. Penrose: Dirac says that quantum mechanics is a privisional theory, and we need something that explains the collaps of the wave function.</li>
 </ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// v1: POJO, v2: @Named("example"), v3: Component("example")</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
-    <span class="c1">// v2: @Inject, v3: @Autowired</span>
-    <span class="kd">private</span> <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Example</span><span class="o">(</span><span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">delegate</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">// testing any of these 3 versions:</span>
-<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">MockitoJUnitRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nc">ExampleTest</span> <span class="o">{</span>
-    <span class="nd">@Mock</span>
-    <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
-
-    <span class="nd">@InjectMocks</span>
-    <span class="nc">Example</span> <span class="n">example</span><span class="o">;</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSometingTest</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">example</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
-        <span class="n">verify</span><span class="o">(</span><span class="n">delegate</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre></div></div>
 
 
 

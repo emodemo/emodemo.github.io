@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Java Testing Frmeworks | emodemo’s notes</title>
+<title>API Design Examples | emodemo’s notes</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="Java Testing Frmeworks" />
+<meta property="og:title" content="API Design Examples" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="emodemo’s notes on development, fiction, science and other stuff." />
 <meta property="og:description" content="emodemo’s notes on development, fiction, science and other stuff." />
-<link rel="canonical" href="/dev/Testing.html" />
-<meta property="og:url" content="/dev/Testing.html" />
+<link rel="canonical" href="/dev/APIDesignExamples.html" />
+<meta property="og:url" content="/dev/APIDesignExamples.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Java Testing Frmeworks" />
+<meta property="twitter:title" content="API Design Examples" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Java Testing Frmeworks","url":"/dev/Testing.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"API Design Examples","url":"/dev/APIDesignExamples.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
 <script>
@@ -60,57 +60,84 @@
           <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Java Testing Frmeworks</h1>
+    <h1 class="post-title">API Design Examples</h1>
     <div>
-        </br>
-        <b>created:</b> 18 January 2021
-        <b>&emsp; revision:</b> 1
         
     </div>
   </header>
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<h2 id="mockito">Mockito</h2>
+<h2 id="basics">Basics</h2>
 
+<p>Find &amp; understand system requirements, constraints and bottlenecks, as well as trade-offs.</p>
 <ul>
-  <li>When the <code class="language-plaintext highlighter-rouge">MockitoJUnitRunner</code> executes a test, in the before phase, Mockito creates mocks and spies instances for all <code class="language-plaintext highlighter-rouge">@Mock</code> or <code class="language-plaintext highlighter-rouge">@Spy</code> fields, and injects them into the <code class="language-plaintext highlighter-rouge">@InjectMocks</code> field.</li>
-  <li>The order of DI attempts is <em>constructor</em>, <em>setter</em>, <em>fields</em>.</li>
-  <li><code class="language-plaintext highlighter-rouge">final</code> or <code class="language-plaintext highlighter-rouge">static</code> fields are not supported, but <code class="language-plaintext highlighter-rouge">private</code> are.</li>
-  <li>Uses refelction internally.</li>
+  <li>good questions are important, collaborate, lead, do not overengineer, think of your timing.</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// v1: POJO, v2: @Named("example"), v3: Component("example")</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
-    <span class="c1">// v2: @Inject, v3: @Autowired</span>
-    <span class="kd">private</span> <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
+<p>back-of-the-enveloppe estimations: 1 byte = 8 bits, an ASCII is 1 byte.</p>
+<ul>
+  <li>QPS, peak QPS, storage, cache, n of servers, …</li>
+</ul>
 
-    <span class="kd">public</span> <span class="nf">Example</span><span class="o">(</span><span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">;</span>
-    <span class="o">}</span>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">0s</th>
+      <th style="text-align: center">approximate</th>
+      <th style="text-align: center">name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">1 K</td>
+      <td style="text-align: center">1 Kb</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">6</td>
+      <td style="text-align: center">1 Mi</td>
+      <td style="text-align: center">1 Mb</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: center">1 Bi</td>
+      <td style="text-align: center">1 Gb</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12</td>
+      <td style="text-align: center">1 Tri</td>
+      <td style="text-align: center">1 Tb</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">15</td>
+      <td style="text-align: center">1 Quad</td>
+      <td style="text-align: center">1 Pb</td>
+    </tr>
+  </tbody>
+</table>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">delegate</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">// testing any of these 3 versions:</span>
-<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">MockitoJUnitRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nc">ExampleTest</span> <span class="o">{</span>
-    <span class="nd">@Mock</span>
-    <span class="nc">Delegate</span> <span class="n">delegate</span><span class="o">;</span>
-
-    <span class="nd">@InjectMocks</span>
-    <span class="nc">Example</span> <span class="n">example</span><span class="o">;</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSometingTest</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">example</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
-        <span class="n">verify</span><span class="o">(</span><span class="n">delegate</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre></div></div>
+<p>If we have 45-60 mins:</p>
+<ol>
+  <li>(3-10 mins) Understand the problem and establish design scope:
+    <ul>
+      <li>What specific feature we are ginong to build - What is the most important feature of the product?</li>
+      <li>How many users, how many daily active users (DAU)?</li>
+      <li>How fast the company plans to scale up + expected scaling  3,6,12 months?</li>
+      <li>What is the tech stack and what existing services you might leverage to simplify the design?</li>
+    </ul>
+  </li>
+  <li>(10-15 mins) Process high-level design and get byu-in:
+    <ul>
+      <li>Make a bluebrint and ask for feedback - like it is a team mate. Involve the interviewer in the discussion.</li>
+      <li>Draw a small diagram, make rough estimations.</li>
+      <li>Idenitify and prioritize components in the architecture.</li>
+      <li>Suggest multiple approaches, and together choose one if required.</li>
+    </ul>
+  </li>
+  <li>(10-25 mins) Design deep dive: if asked, design the most critical component first.</li>
+  <li>(3-5 mins) Wrap up: overview, error cases, monitoring + logs, deploument, scale handling (from 1M to 100M DAU)</li>
+</ol>
 
 
 

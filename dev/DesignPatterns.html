@@ -2,9 +2,9 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Design Patterns | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Design Patterns" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -13,12 +13,22 @@
 <link rel="canonical" href="/dev/DesignPatterns.html" />
 <meta property="og:url" content="/dev/DesignPatterns.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Design Patterns" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/DesignPatterns.html","headline":"Design Patterns","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Design Patterns","url":"/dev/DesignPatterns.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -30,7 +40,7 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
-<body><header class="site-header">
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -46,19 +56,22 @@
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post">
+        <div class="wrapper">
+          <article class="post">
 
   <header class="post-header">
     <h1 class="post-title">Design Patterns</h1>
+    <div>
+        </br>
+        <b>created:</b> 14 May 2021
+        <b>&emsp; modified:</b> 04 November 2022
+        <b>&emsp; revision:</b> 3
+        
+    </div>
   </header>
 
   <div class="post-content">
     <!-- default one if nothing else is mentioned -->
-<ul>
-  <li>A closure wraps up a function along with the state available to it when it was created. This means that a function can reference any variable that was in scope when the function was created at the time it’s called. The programmer doesn’t have to do anything special to create a closure; the compiler and runtime take care of it, and the closure simply captures all the state that it needs automatically.</li>
-</ul>
-
 <h2 id="oo-patterns-linn-2014">OO Patterns <a class="citation" href="#linn2014functional">(Linn, 2014)</a></h2>
 
 <h3 id="functional-interface---named-function">Functional Interface -&gt; Named Function</h3>
@@ -118,88 +131,11 @@
 
 <h3 id="decorator-or-wrapper">Decorator or Wrapper</h3>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">add</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="k">def</span> <span class="nf">subtract</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
-<span class="k">def</span> <span class="nf">multiply</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
-<span class="k">def</span> <span class="nf">divide</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
-<span class="k">def</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">calcFn</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span>
-  <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nf">calcFn</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
-    <span class="nf">println</span><span class="o">(</span><span class="s">"Result is: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">)</span>
-    <span class="n">result</span>
-<span class="o">}</span>
-<span class="k">val</span> <span class="nv">loggingAdd</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">add</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">loggingSubtract</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">subtract</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">loggingMultiply</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">multiply</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">loggingDivide</span> <span class="k">=</span> <span class="nf">makeLogger</span><span class="o">(</span><span class="n">divide</span><span class="o">)</span>
-<span class="c1">// usage</span>
-<span class="nf">loggingAdd</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// Result is: 5</span>
-</code></pre></div></div>
-
 <h3 id="visitor---implicit-conversion-or-mix-inheritancetraits">Visitor -&gt; implicit conversion, or mix-inheritance/traits</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//  a) Visitor, b) static class with utility methods (e.g. Collection)</span>
-</code></pre></div></div>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Person</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="nf">fullName</span><span class="k">:</span> <span class="kt">String</span>
-  <span class="k">def</span> <span class="nf">firstName</span><span class="k">:</span> <span class="kt">String</span>
-  <span class="k">def</span> <span class="nf">lastName</span><span class="k">:</span> <span class="kt">String</span>
-  <span class="k">def</span> <span class="nf">houseNum</span><span class="k">:</span> <span class="kt">Int</span>
-  <span class="k">def</span> <span class="nf">street</span><span class="k">:</span> <span class="kt">String</span>
-<span class="o">}</span>
-<span class="k">class</span> <span class="nc">SimplePerson</span><span class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">houseNum</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Person</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="nf">fullName</span> <span class="k">=</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">lastName</span>
-<span class="o">}</span>
-<span class="k">implicit</span> <span class="k">class</span> <span class="nc">ExtendedPerson</span><span class="o">(</span><span class="n">person</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="nf">fullAddress</span> <span class="k">=</span> <span class="nv">person</span><span class="o">.</span><span class="py">houseNum</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">person</span><span class="o">.</span><span class="py">street</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>Now when we try to call <code class="language-plaintext highlighter-rouge">fullAddress()</code> on a <code class="language-plaintext highlighter-rouge">Person</code> , the Scala compiler will realize that the Person type has no such method. It will then search for an implicit conversion from a Person to a type that does and find it in the <code class="language-plaintext highlighter-rouge">ExtendedPerson</code> class.
-Make it a bit hared now …</p>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ComplexPerson</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Name</span><span class="o">,</span> <span class="n">address</span><span class="k">:</span> <span class="kt">Address</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Person</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="nf">fullName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">name</span><span class="o">.</span><span class="py">lastName</span>
-  <span class="k">def</span> <span class="nf">firstName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">firstName</span>
-  <span class="k">def</span> <span class="nf">lastName</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">lastName</span>
-  <span class="k">def</span> <span class="nf">houseNum</span> <span class="k">=</span> <span class="nv">address</span><span class="o">.</span><span class="py">houseNum</span>
-  <span class="k">def</span> <span class="nf">street</span> <span class="k">=</span> <span class="nv">address</span><span class="o">.</span><span class="py">street</span>
-<span class="o">}</span>
-<span class="k">class</span> <span class="nc">Address</span><span class="o">(</span><span class="k">val</span> <span class="nv">houseNum</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">val</span> <span class="nv">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
-<span class="k">class</span> <span class="nc">Name</span><span class="o">(</span><span class="k">val</span> <span class="nv">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="k">val</span> <span class="nv">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
-<span class="c1">// usage</span>
-<span class="k">val</span> <span class="nv">name</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Name</span><span class="o">(</span><span class="s">"Mike"</span><span class="o">,</span> <span class="s">"Linn"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">address</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Address</span><span class="o">(</span><span class="mi">123</span><span class="o">,</span> <span class="s">"Fake St."</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">complexPerson</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ComplexPerson</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">address</span><span class="o">)</span>
-<span class="c1">//Our existing implicit conversion will still work!</span>
-<span class="nv">complexPerson</span><span class="o">.</span><span class="py">fullName</span> <span class="c1">// res2: String = Mike Linn</span>
-<span class="nv">complexPerson</span><span class="o">.</span><span class="py">fullAddress</span> <span class="c1">// res3: String = 123 Fake St.</span>
-</code></pre></div></div>
-
-<p>Note !!This means we were able to extend a data type with both a new operation and a new implementation.</p>
 
 <h3 id="di">DI</h3>
 
 <h3 id="fatin-nd-adapter-scala-has-built-in-concept-of-interface-adapters-expressed-as-implicit-classes"><a class="citation" href="#pavel_scala">(Fatin, n.d.)</a> Adapter Scala has built-in concept of interface adapters, expressed as <code class="language-plaintext highlighter-rouge">implicit</code> classes</h3>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Log</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">);</span> <span class="o">}</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Logger</span> <span class="o">{</span> <span class="kt">void</span> <span class="nf">log</span><span class="o">(</span><span class="nc">Level</span> <span class="n">level</span><span class="o">,</span> <span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span> <span class="cm">/* ... */</span> <span class="o">}</span> <span class="o">}</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoggerToLogAdapter</span> <span class="kd">implements</span> <span class="nc">Log</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="nf">LoggerToLogAdapter</span><span class="o">(</span><span class="nc">Logger</span> <span class="n">logger</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">logger</span> <span class="o">=</span> <span class="n">logger</span><span class="o">;</span> <span class="o">}</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span> <span class="n">logger</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="no">WARNING</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span> <span class="o">}</span>
-<span class="o">}</span>
-<span class="nc">Log</span> <span class="n">log</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LoggerToLogAdapter</span><span class="o">(</span><span class="k">new</span> <span class="nc">Logger</span><span class="o">());</span>
-</code></pre></div></div>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Log</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">warning</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">}</span>
-<span class="k">final</span> <span class="k">class</span> <span class="nc">Logger</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">log</span><span class="o">(</span><span class="n">level</span><span class="k">:</span> <span class="kt">Level</span><span class="o">,</span> <span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span> <span class="cm">/* ... */</span> <span class="o">}</span> <span class="o">}</span>
-<span class="k">implicit</span> <span class="k">class</span> <span class="nc">LoggerToLogAdapter</span><span class="o">(</span><span class="n">logger</span><span class="k">:</span> <span class="kt">Logger</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Log</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="nf">warning</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span> <span class="nv">logger</span><span class="o">.</span><span class="py">log</span><span class="o">(</span><span class="nc">WARNING</span><span class="o">,</span> <span class="n">message</span><span class="o">)</span> <span class="o">}</span>
-<span class="o">}</span>
-<span class="k">val</span> <span class="nv">log</span><span class="k">:</span> <span class="kt">Log</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Logger</span><span class="o">()</span>
-</code></pre></div></div>
 
 <h2 id="functional-patterns">Functional Patterns</h2>
 
@@ -246,8 +182,7 @@ isOddTrampoline(100001).result // res4: Boolean = true, but it is O(n) (linear)
   </div>
 
 </article>
-
-      </div>
+        </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/"></data>
   
@@ -274,7 +209,7 @@ isOddTrampoline(100001).result // res4: Boolean = true, but it is O(n) (linear)
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>

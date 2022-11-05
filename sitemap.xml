@@ -4,6 +4,9 @@
 <loc>/dev/APIDesign.html</loc>
 </url>
 <url>
+<loc>/dev/APIDesignExamples.html</loc>
+</url>
+<url>
 <loc>/dev/BasicsAlgorithms.html</loc>
 </url>
 <url>
@@ -40,7 +43,7 @@
 <loc>/dev/DistributedPatterns.html</loc>
 </url>
 <url>
-<loc>/dev/Functional.html</loc>
+<loc>/dev/DomainDrivenDesign.html</loc>
 </url>
 <url>
 <loc>/dev/GraalVM.html</loc>
@@ -112,6 +115,9 @@
 <loc>/pages/drafts.html</loc>
 </url>
 <url>
+<loc>/others/electric_industry.html</loc>
+</url>
+<url>
 <loc>/pages/else.html</loc>
 </url>
 <url>
@@ -131,6 +137,9 @@
 </url>
 <url>
 <loc>/dev/linuxCmd.html</loc>
+</url>
+<url>
+<loc>/science/onPhysics.html</loc>
 </url>
 <url>
 <loc>/others/parazitni_i_tropicheski_bolesti.html</loc>

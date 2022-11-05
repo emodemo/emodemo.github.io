@@ -2,9 +2,9 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Categories | emodemo’s notes</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Categories" />
 <meta name="author" content="emodemo" />
 <meta property="og:locale" content="en_US" />
@@ -13,12 +13,22 @@
 <link rel="canonical" href="/dev/Categories.html" />
 <meta property="og:url" content="/dev/Categories.html" />
 <meta property="og:site_name" content="emodemo’s notes" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Categories" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"emodemo"},"@type":"WebPage","description":"emodemo’s notes on development, fiction, science and other stuff.","url":"/dev/Categories.html","headline":"Categories","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"emodemo"},"description":"emodemo’s notes on development, fiction, science and other stuff.","headline":"Categories","url":"/dev/Categories.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo's notes" /><script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="emodemo&apos;s notes" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-248568843-1"></script>
+<script>
+  window['ga-disable-UA-248568843-1'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-248568843-1');
+</script>
+<script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -30,7 +40,7 @@
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
-<body><header class="site-header">
+<body data-spy="scroll" data-target="#toc"><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">emodemo&#39;s notes</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -46,11 +56,18 @@
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post">
+        <div class="wrapper">
+          <article class="post">
 
   <header class="post-header">
     <h1 class="post-title">Categories</h1>
+    <div>
+        </br>
+        <b>created:</b> 11 January 2021
+        <b>&emsp; modified:</b> 04 November 2022
+        <b>&emsp; revision:</b> 7
+        
+    </div>
   </header>
 
   <div class="post-content">
@@ -58,18 +75,22 @@
 <h2 id="sources">Sources</h2>
 
 <ul>
-  <li>http://math.mit.edu/~dspivak/teaching/sp18/  // videos for 7 sketches</li>
-  <li>http://www.appliedcategorytheory.org/</li>
-  <li>http://www.compositionality-journal.org/</li>
-  <li>https://www.math3ma.com/</li>
   <li>https://medium.com/@sinisalouc</li>
+  <li>https://medium.com/free-code-camp/demystifying-the-monad-in-scala-cc716bb6f534</li>
+  <li>https://medium.com/free-code-camp/demistifying-the-monad-in-scala-part-2-a-category-theory-approach-2f0a6d370eff</li>
+  <li>https://palatable.github.io/lambda/</li>
+  <li>https://typelevel.org/cats/nomenclature.html</li>
 </ul>
 
 <h2 id="terminology">Terminology</h2>
 
+<p><img src="pics/function_domain_range.svg" alt="function" /></p>
 <ul>
+  <li>Exactly 1 to 1 mapping from A to B, where the valid inputs are called  $\color{red}{domain}$ and the valid outputs $\color{blue}{range}$.</li>
+  <li>Often the exact $\color{blue}{range}$ of a function is not known, but one coulde describe a set, which contains the range - the $\color{blue}{codomain}$.</li>
   <li><code class="language-plaintext highlighter-rouge">flatten</code> also known as <code class="language-plaintext highlighter-rouge">join</code></li>
   <li><code class="language-plaintext highlighter-rouge">flatMap</code> also known as <code class="language-plaintext highlighter-rouge">bind</code></li>
+  <li>There are only three numbers in programming: 0, 1, and many.</li>
 </ul>
 
 <h2 id="laws">Laws</h2>
@@ -77,13 +98,18 @@
 <ul>
   <li>axioms of an abelian group
     <ul>
-      <li>identity: $a + 0 = a = 0 + a$</li>
+      <li>identity (neutral element): $a + 0 = a = 0 + a$ <code class="language-plaintext highlighter-rouge">combine(x, empty) = combine(empty, x) = x</code>, <code class="language-plaintext highlighter-rouge">fa.map(x =&gt; x) = fa</code></li>
       <li>inverse: $a + (-a) = 0 = (-a) + a$</li>
       <li>commutative: $a + b = b + a$</li>
-      <li>associative: $(a + b) + c = a + (b + c)$</li>
+      <li>associative: $(a + b) + c = a + (b + c)$ <code class="language-plaintext highlighter-rouge">combine(combine(a, b), c) = combine(a, combine(b,c))</code></li>
     </ul>
   </li>
   <li>distributive: $a + (b * c) = a<em>b + a</em>c$</li>
+  <li>abosirbing element: $a + NaN = NaN$</li>
+  <li>closure of operation: $T + T = T$</li>
+  <li>coefficient: $a + alpha*b$ - think of vector space</li>
+  <li>cycle of order $N$ : $a + N = a$ - think of cyclic group</li>
+  <li>composition example: <code class="language-plaintext highlighter-rouge">u.map(x =&gt; g(f(x))) = u.map(f).map(g) = fa.map(f.andThen(g))</code></li>
 </ul>
 
 <h2 id="usages">Usages</h2>
@@ -106,27 +132,218 @@
   <li>See CHAPTER 28 ENRICHED CATEGORIES: Metric Spaces: We have to construct a category in which hom-objects are distances. Mind you, distances are not morphisms but hom-objects.</li>
 </ul>
 
-<h2 id="scala-with-cats">Scala with Cats</h2>
+<h2 id="almost-nice-example">almost nice example</h2>
+<p><a href="https://www.youtube.com/watch?v=__zuECMFCRc">How to Build a Functional API - Julien Truffaut</a></p>
 
-<p>See <code class="language-plaintext highlighter-rouge">categories</code> package</p>
+<h2 id="algebraic-data-types">Algebraic Data Types</h2>
+
+<ul>
+  <li>based on <a class="citation" href="#sinclair2019functional">(Sinclair, 2019)</a></li>
+  <li>An <strong>algebraic structure</strong> on a set <strong>A</strong> is a collection of finitary operations on <strong>A</strong>. The set <strong>A</strong> together with this <strong>algebraic strcuture</strong> is called <strong>algebra</strong>.
+    <ul>
+      <li>monoid, aplicative, semigroup, lattice, fucntor, monad - these are all <strong>allgebraic strucutres</strong>.</li>
+      <li><strong>Algebraic structures</strong> represent templates for solving a problem (like design patterns), and have their basis in mathematics (unlike design patterns). So they tend to be formely defined, and to conform to specific laws.</li>
+      <li>Laws do not make algebraic structures more restricitve, but rather give allow making dedcutions and assumptions on how the code works.</li>
+      <li>More often the explanaints of an <strong>algebraic structure</strong> are not about the problem it solves, but about the loaws it conforms to.</li>
+      <li>It is not until <em>instances</em> like <code class="language-plaintext highlighter-rouge">Maybe</code>, <code class="language-plaintext highlighter-rouge">Either</code> or <code class="language-plaintext highlighter-rouge">Effect</code> are created, that anything useful can be done.</li>
+    </ul>
+  </li>
+  <li><strong>TypeClasses</strong> are used to implement <strong>algebraic strucutres</strong>. They enable <em>parametric polymorphism</em>, which allow the use of the same <em>function</em> with different types, even when the exact type is not known upfront.</li>
+  <li><strong>Algebraic Data Types</strong> - it is about the possibilites.
+    <ul>
+      <li>algenraic data types = composable data types</li>
+      <li><strong>Product</strong> (AND): a class conainting 3 variables (<code class="language-plaintext highlighter-rouge">a</code>,<code class="language-plaintext highlighter-rouge">b</code>,<code class="language-plaintext highlighter-rouge">c</code>), where <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> can have 2 values (e.g. boolean) and <code class="language-plaintext highlighter-rouge">c</code> can have 10 values, the calss can hace $2x2x10=40$ possibilities. In reality <strong>Product</strong> classes may have infinitely many possibilities.</li>
+      <li><strong>Sum</strong> (OR): a class representing a direction with four values <code class="language-plaintext highlighter-rouge">east</code>, <code class="language-plaintext highlighter-rouge">west</code>, <code class="language-plaintext highlighter-rouge">south</code> and <code class="language-plaintext highlighter-rouge">nord</code> can have only one of these four direction. Hence all possibilities are $1+1+1+1=4$. An <code class="language-plaintext highlighter-rouge">Either</code> can be only <code class="language-plaintext highlighter-rouge">Left</code> or <code class="language-plaintext highlighter-rouge">Right</code>, but not both.</li>
+      <li>Generaly <strong>Sum</strong> have more limited range of values, and it can be very useful to know the precise number of combination. as it is a way of making assertions about the code with mathematical certainty. Therefore they are useful to model the business domain.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="functional-programmer-toolbox">Functional programmer toolbox</h2>
+
+<ul>
+  <li>based on <a class="citation" href="#wlaschin2019toolkit">(Wlaschin, 2019)</a></li>
+  <li>Look at a function as a standalone thing. Much like a LEGO.</li>
+  <li>Most of the tools in the functional toolbox are “function transformers” tht convert functions to functions.</li>
+  <li>Lego blocks have “no strings attached”. They can be assembled into one thing (car), the de-assembled and re-assmbled int another thing (airlplane). Same is with functions - they should have “no strings attached” to a particular context.</li>
+  <li>Design functions context-free, to work together, use types to ensure inputs match outputs.</li>
+  <li>Just 11 tools to know:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">compose</code> for composition</li>
+      <li><code class="language-plaintext highlighter-rouge">fold</code> for iteration</li>
+      <li><code class="language-plaintext highlighter-rouge">combine</code> &amp; <code class="language-plaintext highlighter-rouge">reduce</code> for combination/aggregation <strong>Monoid</strong>. If an identity (0) is missing then it is called <strong>Semigroup</strong>. If you add an inverse value then it becomes a <strong>group</strong> <code class="language-plaintext highlighter-rouge">value + inverse value = neutral element</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">map</code> &amp; <code class="language-plaintext highlighter-rouge">return</code> for mixing effects and non-effects <strong>Functor</strong></li>
+      <li><code class="language-plaintext highlighter-rouge">bind/flatmap</code> for chaining effects in series <strong>Monad</strong></li>
+      <li><code class="language-plaintext highlighter-rouge">apply</code> &amp; <code class="language-plaintext highlighter-rouge">zip</code> for working with effects in parallel <strong>Applicative</strong>. In cats it is explained thru <code class="language-plaintext highlighter-rouge">product()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">sequence</code> &amp; <code class="language-plaintext highlighter-rouge">traverse</code> for pulling effects out of a list</li>
+    </ul>
+  </li>
+  <li><strong>Tool 1 Monoid</strong>: combine a bunch of things, two at a time. Knows as “plus” for numers, “concat” for strings, …
+    <ul>
+      <li>Rule 1 (Closure): the result of combining two things is always anotherone of the same thing.
+        <ul>
+          <li>Benefit: converst pairwise operations into operations that works on list =&gt; reduce (a.k.a. collapse)</li>
+          <li><code class="language-plaintext highlighter-rouge">1+2+3+4</code> to <code class="language-plaintext highlighter-rouge">List.of(1,2,3,4).reduce(+)</code></li>
+        </ul>
+      </li>
+      <li>Rule 2 (Associativity): when combining more than 2 things, it doesn’t matter which pairwise combination you do first.
+        <ul>
+          <li>Benefit: paralellization, incremental accumulation, …</li>
+          <li><code class="language-plaintext highlighter-rouge">1+2+3+4</code> to <code class="language-plaintext highlighter-rouge">(1+2)+(3+4)</code>, from <code class="language-plaintext highlighter-rouge">1+2+3</code> to <code class="language-plaintext highlighter-rouge">(1+2+3) + 4 = 6 + 4</code></li>
+        </ul>
+      </li>
+      <li>Rule 3 (Identity): there is a special thing called “zero”, such that when combining any thing with “zero” you get the original thing back. If missing =&gt; Semogroup. 0 for summation, 1 for multiplication, “” for string concatenation
+        <ul>
+          <li>Benefit: initial value, starting data, missing data</li>
+        </ul>
+      </li>
+      <li>Any combination of monoid is also a monoid. Turning something that is not a monoid to a monoid is called “map”, that calpping the whole thing to a single value is “reduce”, hence “map/reduce”</li>
+      <li>Is function composition a monoid? If <code class="language-plaintext highlighter-rouge">int-&gt;int</code>, <code class="language-plaintext highlighter-rouge">str-&gt;str</code> yes, but if <code class="language-plaintext highlighter-rouge">int-&gt;str</code> no, as input and output are not the same type.</li>
+    </ul>
+  </li>
+  <li><strong>Effect</strong> A generic type <code class="language-plaintext highlighter-rouge">List</code>, a type with extra data <code class="language-plaintext highlighter-rouge">Option, Result</code>, a type that cna change the outside world <code class="language-plaintext highlighter-rouge">Async, Task, Random</code>, a type that carries state <code class="language-plaintext highlighter-rouge">State, Parser</code>. Like a parallel world of the normal one: instead of <code class="language-plaintext highlighter-rouge">String</code> -&gt; <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code>.
+    <ul>
+      <li>Code smell: constantly switching between normal and effect world (a.k.a. wrap-&gt;unwrap-wrap). So convert (lift) something in a async/option/… efect and work there until the end of the program.</li>
+      <li>let’s say we have a function that adds 42 to a number, and we want to use it in the Option word. But this would mean unwrap the value, add 42, wrap it again (code smell), so here is where “map” comes.</li>
+    </ul>
+  </li>
+  <li><strong>Tool 2 Map</strong> Moving functions between worlds with <code class="language-plaintext highlighter-rouge">map</code>. <strong>Functor</strong> is an effect type with a <code class="language-plaintext highlighter-rouge">map</code> function that “lifts” a function to the effect world. And it must have a sensible implementation =&gt; functor laws.</li>
+  <li><strong>Tool 3 Return</strong> Moving values between worlds with <code class="language-plaintext highlighter-rouge">return</code>. (a.k.a. <code class="language-plaintext highlighter-rouge">of()</code>, <code class="language-plaintext highlighter-rouge">from()</code>, <code class="language-plaintext highlighter-rouge">pure()</code>, <code class="language-plaintext highlighter-rouge">unit()</code>, etc.)</li>
+  <li><strong>Tool 4 Bind</strong> Chaining world-crosing functions with <code class="language-plaintext highlighter-rouge">bind</code> (a.k.a. <code class="language-plaintext highlighter-rouge">flatmap</code>).
+    <ul>
+      <li>World-crossing function: input is a value in normal world and output is value in Option world: <code class="language-plaintext highlighter-rouge">customerId -&gt; Optional&lt;Customer&gt;</code>.</li>
+      <li>Railway pattern, for kind of having two-output to two-input function (two-track in/out).</li>
+      <li><strong>Monad</strong> is an effect type with a <code class="language-plaintext highlighter-rouge">return</code> function and a <code class="language-plaintext highlighter-rouge">bind</code> function that “converts” a cross-wrold function into a effect-world function. And it must have a sensible implementation =&gt; monad laws.</li>
+      <li>Connection between Monads and Monoids: Combining 2 monads resulting in another monad is a <strong>Kleisli Composition</strong>, where associativity works same way as in monoids.</li>
+    </ul>
+  </li>
+  <li><strong>Tool 5 Parallel combination</strong> Combining effects in parallel with applicatives.
+    <ul>
+      <li>Combining Options: <code class="language-plaintext highlighter-rouge">Some(42) combine Some(hello) =&gt; Some(42, "hello")</code>, <code class="language-plaintext highlighter-rouge">Some(42) combine None =&gt; None</code></li>
+      <li>Combining List: 2 ways <code class="language-plaintext highlighter-rouge">[1,2] combine [a,b] =&gt;</code> with cross product <code class="language-plaintext highlighter-rouge">[(1,a),(1,b),(2,a),(2,b)]</code>, with zip <code class="language-plaintext highlighter-rouge">[(1,a),(2,b)]</code>.</li>
+      <li><strong>Applicative</strong> is an effect type with a <code class="language-plaintext highlighter-rouge">return</code> function and a <code class="language-plaintext highlighter-rouge">function</code> that combines two effects into one <code class="language-plaintext highlighter-rouge">pair</code>, <code class="language-plaintext highlighter-rouge">apply</code>. And it must have a sensible implementation =&gt; applicative laws.</li>
+      <li>In a normal world name, address, socialNumebr can be combined in a constructor. Hence take the constructior finction and lift it up in the result world. From <code class="language-plaintext highlighter-rouge">Result&lt;Name, ErrMsgs&gt;, Result&lt;Address, ErrMsgs&gt;</code> to <code class="language-plaintext highlighter-rouge">Result&lt;Customer, List&lt;ErrMsgs&gt;&gt;</code>, where Error messages are combined in <code class="language-plaintext highlighter-rouge">List&lt;Errmsgs&gt;</code>, hence the list is a monoid. So this example is with an Applicative and Monoid.</li>
+    </ul>
+  </li>
+  <li>Example:
+    <ul>
+      <li>Download a URL into a JSON file: <code class="language-plaintext highlighter-rouge">Url</code> to <code class="language-plaintext highlighter-rouge">AsyncResult&lt;Json&gt;</code></li>
+      <li>Decode the JSON into a Customer DTO: <code class="language-plaintext highlighter-rouge">Json</code> to <code class="language-plaintext highlighter-rouge">Result&lt;CustomerDTO&gt;</code></li>
+      <li>Convert the DTO into a valid Customer:
+        <ul>
+          <li>validate fileds: <code class="language-plaintext highlighter-rouge">CustomerDTO</code> to <code class="language-plaintext highlighter-rouge">Result&lt;Name&gt;, Result&lt;Address&gt;, Result&lt;BDate&gt;</code></li>
+          <li>convert: <code class="language-plaintext highlighter-rouge">validName, validAddress, validDate</code> to <code class="language-plaintext highlighter-rouge">validCustomer</code></li>
+        </ul>
+      </li>
+      <li>Store the customer in a DB: <code class="language-plaintext highlighter-rouge">validCustomer</code> to <code class="language-plaintext highlighter-rouge">AsyncResult&lt;unit&gt;</code>
+        <div class="language-fsharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// `R&lt;Json&gt; bind R&lt;CustomerDTO&gt; bind R&lt;Customer&gt;`, then compose them into one function `R&lt;Json&gt; -&gt; R&lt;Customer&gt;`</span>
+<span class="k">let</span> <span class="n">proccessCustomerDto</span> <span class="n">jsonOrError</span> <span class="p">=</span>
+<span class="n">jsonOrError</span>
+<span class="p">|&gt;</span> <span class="nn">Result</span><span class="p">.</span><span class="n">bind</span> <span class="n">decodeCusotmerDto</span>
+<span class="p">|&gt;</span> <span class="nn">Result</span><span class="p">.</span><span class="n">bind</span> <span class="n">createValidCustomer</span>
+<span class="c1">// use `map` to move from `Result` to `AsyncResult` world `AsyncR&lt;Json&gt; -&gt; AsyncR&lt;Customer&gt;`</span>
+<span class="k">let</span> <span class="n">downloadAndStoreCustomer</span> <span class="n">url</span> <span class="p">=</span>
+<span class="n">url</span>
+<span class="p">|&gt;</span> <span class="n">dowloadFile</span>
+<span class="p">|&gt;</span> <span class="nn">Async</span><span class="p">.</span><span class="n">map</span> <span class="n">proccessCustomerDto</span>
+<span class="p">|&gt;</span> <span class="nn">AsyncResult</span><span class="p">.</span><span class="n">bind</span> <span class="n">storeCustomer</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="domain-modeling-with-monoids">Domain modeling with monoids</h2>
+
+<ul>
+  <li>base on <a class="citation" href="#Martraire2018DDD">(Martraire, 2018)</a></li>
+  <li>Monoids of monoids are also monoids.</li>
+  <li>Another alternative to <code class="language-plaintext highlighter-rouge">Either</code> is to have an error case value, like <code class="language-plaintext highlighter-rouge">Double.NaN</code>. Hence a property of <strong>Absorbing element</strong> <code class="language-plaintext highlighter-rouge">a combine NaN = NaN</code>.
+```java
+record Range(int min, int max){
+// public final static Range NotARange; // similar ot Double.NaN
+  public final static Range EMPTY = new Range(0,0);
+  public Range combine(Range that) { // aka add()
+      return new Range(
+              Math.min(this.min, that.min),
+              Math.max(this.min, that.max)
+      );
+  }
+}</li>
+</ul>
+
+<p>record Average(int count, int sum){
+	public static final Average NEUTRAL = new Average(0,0);
+	public Average of(int… values){
+		return new Average(
+				values.length,
+				Arrays.stream(values).sum());
+	}
+	public Average combine(Average that){ // aka add()
+		return new Average(
+				this.count + that.count,
+				this.sum + that.sum);
+	}
+  double average() { return (double) sum/count;}
+}</p>
+
+<p>record Ratio(int numerator, int denominator){
+	public static final Ratio NEUTRAL = new Ratio(1,1);
+	public Ratio combine(Ratio that){ // aka multiply()
+		return new Ratio(
+				this.numerator * that.numerator,
+				this.denominator * that.denominator);
+	}
+	double ratio() {return (double) numerator / denominator; }
+}</p>
+
+<p>@Monoid(neutralElement=”one”, operation=”multiply”)
+@Monoid(neutralElement=”zero”, operation=”add”)</p>
+
+<p>record Balance(int balance, boolean error){
+	public static final Balance NEUTRAL = new Balance(0,false);
+	public static final Balance NOT_A_BALANCE = new Balance(0,true);
+	public Balance combine(Balance that){
+		if(this.error || that.error) return NOT_A_BALANCE;
+		return new Balance(this.balance * that.balance, false);
+	}
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+* If you just have the closure of the operation, then it's called a **magma​**. It's a much weaker structure than **monoids**. If you also have associativity, then it's called a **semigroup**​. If you add the neutral element, then it becomes a **monoid** indeed. If for any value there exists an **inverse value**, then the monoid becomes a **group**.​ It's a strong property to have inverses for all values. For example, natural integers don't have inverse
+with respect to addition, but signed integers do: $3 + (-3) == 0$. In business domains, having inverses is less frequent, so **groups** are less frequently used than **monoids**. **Groups** are all about compensation, with inverse values that can always compensate the effect of any value. Going further, if we can compose not just whole elements but also compose values **partially**, then we have a vector space​. For example we would write that $(1, 3) + 0.5(6, 8) = (4, 7)$. Notice the coefficient (the real number 0.5 here) that modulates the impact of the second term. 
+* **!!! Distributed data and commutative property** : Any structure that happens to yield the same result regardless of the ordering of the values is called **commutative​**: $a + b = b + a.$ This is a very strong property, not so frequent, so don't expect it too much in domain modeling, but if you see it or manage to make it so, go for it. **Commutativity** helps a lot especially for situations of "out of order" events, for example when distributed systems communicate through a network, it’s frequent for events `a, b, c` that used to be in this ordering to arrive out of order, e.g. `b, a, c`. Being **commutative** is the most elegant way to deal with that. Exotic structures like CRDT (Conflict-free replicated data type) rely on **commutativity** for that, but it’s far beyond the scope of this text.
+* **Cyclic Group​** and its key idea is the modulo, hence the name cyclic. The days of the week form such a cyclic group of order 7 and the months of the year are another of order 12. Cyclic groups have a finite number of values, and when you reach the last value your cycle back to the first one: if the order of the cyclic group is $3$, then the values are ${0, 1, 2}$ and $2+1 = 0$. One of interest is that every cyclic group of order $N$ is isomorphic (think equivalent) to the one on integers of order $N$, called $Z/nZ$. This means in practice that you can always implement it with integers as the internal state and modulo arithmetics.
+* **Ring**​ for example generalizes the arithmetic operations of addition and multiplication. It extends a commutative group (addition) with a second operation (multiplication), and requires that this second operation **distributes** with the first one: $a*(b+c) = a*b + a*c$.
+* It happens that putting several structures next to each other as fields (**product types**) usually preserves the relation if the operation on the whole is defined as the field-wise operation of each of the components. This explains why so many domain concepts *inherit* part of their internal implementation structure, unless you mess with their operation. Think about it when you implement
+* [Example with supply chain environmental impact](https://gist.github.com/cyriux/a263efb9c483bcefe72e49c3343ff24e)
+
+
+## Scala example
+
+``` scala
+implicit val intAdditionMonoid: Monoid[Int] = new Monoid[Int] {
+  def empty: Int = 0
+  def combine(x: Int, y: Int): Int = x + y
+}
+
+def combineAll[A](list: List[A])(implicit A: Monoid[A]): A = list.foldRight(A.empty)(A.combine)
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Functor</code> a type class that abstract over type constructor that can be mapped over (e.g. <code class="language-plaintext highlighter-rouge">List</code>, <code class="language-plaintext highlighter-rouge">Option</code>, <code class="language-plaintext highlighter-rouge">Future</code>), where it must obeys $\color{green}{identity}$ and $\color{green}{composition}$ laws.<br />
+The <code class="language-plaintext highlighter-rouge">F</code> is often reffered as <em>effect</em> or <em>computational context</em>. Different effects will abstract away different behaviors with respect to fundamental functions like map. For instance, <code class="language-plaintext highlighter-rouge">Option</code>’s effect abstracts away potentially missing values, where map applies the function only in the <code class="language-plaintext highlighter-rouge">Some</code> case but otherwise threads the <code class="language-plaintext highlighter-rouge">None</code> through.</li>
+  <li>Occasionally it is a bit difficult to work with nested data types like <code class="language-plaintext highlighter-rouge">List[Option[A]]</code>. But <code class="language-plaintext highlighter-rouge">Functor</code>s can <code class="language-plaintext highlighter-rouge">compose</code>, which means if <code class="language-plaintext highlighter-rouge">F</code> and <code class="language-plaintext highlighter-rouge">G</code> have <code class="language-plaintext highlighter-rouge">Functor</code> instances, then so does <code class="language-plaintext highlighter-rouge">F[G[_]]</code>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listOption</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">None</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+<span class="c1">// listOption: List[Option[Int]] = List(Some(1), None, Some(2))</span>
+<span class="nc">Functor</span><span class="o">[</span><span class="kt">List</span><span class="o">].</span><span class="py">compose</span><span class="o">[</span><span class="kt">Option</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="n">listOption</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="c1">// res: List[Option[Int]] = List(Some(2), None, Some(3))</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
 
 <h2 id="java-example">Java example</h2>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getLastFour</span><span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">employee</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getPrimaryAddress</span><span class="o">())</span>
-                   <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">address</span> <span class="o">-&gt;</span> <span class="n">address</span><span class="o">.</span><span class="na">getZipCode</span><span class="o">())</span>
-                   <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">zip</span> <span class="o">-&gt;</span> <span class="n">zip</span><span class="o">.</span><span class="na">getLastFour</span><span class="o">())</span>
-                   <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">FMLException</span><span class="o">(</span><span class="s">"Missing data"</span><span class="o">));</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDrinkForEmployee</span><span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">employee</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getAge</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">21</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">employee</span> <span class="o">-&gt;</span> <span class="n">employee</span><span class="o">.</span><span class="na">getFavoriteBeer</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"Sprite"</span><span class="o">)</span>
-<span class="o">}</span>
-
-<span class="c1">// left identity</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// left identity</span>
 <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addOne</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
 <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addOne</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="n">addOne</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
 
@@ -137,87 +354,29 @@
 <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addOne</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
 <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addTwo</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="o">);</span>
 <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">addThree</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">addOne</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addTwo</span><span class="o">);</span>
-<span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addOne</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addTwo</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addThree</span><span class="o">));</span>
-
-
+<span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addOne</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addTwo</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">addThree</span><span class="o">));</span>
 </code></pre></div></div>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="o">(</span><span class="no">A</span><span class="o">,</span> <span class="no">B</span><span class="o">,</span> <span class="no">C</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="no">D</span>
-<span class="c1">//may always be replaced with:</span>
-<span class="no">A</span> <span class="o">-&gt;</span> <span class="no">B</span> <span class="o">-&gt;</span> <span class="no">C</span> <span class="o">-&gt;</span> <span class="no">D</span>
-
-<span class="c1">//Currying is the fact of evaluating function arguments one by one, producing a new function with one argument less on each step. For example, if we have the following function: </span>
-<span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="c1">// we may apply the arguments 2, 4, 5 at the same time and get:</span>
-<span class="n">f</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">17</span>
-<span class="c1">// But we may also apply only 3 and get:</span>
-<span class="n">f</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">g</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
-<span class="c1">// We have now a new function g, taking only two arguments. We can curry again this function, applying 4 to y:</span>
-<span class="n">g</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="n">h</span><span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">z</span>
-</code></pre></div></div>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// java 5/6/7</span>
-<span class="kd">private</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">apply</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">apply</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
-          <span class="k">return</span> <span class="k">new</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">apply</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
-              <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">t</span><span class="o">;</span>
-            <span class="o">}</span>
-          <span class="o">};</span>
-        <span class="o">}</span>
-      <span class="o">};</span>
-    <span class="o">}</span>
-  <span class="o">}.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Line</span><span class="o">&gt;</span> <span class="n">line</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+		<span class="k">new</span> <span class="nf">Line</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mf">19.98</span><span class="o">),</span>
+		<span class="k">new</span> <span class="nf">Line</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mf">1.99</span><span class="o">),</span>
+		<span class="k">new</span> <span class="nf">Line</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mf">3.99</span><span class="o">));</span>
+	<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Line</span><span class="o">&gt;</span> <span class="n">reduce</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">(</span><span class="n">combine</span><span class="o">());</span> <span class="c1">// line(6, 25.96)</span>
 <span class="o">}</span>
-</code></pre></div></div>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// java 8</span>
-<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(((</span><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;)</span>
-                       <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">t</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+<span class="c1">// BiFunction</span>
+<span class="kd">static</span> <span class="nc">BinaryOperator</span><span class="o">&lt;</span><span class="nc">Line</span><span class="o">&gt;</span> <span class="nf">combine</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="o">(</span><span class="n">line1</span><span class="o">,</span> <span class="n">line2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+		<span class="kt">var</span> <span class="n">qty</span> <span class="o">=</span> <span class="n">line1</span><span class="o">.</span><span class="na">qty</span> <span class="o">+</span> <span class="n">line2</span><span class="o">.</span><span class="na">qty</span><span class="o">;</span>
+		<span class="kt">var</span> <span class="n">total</span> <span class="o">=</span> <span class="n">line1</span><span class="o">.</span><span class="na">total</span> <span class="o">+</span> <span class="n">line2</span><span class="o">.</span><span class="na">total</span><span class="o">;</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">Line</span><span class="o">(</span><span class="n">qty</span><span class="o">,</span> <span class="n">total</span><span class="o">);</span>
+	<span class="o">};</span>
 <span class="o">}</span>
-
-<span class="c1">// or </span>
-<span class="kd">interface</span> <span class="nc">F3</span> <span class="kd">extends</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="o">{}</span>
-<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(((</span><span class="no">F3</span><span class="o">)</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
-<span class="o">}</span>
-<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="no">F3</span> <span class="n">calculation</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
-  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Functions</span> <span class="o">{</span>
-  <span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="n">calculation</span> <span class="o">=</span>
-       <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
-<span class="o">}</span>
-<span class="o">...</span>
-<span class="kn">import</span> <span class="nn">static</span> <span class="nc">Functions</span><span class="o">.</span><span class="na">calculation</span><span class="o">;</span>
-<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">b</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
-<span class="o">}</span>
-<span class="c1">// in scala</span>
-<span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">(</span><span class="n">b</span><span class="o">)(</span><span class="n">a</span><span class="o">))</span>
-<span class="c1">//</span>
-
-
-<span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;&gt;</span> <span class="n">calculation</span>
-    <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">z</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span><span class="o">;</span>
-<span class="kd">static</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculation</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">x</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">calculation</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="n">y</span><span class="o">);</span>
-<span class="o">}</span>
-
-
-<span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">calculation</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span><span class="o">));</span>
-<span class="o">}</span>
-
+<span class="n">record</span> <span class="nf">Line</span><span class="o">(</span><span class="kt">int</span> <span class="n">qty</span><span class="o">,</span> <span class="kt">double</span> <span class="n">total</span><span class="o">){}</span>
 </code></pre></div></div>
 
 <h2 id="references">References</h2>
@@ -225,13 +384,14 @@
 
 
 
-<ul class="bibliography"></ul>
+<ul class="bibliography"><li><span id="Martraire2018DDD">Martraire, C. (2018). <i>Domain modeling with monoids</i>. https://www.arolla.fr/blog/wp-content/uploads/2018/10/DomainModelingwithMonoids.pdf</span></li>
+<li><span id="sinclair2019functional">Sinclair, J. (2019). <i>Things I wish someone had explaind about functional programming</i>. https://jrsinclair.com/articles/2019/algebraic-structures-what-i-wish-someone-had-explained-about-functional-programming/</span></li>
+<li><span id="wlaschin2019toolkit">Wlaschin, S. (2019). <i>The Functional Programmer’s Toolkit</i>. https://www.youtube.com/watch?v=Nrp_LZ-XGsY</span></li></ul>
 
   </div>
 
 </article>
-
-      </div>
+        </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/"></data>
   
@@ -258,7 +418,7 @@
         </div>
       </div>
   
-      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/emodemo" target="_blank" title="emodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/emiliyan-todorov" target="_blank" title="emiliyan-todorov"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/realemodemo" target="_blank" title="realemodemo"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
   
     </div>
